@@ -1,0 +1,199 @@
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="author" content="Olushola Albert">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Pipminds Investment Platform">
+    <!-- Fav Icon  -->
+    <!-- <link rel="shortcut icon" href="./images/favicon.png"> -->
+    <!-- Page Title  -->
+    <title>Confirm Order | Fund Wallet</title>
+    <!-- StyleSheets  -->
+    <link rel="stylesheet" href="{% static 'assets/css/wallet_dashlite.css' %}">
+    <link id="skin-default" rel="stylesheet" href="{% static 'assets/css/theme.css' %}">
+
+<script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window,document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+         fbq('init', '2227317817403128'); 
+        fbq('track', 'PageView');
+</script>
+<noscript>
+    <img height="1" width="1" 
+src="https://www.facebook.com/tr?id=2227317817403128&ev=PageView
+&noscript=1"/>
+</noscript>
+
+
+
+
+</head>
+
+<body class="nk-body bg-white npc-general pg-auth">
+    <div class="nk-app-root">
+        <!-- main @s -->
+        <div class="nk-main ">
+            <!-- wrap @s -->
+            <div class="nk-wrap nk-wrap-nosidebar">
+                <!-- content @s -->
+                <div class="nk-content ">
+                    <div class="nk-block nk-block-middle nk-auth-body">
+                        
+                        
+
+                        <div class="nk-block-head nk-block-head-xs text-center">
+                            <h5 class="nk-block-title">Confirm Deposit</h5>
+                            <div class="nk-block-text">
+                                <div class="caption-text">You are about to pay <strong>{{transaction.amount|intcomma}} </strong> NGN*</div>
+                                
+                            </div>
+                        </div>
+                        <div class="nk-block">
+                            <div class="buysell-overview">
+                                <ul class="buysell-overview-list">
+                                    <li class="buysell-overview-item">
+                                        <span class="pm-title">Pay with</span>
+                                        <span class="pm-currency"><em class="icon ni ni-cc-alt-fill"></em> <span>Credit Card </span></span>
+                                    </li>
+                                    <li class="buysell-overview-item">
+                                        <span class="pm-title">Total</span>
+                                        <span class="pm-currency">{{transaction.amount|intcomma}} NGN</span>
+                                    </li>
+                                </ul>
+                                
+                            </div>
+                            
+                            <div class="buysell-field form-action text-center">
+                                <div>
+                                    <form id="payment-form"  method="POST">
+                                        {% csrf_token %}
+                                        <script src="https://js.paystack.co/v1/inline.js"></script>
+                                        <input id="amount" type="hidden" value="{{transaction_amount}}" />
+
+                                        <input id="pay-email" type="hidden" value="{{request.user.email}}" />
+
+                                        <input name="transaction_code" id="transaction_code" type="hidden" value="{{transaction.txn_code}}" />
+
+                                        <button type="button"  onclick= "payWithPaystack()" class="btn btn-primary btn-lg" >Confirm the Order</button>
+                                    </form>
+                                    
+                                </div>
+                                <div class="pt-3">
+                                    <a href="{% url 'wallet:cancel-deposit' transaction_code=transaction.txn_code %}"  class="link link-danger">Cancel Order</a>
+                                </div>
+                            </div>
+                        </div><!-- .nk-block -->
+
+                    </div>
+                    <div class="nk-footer nk-auth-footer-full">
+                        <div class="container wide-lg">
+                            <div class="row g-3">
+                                <div class="col-lg-6 order-lg-last">
+                                    <ul class="nav nav-sm justify-content-center justify-content-lg-end">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Terms & Condition</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Privacy Policy</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Help</a>
+                                        </li>
+                                        
+                                    </ul>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="nk-block-content text-center text-lg-left">
+                                        <p class="text-soft">&copy; 2020 Pipminds. All Rights Reserved.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- wrap @e -->
+            </div>
+            <!-- content @e -->
+        </div>
+        <!-- main @e -->
+    </div>
+    <!-- app-root @e -->
+    <!-- JavaScript -->
+<script src="{% static 'assets/js/bundle.js' %}"></script>
+<script src="{% static 'assets/js/wallet_scripts.js' %}"></script>
+<script src="{% static 'assets/js/charts/chart-crypto.js' %}"></script>
+
+<script type="text/javascript">
+
+    console.log($("input#pay-email").val());
+    console.log($("input#amount").val());
+
+    var formm = document.getElementById("payment-form");
+
+    formm.addEventListener("submit", function (event) {
+        event.preventDefault();
+    });
+
+
+
+    function payWithPaystack() {
+        var handler = PaystackPop.setup({
+            key: "pk_live_8b06f2ff53ed51b7333071bdd055d8429bd45a80",
+            email: $("input#pay-email").val(),
+            amount: $("input#amount").val().concat('00'),
+            currency: "NGN",
+            metadata: {
+                custom_fields: [{
+                    display_name: "Mobile Number",
+                    variable_name: "mobile_number",
+                    value: "+2348012345678"
+                }]
+            },
+            callback: function (response) {
+                var element = document.createElement("input");
+                element.setAttribute("type", "hidden");
+                element.setAttribute("name", "paystackToken");
+                element.setAttribute("value", response.reference);
+                var form = document.getElementById("payment-form");
+                form.appendChild(element);
+
+                form.submit();
+            },
+
+            onClose: function () {
+                alert("window closed");
+            }
+        });
+
+        handler.openIframe();
+    }
+</script>
+
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/5ebab7a8967ae56c521916ca/default';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+</script>
+
+</body>
+
+
+</html>

@@ -1,0 +1,430 @@
+{% load static %}
+{% load humanize %}
+{% load mathfilters %}
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+<head>
+ 
+    <meta charset="utf-8">
+    <meta name="author" content="Olushola Albert">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Pipminds Investment Platform">
+   
+    <title>Pipminds Premium Pools  </title>
+   
+    <link rel="stylesheet" href="{% static 'assets/css/investment_dashlite.css' %}?ver=2.5.0">
+    <link id="skin-default" rel="stylesheet" href="{% static 'assets/css/theme.css' %}?ver=2.5.0">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3YN97TPDLC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3YN97TPDLC');
+</script>
+
+<script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window,document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+     fbq('init', '2227317817403128'); 
+    fbq('track', 'PageView');
+</script>
+<noscript>
+    <img height="1" width="1" 
+src="https://www.facebook.com/tr?id=2227317817403128&ev=PageView
+&noscript=1"/>
+</noscript>
+
+
+
+
+
+<style type="text/css">
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
+
+</style>
+</head>
+
+<body class="nk-body npc-invest bg-lighter ">
+    <div class="nk-app-root">
+        <div class="nk-wrap ">
+            
+ 
+ <!-- content @s -->
+ <div class="nk-content nk-content-lg nk-content-fluid">
+    <div class="container-xl wide-lg">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head">
+                    <div class="nk-block-head-content">
+                        <div class="nk-block-between-md g-4">
+                            <div class="nk-block-head-content">
+                                <div class="nk-block-head-sub"><a href="{% url 'pools:explore' %}" class="back-to"><em class="icon ni ni-arrow-left"></em><span>Return to Dashboard </span></a></div>
+                                <h2 class="nk-block-title fw-normal">Invested Pools </h2>
+                                <div class="nk-block-des">
+                                    <p>Here is your current balance and your active pools investment.</p>
+                                </div>
+                            </div><!-- .nk-block-head-content -->
+                           
+                        </div>
+                    </div>
+                </div><!-- .nk-block-head -->
+                
+                <div class="nk-block nk-block-lg">
+                    {% if pending_user_slots %}
+                    <div class="nk-block-head-sm">
+                        <div class="nk-block-head-content">
+                            <h5 class="nk-block-title">Pending Pools </h5>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="nk-iv-scheme-list">
+                        {% for pending_slot in pending_user_slots %}
+                        <div class="nk-iv-scheme-item">
+                            <div class="nk-iv-scheme-icon is-running">
+                                <em class="icon ni ni-update"></em>
+                            </div>
+                            <div class="nk-iv-scheme-info">
+                                <div class="nk-iv-scheme-name">{{pending_slot.tnx_code}} - <strong>{{pending_slot.pool_instance.pool_type.min_percentage_promise}}% - {{pending_slot.pool_instance.pool_type.max_percentage_promise}}% returns in {{pending_slot.pool_instance.pool_type.active_period_window.name}} </strong> </div>
+                                <div class="nk-iv-scheme-desc">Invested Amount - <span class="amount">&#8358;{{pending_slot.slots_value|floatformat:'0'|intcomma}}</span></div>
+                            </div>
+                            <div class="nk-iv-scheme-term">
+                                <div class="nk-iv-scheme-start nk-iv-scheme-order">
+                                    <span class="nk-iv-scheme-label text-soft">Entry Start</span>
+                                    <span class="nk-iv-scheme-value date">{{pending_slot.pool_instance.entry_starts|naturalday}}</span>
+                                </div>
+                                <div class="nk-iv-scheme-end nk-iv-scheme-order">
+                                    <span class="nk-iv-scheme-label text-soft">Entry Ends</span>
+                                    <span class="nk-iv-scheme-value date">{{pending_slot.pool_instance.entry_ends|naturalday}}</span>
+                                </div>
+                            </div>
+                            <div class="nk-iv-scheme-amount">
+                                <div class="nk-iv-scheme-amount-a nk-iv-scheme-order">
+                                    <span class="nk-iv-scheme-label text-soft">Current Pool Value</span>
+                                    <span class="nk-iv-scheme-value amount">&#8358;{{pending_slot.pool_instance.value_bought|floatformat:'0'|intcomma}}</span>
+                                </div>
+                                <!-- <div class="nk-iv-scheme-amount-b nk-iv-scheme-order">
+                                    <span class="nk-iv-scheme-label text-soft">Net Profit Earn</span>
+                                    <span class="nk-iv-scheme-value amount">$ 97.95 <span class="amount-ex">~ $152.04</span></span>
+                                </div> -->
+                            </div>
+                            <!-- <div class="nk-iv-scheme-more">
+                                <a class="btn btn-icon btn-lg btn-round btn-trans" href="#"><em class="icon ni ni-forward-ios"></em></a>
+                            </div> -->
+                            <div class="nk-iv-scheme-progress">
+                                <div class="progress-bar" data-progress="{{pending_slot.pool_instance.get_percentage_days_left}}"></div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div><!-- .nk-iv-scheme-list -->
+                    
+                    {% endif %}
+                </div><!-- .nk-block -->
+
+                <div class="nk-block nk-block-lg">
+                    {% if active_user_slots %}
+                    <div class="nk-block-head-sm">
+                        <div class="nk-block-between">
+                            <div class="nk-block-head-content">
+                                <h5 class="nk-block-title">Running Pools </h5>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="nk-iv-scheme-list">
+                        {% for active_slot in active_user_slots %}
+                        <div class="nk-iv-scheme-item">
+                            <div class="nk-iv-scheme-icon is-running">
+                                <em class="icon ni ni-meter"></em>
+                            </div>
+                            <div class="nk-iv-scheme-info">
+                                <div class="nk-iv-scheme-name">{{active_slot.tnx_code}} - <strong>{{active_slot.pool_instance.pool_type.min_percentage_promise}}% - {{active_slot.pool_instance.pool_type.max_percentage_promise}}% returns in {{active_slot.pool_instance.pool_type.active_period_window.name}} </strong></div>
+                                <div class="nk-iv-scheme-desc">Invested Amount - <span class="amount">&#8358;{{active_slot.slots_value|floatformat:'0'|intcomma}}</span></div>
+                            </div>
+                            <div class="nk-iv-scheme-term">
+                                <div class="nk-iv-scheme-start nk-iv-scheme-order">
+                                    <span class="nk-iv-scheme-label text-soft">Run Start Date</span>
+                                    <span class="nk-iv-scheme-value date">{{active_slot.pool_instance.run_starts|naturalday}}</span>
+                                </div>
+                                <div class="nk-iv-scheme-end nk-iv-scheme-order">
+                                    <span class="nk-iv-scheme-label text-soft">Run End Date</span>
+                                    <span class="nk-iv-scheme-value date">{{active_slot.pool_instance.run_ends|naturalday}}</span>
+                                </div>
+                            </div>
+                            <div class="nk-iv-scheme-amount">
+                                <div class="nk-iv-scheme-amount-a nk-iv-scheme-order">
+                                    <span class="nk-iv-scheme-label text-soft">Active Pool Return</span>
+                                    <span class="nk-iv-scheme-value amount">&#8358;{{active_slot.pool_instance.all_earnings|floatformat:'0'|intcomma}}</span>
+                                </div>
+                                <div class="nk-iv-scheme-amount-b nk-iv-scheme-order">
+                                    <span class="nk-iv-scheme-label text-soft">Pool Percentage Performance</span>
+                                    <span class="nk-iv-scheme-value amount">{{active_slot.pool_instance.percentage_perf}}%</span>
+                                </div>
+                            </div>
+                            <!-- <div class="nk-iv-scheme-more"> percentage_run_days_left
+                                <a class="btn btn-icon btn-lg btn-round btn-trans" href="#"><em class="icon ni ni-forward-ios"></em></a>
+                            </div> -->
+                            <div class="nk-iv-scheme-progress">
+                                <div class="progress-bar" data-progress="{{active_slot.pool_instance.get_percentage_run_days_left}}"></div>
+                            </div>
+                        </div>
+                       
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="nk-block nk-block-lg">
+                    {% if completed_user_slots %}
+                    <div class="nk-block-head-sm">
+                        <div class="nk-block-between">
+                            <div class="nk-block-head-content">
+                                <h5 class="nk-block-title">Completed Pools</h5>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="nk-iv-scheme-list">
+                        {% for completed_slot in completed_user_slots %}
+                        <div class="nk-iv-scheme-item">
+                            <div class="nk-iv-scheme-icon is-done">
+                                <em class="icon ni ni-stop"></em>
+                            </div>
+                            <div class="nk-iv-scheme-info">
+                                <div class="nk-iv-scheme-name">{{completed_slot.tnx_code}} - <strong>{{completed_slot.pool_instance.pool_type.min_percentage_promise}}% - {{completed_slot.pool_instance.pool_type.max_percentage_promise}}% returns in {{completed_slot.pool_instance.pool_type.active_period_window.name}} </strong></div>
+                                <div class="nk-iv-scheme-desc">Invested Amount - <span class="amount">&#8358;{{completed_slot.slots_value|floatformat:'0'|intcomma}}</span></div>
+                            </div>
+                            <div class="nk-iv-scheme-term">
+                                <!-- <div class="nk-iv-scheme-start nk-iv-scheme-order">
+                                    <span class="nk-iv-scheme-label text-soft">Start Date</span>
+                                    <span class="nk-iv-scheme-value date">Nov 04, 2019</span>
+                                </div> -->
+                                <div class="nk-iv-scheme-end nk-iv-scheme-order">
+                                    <span class="nk-iv-scheme-label text-soft">Run Ended Date</span>
+                                    <span class="nk-iv-scheme-value date">{{completed_slot.pool_instance.run_ends|naturalday}}</span>
+                                </div>
+                            </div>
+                            <div class="nk-iv-scheme-amount">
+                                <div class="nk-iv-scheme-amount-a nk-iv-scheme-order">
+                                    <span class="nk-iv-scheme-label text-soft">Total Pool Return</span>
+                                    <span class="nk-iv-scheme-value amount">&#8358;{{completed_slot.pool_instance.all_earnings|floatformat:'0'|intcomma}}</span>
+                                </div>
+                                <div class="nk-iv-scheme-amount-b nk-iv-scheme-order">
+                                    <span class="nk-iv-scheme-label text-soft">Net Profit Earn</span>
+                                    <span class="nk-iv-scheme-value amount">&#8358;{{completed_slot.get_net_profit_earn|floatformat:'0'|intcomma}}</span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                       
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content @e -->
+
+
+
+  <!-- footer @s -->
+  <div class="nk-footer nk-footer-fluid bg-lighter">
+    <div class="container-xl wide-lg">
+        <div class="nk-footer-wrap">
+            <div class="nk-footer-copyright"> &copy; <script>document.write(new Date().getFullYear())</script>
+            </div>
+            <div class="nk-footer-links">
+                <ul class="nav nav-sm">
+                    <li class="nav-item"><a class="nav-link" href="#">Terms</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Privacy</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Help</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- footer @e -->
+</div>
+<!-- wrap @e -->
+</div>
+<!-- app-root @e -->
+
+<div class="modal fade zoom" tabindex="-1" id="topupModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form method="POST" class="form-validate is-alter">
+                {% csrf_token %}
+            <div class="modal-header">
+                <h5 class="modal-title"> INVESTMENT TOP UP </h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            {% if user_deposit_balance >= 100000 %}
+
+            <div class="modal-body">
+                <div>
+                    <h5> Current Invested Amount: N{{my_plan.amount|floatformat:'0'|intcomma}} </h5>
+                </div> 
+                <br>
+                <div>
+                    <p> Your Flex wallet balance is <strong> N{{user_deposit_balance|floatformat:'0'|intcomma}}  </strong>  <br>
+                    Your top up window is between  <strong> {{my_plan.get_topup_starts}} and {{my_plan.get_topup_ends}} </strong> </p>
+                </div>
+                <br> <br>
+                <div class="form-group">
+                    <label class="form-label" for="topup_amount">Top Up Amount</label>
+                    <div class="form-control-wrap">
+                        <input name="topup_amount" type="number" class="form-control" placeholder="Enter Amount" id="topup_amount">
+                    </div>
+                    <p id="custom_amount"></p>
+                </div>
+
+                <div style="overflow-y: scroll; height: 120px; background-color: #ffc; color: black; text-align: left;" class="">
+                    <br>
+                    <h6 style="text-decoration: underline;"> TOP-UP ANNEXATION </h6>
+                    <p style="padding: 10px 10px 10px 10px;"> 
+                        
+                                                I, {% if profile.first_name %} {{profile.first_name}} {% endif %}  {% if profile.last_name %}  {{profile.last_name}} {% endif %} of {% if profile.address_1 %} {{ profile.address_1 }} {% endif %} {% if profile.address_2 %} {{ profile.address_2 }} {% endif %} {% if profile.city %} {{ profile.city }} {% endif %}  {% if profile.state %} {{ profile.state }}  {% endif %} in line with Clause 7 of my contract agreement with Pipminds International ltd dated the {{ my_plan.created_at |date:"l, d M Y"  }}
+                         do increase my capital investment with the sum of <span id="custom_topup"> ___ </span> bringing  my total investment to the sum of  <span id="total_sum_if_topup"> ___ </span> <input id="sum_hidden" type="hidden"> (<span id="sum_after"></span> )    <br>
+                        
+                        This document shall be annexed to my contract agreement and be part and parcel of same.
+                        Dated this day {{ today|date:"l, d M Y"  }}
+
+                    </p>
+                    <p> <strong> LEGAL DISCLAIMER CLAUSE  </strong> </p>
+                    <p> Trading forex and its investment carries a high level of risk and may not be suitable for all investors and as such fixed return on investment is globally illegal. Past performance is not indicative of future results hence the need for the new return on investment margin.  Before deciding to invest with us, you should carefully consider your investment objectives and seek advice from an independent financial advisor if you have any doubts.  </p>
+
+                    <p>  Dated this day {{ today|date:"l, d M Y"  }} </p>
+                    
+                    <b>IN WITNESS WHERE OF THE PARTIES HERETO HAVE EXECUTED THIS MOU ON THE DAY AND YEAR FIRST ABOVE WRITTEN. <br> THE COMMON SEAL PIPMINDS INTERNATIONAL LIMITED is hereunto affixed in the presence of:</b> <br>
+
+                    <div class="row">
+                        <div class="col text-center">
+                         <img src="{% static 'images/director2.png' %}" width="100px" height="auto" alt="">
+                         <hr>
+                         <b>EMEM ALBAN </b> <br>
+                         <b>CEO/DIRECTOR</b>
+                        </div>
+                        <div class="col text-center">
+                         <img src="{% static 'images/director1.png' %}" width="100px" height="auto" alt="">
+                         <hr>
+                         <b>IFEANYI NWAMUO</b> <br>
+                         <b>DIRECTOR</b>
+                        </div>
+                       
+                    </div>
+
+                    
+                </div>
+                <br>
+               
+                <div class="form-group">
+                    <div class="custom-control custom-control-xs custom-checkbox">
+                        <input name="t_and_c" type="checkbox" class="custom-control-input t_and_c" id="checkbox">
+                        <label class="custom-control-label" for="checkbox">I agree to the <a href="#"> Terms & Condition </a> </label>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <br>
+            <div class="modal-footer bg-light">
+                 <button type="submit" class="btn btn-lg btn-primary ttu" id="sb-btn">Proceed</button>
+            </div>
+
+            {% else %}
+            <div class="modal-body">
+                <div>
+                    <h4> Sorry! You need to have a minimum of <strong>N100,000</strong> balance in your Flex wallet before you can proceed </h4>
+                    <h6> Your current balance is <strong> N{{user_deposit_balance|floatformat:'0'|intcomma}} </strong> </h6>
+                </div>
+               
+                
+            </div>
+            {% endif %}
+
+        </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade zoom" tabindex="-1" id="comingSoon">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          
+                
+            <div class="modal-header">
+                <h5 class="modal-title"> AWESOME FEATURE COMING SOON  &#128526; </h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+           
+
+            <div class="modal-body">
+                <div>
+                    <h6> Hi {% if request.user.profile.first_name %} {{request.user.profile.first_name}} {% else %} {{request.user.email}} {% endif %}, <br> <br>
+                
+                        We are working on something beautiful to make the platform seamless for you. <br> <br>
+                       We will let you know the moment its ready ! 
+                    </h6>
+             
+                </div> 
+
+            </div>
+            
+
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script src="{% static 'assets/js/bundle.js' %}?ver=2.5.0"></script>
+<script src="{% static 'assets/js/investment_scripts.js' %}?ver=2.5.0"></script>
+<script src="{% static 'assets/js/charts/chart-invest.js' %}?ver=2.5.0"></script>
+
+
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/5ebab7a8967ae56c521916ca/default';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+</script>
+
+</body>
+
+</html>
+
+
+
+

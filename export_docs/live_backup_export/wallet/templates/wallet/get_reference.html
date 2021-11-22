@@ -1,0 +1,164 @@
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="author" content="Olushola Albert">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Pipminds Investment Platform">
+    <!-- Fav Icon  -->
+    <!-- <link rel="shortcut icon" href="./images/favicon.png"> -->
+    <!-- Page Title  -->
+    <title>Reference Code | Fund Wallet</title>
+    <!-- StyleSheets  -->
+    <link rel="stylesheet" href="{% static 'assets/css/wallet_dashlite.css' %}">
+    <link id="skin-default" rel="stylesheet" href="{% static 'assets/css/theme.css' %}">
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3YN97TPDLC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3YN97TPDLC');
+</script>
+
+<script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window,document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+     fbq('init', '2227317817403128'); 
+    fbq('track', 'PageView');
+</script>
+<noscript>
+    <img height="1" width="1" 
+src="https://www.facebook.com/tr?id=2227317817403128&ev=PageView
+&noscript=1"/>
+</noscript>
+
+
+
+<style type="text/css">
+    #list > li { margin-top: 0  !important; margin-bottom: 0 !important;  padding-top: 0 !important; padding-bottom:0  !important; }
+</style>
+
+</head>
+
+<body class="nk-body bg-white npc-general pg-auth">
+    <div class="nk-app-root">
+        <!-- main @s -->
+        <div class="nk-main ">
+            <!-- wrap @s -->
+            <div class="nk-wrap nk-wrap-nosidebar">
+                <!-- content @s -->
+                <div class="nk-content ">
+                    <div class="nk-block nk-block-middle nk-auth-body">
+                        
+                        
+
+                        <div class="nk-block">
+
+                         
+                                
+                                <a  href="{% url 'wallet:dashboard' %}"  class="btn btn-block  bg-light"> Return to Dashboard  </a>
+                            
+                            <div class="buysell-overview">
+                                
+                                <ul class="container buysell-overview-list">
+                                    
+                                 
+                         
+                                   
+                                    <br>
+                                    <div class="container text-center">
+                                        <span style="font-size: 4em; color: #0971fe;"> <em class="ni ni-alert-circle"></em> </span>
+                                    </div>
+                                    <br>
+
+                                    <div style="padding-bottom: 4%" class="container">
+                                        <h4> Copy Reference Code </h4> 
+                                        <p style="text-align: left;">  Use this reference code as the transaction remark when filling the bank deposit teller. If there is no field provided for transaction remark,simply write it at the top of the bank deposit teller.   </p>
+                                        <br>
+                                        <p>Transaction Reference Code</p>
+                                        <div style="margin-bottom: 5%; text-align: center;" class="card card-bordered">
+                                            
+                                            <div class="card-inner">
+                                                <h3> {{transaction.txn_code}} </h3>
+                                            </div>
+                                            
+                                        </div>
+
+                                        <a style="color: aliceblue;"  href="{% url 'wallet:manual-payment' transaction.txn_code %}"  class="btn btn-block btn-primary"> Proceed </a>
+
+                                    </div>
+                                   
+                                    
+                                    
+
+                                    
+                                            
+                                        
+                                    
+                                </ul>
+                                
+                                
+                            </div>
+                            
+
+        
+                                                       
+                        </div><!-- .nk-block -->
+
+                    </div>
+                    <div class="nk-footer nk-auth-footer-full">
+                        <div class="container wide-lg">
+                            <div class="row">
+                                
+                                <div class="col-lg-12">
+                                    <div class="nk-block-content text-center">
+                                        <p class="text-soft">&copy;<script>document.write(new Date().getFullYear())</script> Pipminds. All Rights Reserved.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- wrap @e -->
+            </div>
+            <!-- content @e -->
+        </div>
+        <!-- main @e -->
+    </div>
+    <!-- app-root @e -->
+    <!-- JavaScript -->
+<script src="{% static 'assets/js/bundle.js' %}"></script>
+<script src="{% static 'assets/js/wallet_scripts.js' %}"></script>
+<script src="{% static 'assets/js/charts/chart-crypto.js' %}"></script>
+
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/5ebab7a8967ae56c521916ca/default';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+</script>
+
+</body>
+
+
+
+</html>

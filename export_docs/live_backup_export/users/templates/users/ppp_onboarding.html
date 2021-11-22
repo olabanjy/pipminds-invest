@@ -1,0 +1,425 @@
+{% extends 'home/base.html' %}
+{% load static  %}
+{% load mathfilters %}
+{% load humanize %}
+
+{% block content %}
+                    <!-- content @s -->
+                    <div class="nk-content nk-content-fluid">
+                        <div class="container-xl wide-lg">
+                            <div class="nk-content-body">
+                                <div class="content-page wide-lg">
+                                    <div class="nk-block-head nk-block-head-lg">
+                                        <div class="nk-block-head-content">
+                                            <h2 class="nk-block-title fw-normal">Pipminds Patnership Program</h2>
+                                            <div class="nk-block-des">
+                                                <p class="lead">Become a Pipminds Business Owner and attain complete Financial Freedom </p>
+                                            </div>
+                                        </div>
+                                    </div><!-- .nk-block -->
+                                    <div class="nk-block">
+                                        <article class="entry">
+                                            <h3>Overview</h3>
+                                            <p>This is a reward program for incredible marketers and brand promoters. We reward great performances with a percentage commission every time you tell anyone about PIPminds International and further make them subscribe to any of our products and services using your unique referral code. </p>
+                                            <img src="{% static 'profile/images/slides/ppp.jpg' %}" alt="">
+                                            <h4>Being a partner gives you access to the Corporate Investment Pool</h4>
+                                            <p>The PIP Minds Partners Program sets aside about 5% of profit monthly to service the multi-level marketing program and rewards its partners up to the third level.  This means that you get 2% at the 1st level, 1% at the 2nd level and 0.5% at the 3rd level monthly.</p>
+                                            <p>This reward program spans the duration of the investment and is payable every 30 days. Being a partner gives you access to the Corporate Investment Pool and also a dashboard where you can report referrals and track how much you have made on commission.</p>
+                                            <p>The work is made easier for you as you’re provided with a set of marketing tools customized for you to work with. Being a partner comes with leadership awards and recognition as well as travelling and other incentives.</p>
+                                            <p>Registration fee is 50,000 Naira per annum. You can get started by clicking the button below </p>
+                                            <div class="text-center pt-2">
+                                                <a href="#" data-toggle="modal" data-target="#ppp_not_available"  class="btn btn-lg btn-primary"> Get Started </a>
+                                            </div>
+                                        </article> 
+                                    </div><!-- .nk-block -->
+                                </div><!-- .content-page -->
+                            </div>
+                        </div>
+                    </div>
+                    <!-- content @e -->
+{% endblock content %}
+
+{% block modals %}
+
+<div class="modal fade zoom" tabindex="-1" id="ppp_not_available">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body modal-body-lg text-center">
+                <div class="nk-modal">
+                    <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-alert-c bg-danger"></em>
+                    <h4 class="nk-modal-title">PPP Registration Suspended</h4>
+                    <div class="nk-modal-text">
+                        <p class="lead"> Dear {{request.user.profile.first_name}} {{request.user.profile.last_name}}  </p>
+                        <p class="lead">Please be informed that registration to Pipminds Partners Program has been placed on hold, hence, we are currently not processing any new registrations into the Pipminds Partners Program. You will be notified as soon as registration resumes.</p>
+                        <p class="text-soft">If you need help please contact us at +2349010636070.</p>
+                    </div>
+                    <div class="nk-modal-action mt-5">
+                        <a href="#" class="btn btn-lg btn-mw btn-light" data-dismiss="modal">Return to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade zoom" tabindex="-1" id="ppp_under_maintenance">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-body modal-body-lg text-center">
+              <div class="nk-modal">
+                  <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-alert-c bg-danger"></em>
+                  <h4 class="nk-modal-title">PPP Will Be Back Soon </h4>
+                  <div class="nk-modal-text">
+                      <p class="lead"> Dear {{request.user.profile.first_name}} {{request.user.profile.last_name}}  </p>
+                      <p class="lead">Please be informed that registration to Pipminds Partners Program is currently under maintenance. We will be back shortly! </p>
+                      <p class="text-soft">If you need help please contact us at +2349010636070.</p>
+                  </div>
+                  <div class="nk-modal-action mt-5">
+                      <a href="#" class="btn btn-lg btn-mw btn-light" data-dismiss="modal">Return to Dashboard</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div class="modal fade zoom" tabindex="-1" id="pppagreementModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">PPP AGREEMENT </h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+          
+            <div class="modal-body" id="contract_body">
+
+                
+                    <h6 style="text-align: center">
+                      CONTRACT AGREEMENT <br />
+                      BETWEEN <br />
+                      PIPMINDS INTERNATIONAL LIMITED <br />
+                      AND <br />
+                     {% if request.user.profile.first_name %} {{request.user.profile.first_name}} {% endif %}  {% if request.user.profile.last_name %}  {{request.user.profile.last_name}} {% endif %}
+                    </h6>
+                    <div>
+                      <div class="contract__stamp">
+                        <img
+                          src="https://imaginariumng.com/email_images/michael/asugo1.png"
+                          width="100px"
+                          height="auto"
+                          alt=""
+                        />
+                        <img
+                          src="https://imaginariumng.com/email_images/michael/asugo2.png"
+                          width="100px"
+                          height="auto"
+                          alt=""
+                        />
+                        <br />
+                      </div>
+                      <p>
+                        PREPARED BY: <br />
+                        A.C ALAGOR ESQ. <br />
+                        For: PIPMINDS INTERNATIONAL LIMITED <br />
+                        133 ATIKU ABUBAKAR WAY, UYO AKWA IBOM STATE, NIGERIA.
+                      </p>
+                    </div>
+                    <div>
+                      <p><strong>CONTRACT OF AGREEMENT</strong></p>
+                      <p>
+                        <b>THIS AGREEMENT</b> is made this day {{ today|date:"l, d M Y"  }} BETWEEN
+              
+                        <b>PIPMINDS INTERNATIONAL LIMITED</b> of no. 133 Atiku Abubakar Road,
+                        Uyo, Akwa Ibom State of Nigeria (hereinafter referred to as
+                        <b>“The Company ”</b>) which expression shall where the
+                        context so admits include its successor-in-title, executors, personal
+                        representatives and assigns of the <b>ONE PART</b>. <br />
+              
+                        <b>AND</b> <br />
+              
+                        <b>MR./MRS./MISS {{ request.user.profile.first_name }} {{ request.user.profile.last_name }} </b>
+                        Of {{ request.user.profile.address_1 }} {{ request.user.profile.address_2 }} {{ request.user.profile.city }} {{ request.user.profile.state }} State
+                        (hereinafter referred to as the "Financial Investor") which expression
+                        shall where the context so admits includes his successor-in-title,
+                        executors, personal representatives and assigns of the OTHER PART.
+                        <br />
+              
+                        <b>WHEREAS:</b>
+                      </p>
+              
+                      <ul class="list list-sm">
+                        <li>
+                          The Company is Private Limited Liability Company, incorporated under the Companies and Allied Matters (CAMA) Act 2020 and carries on the Business of online Forex Trading, foreign exchange, Forex Education, Real Estate, Promotion of Child Education Globally and offering Investment Opportunities to Clients.
+                        </li>
+                        <li>
+                          The Partner is a Client desirous of entering into a Partnership with the Company in its PIPMINDS PARTNERSHIP PROGRAMME (PPP) investing in foreign exchange business by referring Financial Investor(s) to the Company.
+                        </li>
+                        <li>
+                          Both the Company and the Partner "The Parties" have agreed to enter into a business relationship upon the referral of financial investors, aimed at realizing and maximizing the full benefits and investment opportunities offered by the industry under the terms and conditions hereinafter.
+                        </li>
+                        
+                      </ul>
+                    </div>
+                    <div>
+                      <b>IN CONSIDERATION OF THE ABOVE, IT IS AGREED BY THE PARTIES AS FOLLOWS:</b>
+                      <ul class="list list-sm">
+                        <li>
+                          That the Partner shall pay a registration and processing fee of N50,700.00 (Fifty thousand, seven hundred naira only, processor service fee included) into an account to be provided by the Company.
+                        </li>
+                        <li>
+                          That the registration shall be renewed after the expiration of 12 months with payment of the registration fee. 
+                        </li>
+                        <li>
+                          That after registration, the Partner must make an investment in any of the Company’s investment products with the minimum amount of N500,000.00 (five Hundred Thousand Naira only).
+                        </li>
+                        <li>
+                          That the Partner shall be entitled to 2% of his first generation investment, 1% of his second generation investment and 0.5% of his third generation investment as referral earnings for the period the investment runs.
+                        </li>
+                        <li>
+                          That the Partner is not permitted to collect investment funds from clients. All funds should be paid into the Company’s account by the prospective Investor and proof of payment sent through the proper channel.
+                        </li>
+                        <li>
+                          That in the case of any default in the payment of the partners referral earnings by the Company after the stipulated date, a grace period of seven (7) working days shall be given to the Company to remedy the default, any further default after this shall attract a penalty of 5% of the payable sum paid by the Company to the Partner.
+                        </li>
+                        <li>
+                          Multiple accounts opening shall not fall as a down line or referral for the financial investor who is also a Partner except business accounts or children’s accounts.
+                        </li>
+                        <li>
+                          Partners cannot receive Return on Investments (ROIs) for referrals.
+                        </li>
+                        <li>
+                          The Partner’s earnings shall not be transferrable to another account than the account presented during registration. For change of account details, the partner shall notify the Company 14 days before payment is due.
+                        </li>
+                        <li>
+                          The Partner may appoint an Attorney through a Power of Attorney and shall submit a copy of the document to the Company for the purposes of liaising with the Company during any period of his absence to give effect to any part of the agreement as the Partner could have done himself.
+                        </li>
+              
+                        <li>
+                          In the event of any loss incurred during Forex trading, the Partner shall not be responsible for any of such loss.
+                        </li>
+              
+                        <li>
+                          The Company shall not be liable for any claim or action brought by any third party against the Partner.
+                        </li>
+              
+                        <li>
+                          Where the Partner wishes to terminate the partnership, up liners and down liners are not affected.
+                        </li>
+              
+                      </ul>
+                    </div>
+              
+                    <div>
+                      <b>UBERIMA FIDEI</b>
+                      <p>
+                          The Parties are to act in the utmost good faith as well as endeavor to be transparent and build a level of trust in each other. None of the parties shall do anything that will be inimical or against the interest of the other party or of the contract.
+                      </p>
+                    </div>
+                    <div>
+                      <b>BINDING FORCE</b>
+                      <p>
+                          This agreement shall be effective and enforceable upon execution by the parties or their authorized Representatives herein above mentioned until the following events occur:
+                      </p>
+                      <ul class="list list-sm">
+                        <li>The execution and completion of the contract agreement</li>
+                        <li>
+                          At the expiration of the twelve (12) months.
+                        </li>
+                      </ul>
+                    </div>
+              
+                    <div>
+                      <b>TERMINATION</b>
+                      <p>
+                          Notwithstanding anything contained in this agreement, either party shall have the right to terminate this agreement by giving to the other, one month’s notice in writing to that effect or neither party shall have any obligation to the other, except for obligations that had already accrued but remained undischarged before such termination.
+                      </p>
+                  </div>
+              
+                  <div>
+                      <b>AMENDMENTS/MODIFICATIONS</b>
+                      <p>
+                          No amendment or modification of the agreement shall be effective against the parties unless such amendments or modification is set forth in writing and signed by the parties.
+                      </p>
+                  </div>
+              
+                    <div>
+                      <b>CONFIDENTIALITY</b>
+                      <p>
+                          Each party shall keep in strict confidence all financial, Commercial, and technical information belonging to the other party or which was developed jointly by the parties in preparation of this agreement.  Without the prior written consent of the other party, neither party shall at any time disclose any confidential information to any third party, save and except where it is required by a Court of Law. Confidential information shall not include information which:
+                      </p>
+                      <ul class="list list-sm">
+                        <li>Became public through no fault of the receiving party.</li>
+                        <li>Is received on a non-confidential basis from third parties</li>
+                        <li>
+                          Is independently developed by the parties with use of confidential information. Neither party shall expect as required by applicable laws, regulation or the rules of any recognized Foreign Exchange Market cause any public announcement to be made pursuant to any applicable law or regulation. Such party shall provide the other party 48 hours written notice of such announcement.
+                        </li>
+                      </ul>
+                    </div>
+                   
+                    <div>
+                      <b>LANGUAGE</b>
+                      <p>
+                        All agreements, correspondence and other documents relevant to this
+                        agreement shall be in English language.
+                      </p>
+                    </div>
+                    <div>
+                      <b>ALTERNATIVE DISPUTE RESOLUTION</b> <br />
+                      <p>
+                        Any dispute arising out of this agreement shall be resolved as
+                        follows:
+                      </p>
+              
+                      <ul class="list list-sm">
+                        <li>
+                          AMICABLE RESOLUTION:<br />
+                          The parties recognize that differences sometimes arise in the course
+                          of a relationship and wish to avoid litigation. Accordingly, all
+                          claims, disputes and other matters in question between any party and
+                          the parties arising out of or relating to this agreement, shall
+                          first be submitted to negotiation in an attempt to resolve amicably
+                          by both parties.
+                        </li>
+                        <li>
+                          ARBITRATION:<br />
+                          <ul class="list list-sm">
+                            <li>
+                              Any dispute which is not resolved amicably through negotiation,
+                              shall be finally settled by Arbitration in accordance with the
+                              Provisions of the Arbitration and Conciliation Act CAP 19 Laws
+                              of the Federation of Nigeria 1990 and any award made by the
+                              Arbitrators shall be entered and enforced by the High Court of
+                              Justice where the agreement was entered into.
+                            </li>
+                            <li>
+                              In the appointment of the Arbitrators, each party shall appoint
+                              one Arbitrator and the two shall appoint a third Arbitrator who
+                              shall be the Chairman of the panel.
+                            </li>
+                            <li>
+                              Any award rendered pursuant to arbitration may include
+                              reasonable attorneys' fees and costs shall be final and binding
+                              upon the parties, and judgment may be entered upon it in the
+                              High Court of Justice where the agreement was entered into.
+                            </li>
+                            <li>
+                              In the event of any party falling in its obligation to appoint
+                              an Arbitrator or fail to participate in the arbitration
+                              proceedings, the other party can resort to the High Court of
+                              Justice where the contract was entered into to ventilate its
+                              grievances.
+                            </li>
+                            <li>
+                              In the event of resort to court action, the defaulting party
+                              shall, in addition to the claims of the party signing, be liable
+                              to pay the cost of the litigation incurred by the other party.
+                            </li>
+                            <li>
+                              Pending final resolution of any dispute, including arbitration
+                              in accordance with this provision, the party shall proceed
+                              diligently with performance of its obligations to the extent it
+                              is unrelated to the dispute and the subject matter of the
+                              dispute does not inhibit the progress of the business operations
+                              generally. Such performance by party shall not operate to waive
+                              or stop either party from pursuing the claim which gave rise to
+                              the dispute.
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </div>
+              
+              
+                  <div>
+                      <b>LEGAL DISCLAIMER </b>
+                      <p>
+                          Trading forex and its related investment carries a high level of risk as Past performance is not indicative of future results. The company reserves the right to change and/or alter the referral earnings as it may deem fit due to currency fluctuation and other market forces and it shall not be held liable in such event.  Before deciding to partner with us, you should carefully consider your options and seek advice from an independent financial advisor if you have any doubts. 
+                      </p>
+                    </div>
+              
+              
+                    <div>
+                      <p>
+                        <b>APPLICABLE LAWS</b> <br />
+                        The laws of the Federal Republic of Nigeria shall govern the
+                        interpretation and enforcement in this contract agreement.
+                      </p>
+                      <p>
+                        IN WITNESS WHERE OF THE PARTIES HERETO HAVE EXECUTED THIS MOU ON THE
+                        DAY AND YEAR FIRST ABOVE WRITTEN. <br />
+                        THE COMMON SEAL PIPMINDS INTERNATIONAL LIMITED is hereunto affixed in
+                        the presence of:
+                      </p>
+                    </div>
+                    <div class="contract__signature">
+                      <div class="col text-center">
+                        <img
+                          src="https://imaginariumng.com/email_images/michael/director2.png"
+                          width="100px"
+                          height="auto"
+                          alt=""
+                        />
+                        <hr />
+                        <b>DIRECTOR</b>
+                      </div>
+                      <div class="col text-center">
+                        <img
+                          src="https://imaginariumng.com/email_images/michael/director1.png"
+                          width="100px"
+                          height="auto"
+                          alt=""
+                        />
+                        <hr />
+                        <b>DIRECTOR</b>
+                      </div>
+                    </div>
+              
+                    <div class="form-group">
+                        <div class="custom-control custom-control-xs custom-checkbox">
+                            <input name="t_and_c" type="checkbox" class="custom-control-input t_and_c" id="checkbox">
+                            <label class="custom-control-label" for="checkbox">I have read and I agree to the this agreement </label>
+                        </div>
+                    </div>
+                  
+
+            </div>
+           
+
+           
+            <div class="modal-footer bg-light">
+               
+                 <button class="btn btn-lg btn-primary ttu" id="sb-btn" data-target="{% url 'users:ppp-get-started' %}" >Proceed</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock modals %}
+
+{% block extra_scripts %}
+
+<script>
+    $(function () {
+        var t_and_c = $('.t_and_c');
+        var sb_btn = $('#sb-btn');
+    
+        t_and_c.on('change', function() {
+            sb_btn.prop("disabled", !this.checked);
+            }).trigger('change');
+    
+    });    
+</script>
+
+<script>
+$('#sb-btn').on('click', function(event) {
+    event.preventDefault(); 
+    var url = $(this).data('target');
+    location.replace(url);
+});
+</script>
+
+{% endblock %}

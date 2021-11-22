@@ -1,0 +1,176 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+
+{% block content %} 
+
+
+<div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-lg">
+        <div class="nk-content-body">
+            <div class="nk-block-head nk-block-head-sm">
+                <div class="nk-block-between">
+                    <div class="nk-block-head-content">
+                        <h3 class="nk-block-title page-title">My Profile</h3>
+                        <div class="nk-block-des text-soft">
+                            <p>You have full control to manage your own account setting. <span class="text-primary"><em class="icon ni ni-info"></em></span></p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <ul class="nk-nav nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users:profile-settings' %}">Personal</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'users:profile-preference' %}">Settings </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'account_change_password' %}">Change Password</a>
+                </li>
+               
+                
+            </ul><!-- nav-tabs -->
+
+
+            <div class="nk-block">
+                <div class="nk-block-head">
+                    <div class="nk-block-head-content">
+                        <h5 class="nk-block-title">Account Settings</h5>
+                        <div class="nk-block-des">
+                            <p>Enable and disable specific features</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-head-content">
+                        <h6>Remittance</h6>
+                        <div class="nk-block-des">
+                            <p>By default, your ROI and other earnings are paid into your bank account. However, if you would love us to remmit investment ROIs into your <strong>Investment Earning Wallet</strong>, toggle the button below.  </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="nk-block-content">
+                    <div class="gy-3">
+                        <div class="g-item">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" name="remittance" id="remittance" {% if request.user.profile.remit_inv_funds_to_wallet %}  checked {% endif %}>
+                                <label class="custom-control-label" for="remittance">Your investment earnings are remitted into <span id="source_change" > {% if request.user.profile.remit_inv_funds_to_wallet %} your Investment Earning Wallet {% else %}  your Bank Account {% endif %} </span> </label>
+                            </div>
+                            <div style="color: red;" id="info_msg"></div>
+                        </div>
+                        
+                    </div>
+                </div> -->
+
+
+                <div class="nk-block-head nk-block-head-sm">
+                    <div class="nk-block-head-content">
+                        <h6 class="nk-block-title-sm">Email Notifications </h6>
+                        <div class="nk-block-des">
+                            <p>By default, You will get only the email notification stated below.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="nk-block-content">
+                    <div class="gy-3">
+                        <div class="g-item">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" checked id="latest-sale">
+                                <label class="custom-control-label" for="latest-sale">Notify me by email about  latest products and services </label>
+                            </div>
+                        </div>
+                        <div class="g-item">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" checked id="feature-update">
+                                <label class="custom-control-label" for="feature-update">Email me about new features and updates</label>
+                            </div>
+                        </div>
+                        <div class="g-item">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" checked id="account-tips">
+                                <label class="custom-control-label" for="account-tips">Email me about tips on using account</label>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- .nk-block-content -->
+            </div><!-- .nk-block -->
+            
+
+           
+
+
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+
+{% block extra_scripts %}
+
+<script type="text/javascript">
+
+    $(function () {
+
+
+        // $("input[name='remittance']").click(function () {
+        //     if ($('#remittance').is(':checked')){
+        //         console.log("Checked")
+
+                
+        //     $.ajax({
+        //     type:"GET", 
+        //     url: "{% url 'users:activate-wallet-remit' %}",
+        //     success: function (data){
+        //         if (data.status) {
+        //             console.log("Remit to Wallet now active")
+        //             document.getElementById("info_msg").innerHTML = '<br> <span> Your monthly ROI will now be remitted to your wallet <span>'; 
+        //             document.getElementById("source_change").innerHTML = ' your <strong> Investment Earning Wallet </strong>';
+                    
+        //         }
+        //     }
+        //     });
+
+
+
+        //     } else{
+        //         console.log("Unchecked")
+        //         $.ajax({
+        //         type:"GET", 
+        //         url: "{% url 'users:deactivate-wallet-remit' %}",
+        //         success: function (data){
+        //             if (data.status) {
+        //                 console.log("Remit to Wallet now inactive")
+        //                 document.getElementById("info_msg").innerHTML = '<br> <span> Your monthly ROI will now be remitted to your bank account <span>'; 
+        //                     document.getElementById("source_change").innerHTML = ' your <strong> Bank Account  </strong>';
+        //             }
+        //         }
+        //         });
+
+
+        //     }
+        // });
+
+
+        $('#account-tips').prop('disabled', true);
+        $('#latest-sale').prop('disabled', true);
+        $('#feature-update').prop('disabled', true);
+
+
+
+    });
+
+
+     
+
+</script>
+
+{% endblock extra_scripts %}
+
+

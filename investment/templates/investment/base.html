@@ -1,0 +1,168 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+<head>
+ 
+    <meta charset="utf-8">
+    <meta name="author" content="Olushola Albert">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Pipminds Investment Platform">
+   
+    <title>Pipminds Investment Dashboard </title>
+   
+    <link rel="stylesheet" href="{% static 'assets/css/investment_dashlite.css' %}?ver=2.0.0">
+    <link id="skin-default" rel="stylesheet" href="{% static 'assets/css/theme.css' %}?ver=2.0.0">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3YN97TPDLC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3YN97TPDLC');
+</script>
+</head>
+
+<body class="nk-body npc-invest bg-lighter ">
+    <div class="nk-app-root">
+        <div class="nk-wrap ">
+            <div class="nk-header nk-header-fluid nk-header-fixed is-theme">
+                <div class="container-xl wide-lg">
+                    <div class="nk-header-wrap">
+                        <div class="nk-menu-trigger mr-sm-2 d-lg-none">
+                            <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="headerNav"><em class="icon ni ni-menu"></em></a>
+                        </div>
+                        <div class="nk-header-brand">
+                            <a href="#" class="logo-link">
+                                <img class="logo-light logo-img" src="{% static 'images/Icon.png' %}" width="63px" height="auto" srcset="{% static 'images/Icon.png' %} 2x" alt="logo">
+                                <img class="logo-dark logo-img" src="{% static 'images/Icon.png' %}" width="63px" height="auto"  srcset="{% static 'images/Icon.png' %} 2x" alt="logo-dark">
+                             
+                            </a>
+                        </div>
+                        <div class="nk-header-menu" data-content="headerNav">
+                            <div class="nk-header-mobile">
+                                <div class="nk-header-brand">
+                                    <a href="#" class="logo-link">
+                                        <img class="logo-light logo-img" src="{% static 'images/Icon.png' %}" width="63px" height="auto" srcset="{% static 'images/Icon.png' %} 2x" alt="logo">
+                                        <img class="logo-dark logo-img" src="{% static 'images/Icon.png' %}" width="63px" height="auto"  srcset="{% static 'images/Icon.png' %} 2x" alt="logo-dark">
+                                       
+                                    </a>
+                                </div>
+                                <div class="nk-menu-trigger mr-n2">
+                                    <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="headerNav"><em class="icon ni ni-arrow-left"></em></a>
+                                </div>
+                            </div>
+                          
+                            <ul class="nk-menu nk-menu-main">
+                                <li class="nk-menu-item">
+                                    <a href="{% url 'investment:dashboard' %}" class="nk-menu-link">
+                                        <span class="nk-menu-text">Go back to Dashboard</span>
+                                    </a>
+                                </li>
+                                
+                                
+                                
+
+
+                                
+                            </ul>
+                        </div><!-- .nk-header-menu -->
+
+                        <div class="nk-header-tools">
+                            <ul class="nk-quick-nav">
+
+                                <li class="hide-mb-sm"><a href="#" class="nk-quick-nav-icon"><em class="icon ni ni-signout"></em></a></li>
+                                <li class="dropdown user-dropdown order-sm-first">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <div class="user-toggle">
+                                            <div class="user-avatar sm">
+                                                <em class="icon ni ni-user-alt"></em>
+                                            </div>
+                                            <div class="user-info d-none d-xl-block">
+                                                {% if not request.user.profile.profile_set_up %}
+                                                <div class="user-status user-status-unverified">Unverified</div>
+                                                <div class="user-name dropdown-indicator">{{request.user.email}}</div>
+                                                {% else %}
+                                                <div class="user-status user-status-verified">Verified</div>
+                                                <div class="user-name dropdown-indicator">{{request.user.profile.first_name}} {{request.user.profile.last_name}}</div>
+                                                {% endif %}
+                                                
+
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-md dropdown-menu-right dropdown-menu-s1 is-light">
+                                        <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
+                                            <div class="user-card">
+                                                <div class="user-avatar">
+                                                    <span>U</span>
+                                                </div>
+                                                <div class="user-info">
+                                                    <span class="lead-text">{{request.user.profile.first_name}} {{request.user.profile.last_name}}</span>
+                                                    <span class="sub-text">{{request.user.email}}</span>
+                                                </div>
+                                                <div class="user-action">
+                                                    <a class="btn btn-icon mr-n2" href="#"><em class="icon ni ni-setting"></em></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="dropdown-inner">
+                                            <ul class="link-list">
+                                                <li><a href="{% url 'users:dashboard' %}"><em class="icon ni ni-user-alt"></em><span>Profile</span></a></li>
+                                                <li><a href="{% url 'users:profile-settings' %}"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
+                                                
+                                            </ul>
+                                        </div>
+                                        <div class="dropdown-inner">
+                                            <ul class="link-list">
+                                                <li><a href="/accounts/logout"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li><!-- .dropdown -->
+                            </ul><!-- .nk-quick-nav -->
+                        </div><!-- .nk-header-tools -->
+                    </div><!-- .nk-header-wrap -->
+                </div><!-- .container-fliud -->
+            </div>
+            <!-- main header @e -->
+
+            {% block content %}
+
+            
+            {% endblock content %}
+
+            <!-- footer @s -->
+            <div class="nk-footer nk-footer-fluid bg-lighter">
+                <div class="container-xl wide-lg">
+                    <div class="nk-footer-wrap">
+                        <div class="nk-footer-copyright"> &copy; <script>document.write(new Date().getFullYear())</script> PIPMINDS.
+                        </div>
+                        <div class="nk-footer-links">
+                            <ul class="nav nav-sm">
+                                <li class="nav-item"><a class="nav-link" href="#">Terms</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Privacy</a></li>
+                                <li class="nav-item"><a class="nav-link" href="#">Help</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- footer @e -->
+        </div>
+        <!-- wrap @e -->
+    </div>
+    <!-- app-root @e -->
+    <!-- JavaScript -->
+    <script src="{% static 'assets/js/bundle.js' %}?ver=2.0.0"></script>
+    <script src="{% static 'assets/js/investment_scripts.js' %}?ver=2.0.0"></script>
+    <script src="{% static 'assets/js/charts/chart-invest.js' %}?ver=2.0.0"></script>
+    {% block extra_scripts %}
+
+    {% endblock extra_scripts %}
+</body>
+
+</html>

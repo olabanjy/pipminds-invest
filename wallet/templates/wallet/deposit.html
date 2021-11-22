@@ -1,0 +1,161 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block extra_styles %}
+<!-- <script src="https://use.fontawesome.com/4236df0222.js"></script> -->
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+{% endblock extra_styles %}
+
+
+
+{% block content %}
+ <!-- content @s -->
+ <div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-lg">
+        <div class="nk-content-body">
+            <div class="buysell wide-xs m-auto">
+               
+                <div class="buysell-title text-center">
+                    <h2 class="title">How much do you want to deposit? </h2>
+                </div><!-- .buysell-title -->
+                <div class="buysell-block">
+                    <form action="{% url 'wallet:deposit' %}" method="POST" class="buysell-form">
+                        {% csrf_token %}
+
+                        <div class="buysell-field form-group">
+                            <div class="form-label-group">
+                                <label class="form-label" for="buysell-amount">Amount to Deposit</label>
+                            </div>
+                            <div class="form-control-group">
+                                <!-- <input type="text" class="form-control form-control-lg form-control-number" id="buysell-amount" name="bs-amount" placeholder="100,000"> -->
+                                {{form.amount}}
+                                <div class="form-dropdown">
+                                    <div class="text">NGN<span></span></div>
+                                    <div class="dropdown">
+                                        
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="form-note-group">
+                                <span id="err_msg" class="buysell-min form-note-alt">Minimum: 50,000 NGN</span>
+                               
+                            </div> 
+                            <div class="form-note-group">
+                                {% if messages %}
+                                <div style="color: red;"  class="nk-block-des text-center">
+                                    <ul class="messages">
+                                        {% for message in messages %}
+                                        {% if 'error' == message.tags %}
+                                        <li>{{ message }}</li>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+
+                        </div><!-- .buysell-field -->
+                        <div class="buysell-field form-group">
+                            <div class="form-label-group">
+                                <label class="form-label">Payment Method</label>
+                            </div>
+                            <div class="form-pm-group">
+                                <ul class="buysell-pm-list">
+                                    <!-- <li id="pay_pal_btn" class="buysell-pm-item">
+                                        <input class="buysell-pm-control" type="radio" value="0" name="txn_type" id="id_tnx_type_0" />
+                                        <label class="buysell-pm-label" for="id_tnx_type_0">
+                                            <span class="pm-name">PayPal</span>
+                                            <span class="pm-icon"><em class="icon ni ni-paypal-alt"></em></span>
+                                        </label>
+                                    </li> -->
+
+                                    <li id="dbt_card_btn" class="buysell-pm-item">
+                                        <input class="buysell-pm-control" value="1"  type="radio" name="txn_type" id="id_tnx_type_1" />
+                                        <label class="buysell-pm-label" for="id_tnx_type_1">
+                                            <span class="pm-name">Fund with Card <br style="display:block; content:''; margin-top:-3%;">
+                                             <span class="buysell-min form-note-alt"> <small> Fund your wallet with your debit card  </small> </span>  
+                                            </span>
+                                            
+                                            <span class="pm-icon"><em class="icon fas fa-credit-card"></em></span>
+                                        </label>
+                                        
+                                    </li>
+
+                                    <li class="buysell-pm-item">
+                                        <input class="buysell-pm-control" value="3"  type="radio" name="txn_type" id="id_tnx_type_3" />
+                                        <label class="buysell-pm-label" for="id_tnx_type_3">
+                                            <span class="pm-name">Fund with Mobile Transfer <br style="display:block; content:''; margin-top:-3%;">
+                                                <span class="buysell-min form-note-alt"> <small> Make a transfer with your Mobile Banking App or Bank USSD Code </small> </span>  
+                                            </span>
+                                        
+                                            <span class="pm-icon"><em class="icon fas fa-mobile"></em></span>
+                                        </label>
+                                    </li>
+
+                                   
+
+                                    <li class="buysell-pm-item">
+                                        <input class="buysell-pm-control" value="2" type="radio" name="txn_type" id="id_tnx_type_2" />
+                                        <label class="buysell-pm-label" for="id_tnx_type_2">
+                                            <span class="pm-name"> Fund with Bank Deposit  <br style="display:block; content:''; margin-top:-5%;">
+                                                <span class="buysell-min form-note-alt"> <small> Deposit money over the counter at your local bank  </small> </span>  
+                                            </span>
+                                            <span class="pm-icon"><em class="icon fas fa-university"></em></span>
+                                        </label>
+                                    </li>
+                                    
+                                    
+                                </ul>
+                            </div>
+                        </div>
+                      
+                        <div class="buysell-field form-action">
+                            <button type="submit" class="btn btn-lg btn-block btn-primary" >Continue </button>
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content @e -->
+
+{% endblock content %}
+
+
+{% block extra_scripts %}
+
+<script>
+$('#buysell-amount').keyup(function() {
+    
+    var amount = $('#buysell-amount').val();
+    if (amount < 50000){
+        document.getElementById('err_msg').innerHTML = '<p style="color:red; font-weight:600;" >  minimum deposit is 50,000 NGN </p>' ;
+    } else{
+        document.getElementById('err_msg').innerHTML = '' ;
+    }
+
+});   
+</script>
+
+<script>
+    function showTxnTypes() {
+        var amount = document.getElementById("buysell-amount").value;
+        console.log(amount);
+        if (amount >= 2000000){
+            console.log('working');
+            // document.getElementById("pay_pal_btn").style.display = 'none';
+            document.getElementById("dbt_card_btn").style.display = 'none';
+        }
+        else {
+            // document.getElementById("pay_pal_btn").style.display = 'block';
+            document.getElementById("dbt_card_btn").style.display = 'block';
+        }
+    }
+</script>
+
+{% endblock extra_scripts %}

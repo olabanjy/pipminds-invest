@@ -1,0 +1,637 @@
+{% load static %}
+{% load humanize %}
+{% load mathfilters %}
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+<head> 
+ 
+    <meta charset="utf-8">
+    <meta name="author" content="Script  Desk">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Pipminds Investment Platform">
+    <link rel="shortcut icon" href="{% static 'images/Icon.png' %}">
+    
+    <title>Pipminds Investment Dashboard </title>
+   
+    <link rel="stylesheet" href="{% static 'assets/css/investment_dashlite.css' %}?ver=2.0.0">
+    <link id="skin-default" rel="stylesheet" href="{% static 'assets/css/theme.css' %}?ver=2.0.0">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+   <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+   <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3YN97TPDLC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3YN97TPDLC');
+</script>
+
+
+<script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window,document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+     fbq('init', '2227317817403128'); 
+    fbq('track', 'PageView');
+</script>
+<noscript>
+    <img height="1" width="1" 
+src="https://www.facebook.com/tr?id=2227317817403128&ev=PageView
+&noscript=1"/>
+</noscript>
+
+
+
+
+</head>
+
+<body class="nk-body npc-invest bg-lighter ">
+    <div class="nk-app-root">
+        <div class="nk-wrap ">
+
+ 
+<form  method="POST" class="invest-form">
+    {% csrf_token %}
+
+ <div class="nk-content nk-content-lg nk-content-fluid">
+    <div class="container-xl wide-lg">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                {% if messages %}
+                <div style="color: red;"  class="nk-block-des text-center">
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+                <br>
+                <div class="nk-block-head nk-block-head-lg">
+                    <div class="nk-block-head-content">
+                        <div class="nk-block-head-sub"><a href="{% url 'investment:plans' %}" class="back-to"><em class="icon ni ni-arrow-left"></em><span>Back to plan</span></a></div>
+                        <div class="nk-block-head-content">
+                            <h2 class="nk-block-title fw-normal">Ready to get started?</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="nk-block invest-block">
+                    
+                        <div class="row g-gs">
+                            <div class="col-lg-7">
+                                <div class="invest-field form-group">
+                                    <input type="hidden" value="silver" name="iv-plan" id="invest-choose-plan">
+                                    <div class="dropdown invest-cc-dropdown">
+                                        <a href="#" class="invest-cc-choosen">
+                                            <div class="coin-item">
+                                                <div class="coin-icon">
+                                                    <em class="icon ni ni-offer-fill"></em>
+                                                </div>
+                                                <div class="coin-info">
+                                                    <span class="coin-name">{{the_plan.name}} - {{the_plan.category.name}} </span>
+                                                    <span class="coin-text"> Earn {{the_plan.period.name}}  {{the_plan.percentage_interest}}% profit</span>
+                                                </div>
+                                            </div>
+                                        </a>
+
+                                    </div><!-- .dropdown -->
+                                </div><!-- .invest-field -->
+
+                                <div class="invest-field form-group">
+                                    <div class="form-label-group">
+                                        <label class="form-label">Choose Maturity Period</label>
+                                    </div>
+                                    <div class="invest-amount-group g-2">
+                                        {% if the_plan.first_maturity_period %}
+                                        <div class="invest-amount-item">
+                                            <input type="radio" class="invest-amount-control" value="{{the_plan.first_maturity_period}}" name="maturity" id="maturity-1">
+                                            <label class="invest-amount-label" for="maturity-1">{{the_plan.first_maturity_period|intdiv:30|intcomma}} Months </label>
+                                        </div>
+                                        {% endif %}
+                                        {% if the_plan.second_maturity_period %}
+                                        <div class="invest-amount-item">
+                                            <input type="radio" class="invest-amount-control" value="{{the_plan.second_maturity_period}}" name="maturity" id="maturity-2">
+                                            <label class="invest-amount-label" for="maturity-2">{{the_plan.second_maturity_period|intdiv:30|intcomma}} Months </label>
+                                        </div>
+                                        {% endif %}
+                                        {% if the_plan.third_maturity_period %}
+                                        <div class="invest-amount-item">
+                                            <input type="radio" class="invest-amount-control" value="{{the_plan.third_maturity_period}}" name="maturity" id="maturity-3">
+                                            <label class="invest-amount-label" for="maturity-3">{{the_plan.third_maturity_period|intdiv:30|intcomma}} Months </label>
+                                        </div>
+                                        {% endif %}
+                                        {% if the_plan.fourth_maturity_period %}
+                                        <div class="invest-amount-item">
+                                            <input type="radio" class="invest-amount-control" value="{{the_plan.fourth_maturity_period}}" name="maturity" id="maturity-4">
+                                            <label class="invest-amount-label" for="maturity-4">{{the_plan.fourth_maturity_period|intdiv:30|intcomma}} Months </label>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <div class="invest-field form-group">
+                                    <div class="form-label-group">
+                                        <label class="form-label"> Enter a Display Name </label>
+                                        
+                                    </div>
+                                    <div class="form-control-group">
+                                        
+                                        <input type="text"  class="form-control form-control-amount form-control-lg" name="display_name" id="display_name" required>
+                                       
+                                        
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="invest-field form-group">
+                                    <div class="form-label-group">
+                                        <label class="form-label"> Enter Your Amount</label>
+                                        
+                                    </div>
+                                    <div class="form-control-group">
+                                        <div class="form-info">NGN</div>
+                                        <input type="number"  class="form-control form-control-amount form-control-lg" name="iv-amount" id="custom-amount" required>
+                                        <input type="hidden" class="form-control form-control-amount form-control-lg" name="plan_id" value="{{the_plan.pk}} " id="custom-plan-id">
+                                        
+                                    </div>
+                                    <div class="form-note pt-2">Note: Minimum investment deposit is  {{the_plan.min_investment|floatformat:"0"|intcomma}} NGN </div>
+                                </div>
+
+
+                                <div class="invest-field form-group">
+                                    <div class="form-label-group">
+                                        <label class="form-label">Payment Method</label>
+                                        <a href="{% url 'wallet:deposit' %}" class="link py-1" >Fund Wallet </a>
+                                    </div>
+                                    
+                                    
+                                    <div class="dropdown invest-cc-dropdown">
+                                        <a href="#" class="invest-cc-choosen">
+                                            <div class="coin-item">
+                                                <div class="coin-icon">
+                                                    <em class="icon ni ni-wallet-alt"></em>
+                                                </div>
+                                                <div class="coin-info">
+                                                    <span class="coin-name">Wallet</span>
+                                                    <span class="coin-text">Current balance:  ₦ {{wallet_deposit|floatformat:"0"|intcomma}} </span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div><!-- .dropdown -->
+                                </div>
+                        
+                            </div><!-- .col -->
+                            <div class="col-xl-4 col-lg-5 offset-xl-1">
+                                <div class="card card-bordered ml-lg-4 ml-xl-0">
+                                    <div class="nk-iv-wg4">
+                                        <div class="nk-iv-wg4-sub">
+                                            <h6 class="nk-iv-wg4-title title">Your Investment Details</h6>
+                                            <ul class="nk-iv-wg4-overview g-2">
+                                                <li>
+                                                    <div class="sub-text">Name </div>
+                                                    <div class="lead-text">{{the_plan.name}} - {{the_plan.category.name}}</div>
+                                                </li>
+                                                <li>
+                                                    <div class="sub-text">Period </div>
+                                                    <div id="plan_duration" class="lead-text">  </div>
+                                                </li>
+                                                <li>
+                                                    <div class="sub-text">Amount</div>
+                                                    <div id="plan_amount" class="lead-text"></div>
+                                                </li>
+                                                <li>
+                                                    <div class="sub-text">Display Name</div>
+                                                    <div id="plan_display_name" class="lead-text"></div>
+                                                </li>
+                                                
+                                            
+                                            </ul>
+                                        </div>
+                                        <div class="nk-iv-wg4-sub">
+                                            <ul class="nk-iv-wg4-list">
+                                                <li>
+                                                    <div class="sub-text">Payment Method</div>
+                                                    <div class="lead-text"> Flex Wallet</div>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="nk-iv-wg4-sub text-center bg-lighter">
+                                            <button type="button" class="btn btn-lg btn-primary ttu" data-toggle="modal" data-target="#agreementModal"  >Confirm</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade zoom" tabindex="-1" id="agreementModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> {{the_plan.category.name}} CONTRACT AGREEMENT </h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            {% if the_plan.category.name == "CIP" %}
+            <div class="modal-body" id="contract_body">
+                <h6 style="text-align: center;">CONTRACT AGREEMENT <br/> BETWEEN <br/> PIPMINDS INTERNATIONAL LIMITED <br/> AND <br/>
+                    {{request.user.profile.first_name|upper}} {{request.user.profile.last_name|upper}} </h6>
+                <p>
+                    <img src="{% static 'images/asugo1.png' %}" width="100px" height="auto" alt=""> <img src="{% static 'images/asugo2.png' %}" width="100px" height="auto"  alt=""> <br> <br>
+                    PREPARED BY: <br/>
+                    A.C ALAGOR ESQ. <br> For: PIPMINDS INTERNATIONAL LIMITED <br> 133 ATIKU ABUBAKAR WAY, UYO
+                    AKWA IBOM STATE, NIGERIA.
+                </p>
+
+                <p> <strong>CONTRACT OF AGREEMENT</strong></p>
+
+                <b>THIS AGREEMENT</b> is made this day {{ date_today|date:"l, d M Y" }}
+
+                BETWEEN
+
+                <b>PIPMINDS INTERNATIONAL LIMITED</b> of no. 133 Atiku Abubakar Road, Uyo, Akwa Ibom State of Nigeria (hereinafter referred to as <b>“The Forex Trader/Trader”</b>) which expression shall where the context so admits include its successor-in-title, executors, personal representatives and assigns of the <b>ONE PART</b>. <br/>
+                
+                <b>AND</b> <br/> 
+
+                <b>MR./MRS./MISS {{request.user.profile.first_name|upper}} {{request.user.profile.last_name|upper}} </b>
+                Of {{request.user.profile.address_1}} {% if request.user.profile.address_2 %} {{request.user.profile.address_2 }} {% endif %}, {{request.user.profile.city}} State (hereinafter referred to as the "Financial Investor") which expression shall where the context so admits includes his successor-in-title, executors, personal representatives and assigns of the OTHER PART. <br>
+                
+                <b>WHEREAS:</b>
+
+                <ul  class="list list-sm">
+                  <li>The Trader Private Limited Liability Company, incorporated under the Companies and Allied Matters (CAMA) Act 2020 and carries on the Business of online Forex Trading, foreign exchange, Forex Education, Real Estate, Promotion of Child Education Globally and offering Investment Opportunities to Clients.</li>
+                  <li>The Financial Investor is a Client who is desirous of investing in the Trader’s <b>CORPORATE INVESTMENT POOL (CIP)</b> Plan and has negotiated with the Trader on investing the necessary capital.</li>
+                  <li>Both the Trader and the Financial Investor ("The Parties") are desirous of going into a business relationship upon the receipt of payment of an agreed sum, aimed at realizing and maximizing the full benefits and investment opportunities offered by the Trader.</li>
+                  <li>The parties have agreed to do the business under the terms and conditions hereunder.</li>
+                </ul>
+                 
+                <b>IT IS AGREED BY THE PARTIES AS FOLLOWS:</b>
+                <ul class="list list-sm">
+                    <li>The Financial Investor has paid the sum of <span style="color: black;" id="contract_amount"></span> only as capital into the Forex Trading account for the Corporate Investment Pool Plan to be provided by the Forex Trader.</li>
+                    <li>It is agreed by the parties that each phase of the business transaction shall be for a period of <span style="color: black;" id="contract_period"></span> As the case may be, which entitles the Financial Investor to the accrued interest and upon the expiration of any selected period, the Financial Investor receives payment of his initial capital.</li>
+                    <li>Where the Financial Investor wishes to rollover his/her capital at the expiration of His/ Her selected plan as listed in clause two (2) he/she shall notify the <b>Forex trader</b> of his intention to rollover within 7 days of its expiration.</li>
+                    <li>The Forex Trader shall manage, trade and keep proper record of the Forex trading activities.</li>
+                    <li>The Financial Investor shall be entitled to an interest percentage of his/her investment capital as his/her investment profit otherwise known as <strong> "Return on Investment" (ROI) </strong>  within the margin of 8%-10% which shall be due for maturity every thirty (30) days.
+                       <strong> THE PROFIT MARGIN (8%-10%) SHALL BE SUBJECT TO CHANGE DUE TO MARKET TRENDS AND CURRENCY FLUCTUATION. </strong> 
+                         </li>
+                    <li>In the case of any default in the payment of the accrued investment interest by the Trader after the stipulated 30 days, a grace period of seven (7) working days shall be given to the Trader to remedy the default, any further default after this shall attract a 5% interest penalty to be paid by the Trader to the Financial Investor.</li>
+                    <li>In the event of the Financial Investor desiring to increase his/her investment capital (top-up), he/she shall notify the Trader in writing or by Electronic Mail of such increase which shall be acknowledged and be reflected on his/her flex wallet where he/she can initiate the Investment increase and same will reflect on the Forex financial follow up chart. Any payment in respect of the above shall be made by the Trader into the already existing bank account as furnished by the Financier Investor. 
+                        <p> Such increment may be made within seven (7) days of the initial investment and shall have a limit dependent on the investment plan duration created by the financial Investor thus:
+                            <ul class="list list-sm">
+                                <li>6 months plan: one time Top up allowed</li>
+                                <li>9 months plan: one time top up allowed </li>
+                                <li>12 months plan: two times top up allowed </li>
+                            </ul>    
+                        </p>
+                    </li>
+                    <li>The Financial Investor may appoint an Attorney through a power of attorney and shall submit a copy of the document to the trader for the purpose of liaising with the Trader during any period of his/her absence to give effect to any part of the agreement as the Financier Investor could have done himself/herself.</li>
+                    <li>In the event of any loss incurred during Forex trading, the Financial Investor shall not be responsible for any of such loss.</li>
+                    <li>The Trader shall not be liable for any claim or action brought by any third party against the Financial Investor.</li>
+                </ul>
+               <b>TERMINATION</b>
+               <ul class="list list-sm">
+                   <li>Where the Financial Investor intends to terminate the contract, the financial Investor shall give a fourteen (14) days’ notice to the Trader through an official letter delivered by hand or by an email stating the investment details and purpose of termination which is subject to review by the management.</li>
+                   <li>Where the agreement is terminated before the expiration of the agreed six, nine or twelve months as the case may be, the Financial Investor shall forfeit 10% of his investment capital at the expiration of the fourteen (14) days' notice.
+                   </li>
+            </ul>
+               <b>UBERIMA FIDEI</b>
+               <P> The Parties are to act in the utmost good faith as well as endeavor to be transparent and build a level of trust in each other. None of the parties shall do anything that will be inimical or against the interest of the other party or of the contract.</P>
+               <b>BINDING FORCE</b>
+               <p>This agreement shall be effective and enforceable upon execution by the parties or their authorized Representatives herein above mentioned until the following events occur:</p>
+               <ul class="list list-sm" >
+                   <li>The execution and completion of the contract agreement</li>
+                   <li>At the expiration of <span style="color: black;" id="contract_binding"></span>.</li>
+               </ul>
+               <b>CONFIDENTIALITY</b>
+               <p>Each party shall keep in strict confidence all financial, Commercial and technical information belonging to the other party or which was developed jointly by the parties in preparation of this agreement. Without the prior written consent of the other party, neither party shall at any time disclose any confidential information to any third party, save and except where it is required by a Court of Law. Confidential information shall not include information which:</p>
+               <ul class="list list-sm">
+                   <li>Became public through no fault of the receiving party.</li>
+                   <li>Is received on a non-confidential basis from third parties</li>
+                   <li>Is independently developed by the parties with use of confidential
+                    information. Neither party shall expect as required by applicable laws, regulation or the rules of any recognized Foreign Exchange Market cause any public announcement to be made pursuant to any applicable law or regulation. Such party shall provide the other party 48 hours written notice of such announcement.</li>
+               </ul>
+
+               <b>AMENDMENTS / MODIFICATIONS</b>
+               <p>
+                No amendment or modification of the agreement shall be effective against the parties unless such amendments or modification is set forth in writing and signed by the parties.
+               </p>
+
+               <b>LANGUAGE</b>
+               <p>
+                All agreements, correspondence and other documents relevant to this agreement shall be in English language.
+               </p>
+
+               
+               <p>
+                <b>ALTERNATIVE DISPUTE RESOLUTION</b> <br/>
+                Any dispute arising out of this agreement shall be resolved as follows:
+                <ul class="list list-sm">
+                    <li>AMICABLE RESOLUTION:<br/>
+                        The parties recognize that differences sometimes arise in the course of a relationship and wish to avoid litigation. Accordingly, all claims, disputes and other matters in question between any party and the parties arising out of or relating to this agreement, shall first be submitted to negotiation in an attempt to resolve amicably by both parties.</li>
+                        <li>ARBITRATION:<br/>
+                        <ul class="list list-sm">
+                            <li>Any dispute which is not resolved amicably through negotiation, shall be finally settled by Arbitration in accordance with the Provisions of the Arbitration and Conciliation Act CAP 19 Laws of the Federation of Nigeria 1990 and any award made by the Arbitrators shall be entered and enforced by the High Court of Justice where the agreement was entered into.</li>
+                            <li>In the appointment of the Arbitrators, each party shall appoint one Arbitrator and the two shall appoint a third Arbitrator who shall be the Chairman of the panel.</li>
+                            <li>Any award rendered pursuant to arbitration may include reasonable attorneys' fees and costs shall be final and binding upon the parties, and judgment may be entered upon it in the High Court of Justice where the agreement was entered into.</li>
+                            <li>In the event of any party falling in its obligation to appoint an Arbitrator or fail to participate in the arbitration proceedings, the other party can resort to the High Court of Justice where the contract was entered into to ventilate its grievances.</li>
+                            <li>In the event of resort to court action, the defaulting party shall, in addition to the claims of the party signing, be liable to pay the cost of the litigation incurred by the other party.</li>
+                            <li>Pending final resolution of any dispute, including arbitration in accordance with this provision, the party shall proceed diligently with performance of its obligations to the extent it is unrelated to the dispute and the subject matter of the dispute does not inhibit the progress of the business operations generally. Such performance by party shall not operate to waive or stop either party from pursuing the claim which gave rise to the dispute.</li>
+                        </ul>
+                        </li>
+                     </ul>
+               </p>
+
+               <p>
+                <b>APPLICABLE LAWS</b> <br/>
+                The laws of the Federal Republic of Nigeria shall govern the interpretation and enforcement in this contract agreement.
+               </p>
+
+
+
+               <p>
+                <b>LEGAL DISCLAIMER CLAUSE</b> <br/>
+                Trading forex and its investment carries a high level of risk and may not be suitable for all investors and as such fixed return on investment is globally illegal. Past performance is not indicative of future results hence the need for the new return on investment margin.  Before deciding to invest with us, you should carefully consider your investment objectives and seek advice from an independent financial advisor if you have any doubts. 
+
+               </p>
+
+               <b>IN WITNESS WHERE OF THE PARTIES HERETO HAVE EXECUTED THIS MOU ON THE DAY AND YEAR FIRST ABOVE WRITTEN. <br> THE COMMON SEAL PIPMINDS INTERNATIONAL LIMITED is hereunto affixed in the presence of:</b> <br>
+
+               <div class="row">
+                   <div class="col text-center">
+                    <img src="{% static 'images/director2.png' %}" width="100px" height="auto" alt="">
+                    <hr>
+                    <b>EMEM ALBAN </b> <br>
+                    <b>CEO/DIRECTOR</b>
+                   </div>
+                   <div class="col text-center">
+                    <img src="{% static 'images/director1.png' %}" width="100px" height="auto" alt="">
+                    <hr>
+                    <b>IFEANYI NWAMUO</b> <br>
+                    <b>DIRECTOR</b>
+                   </div>
+                  
+               </div>
+               
+                
+                <div class="form-group">
+                    <div class="custom-control custom-control-xs custom-checkbox">
+                        <input name="t_and_c" type="checkbox" class="custom-control-input t_and_c" id="checkbox">
+                        <label class="custom-control-label" for="checkbox">I have read and I agree to the this agreement </label>
+                    </div>
+                </div>
+            </div>
+            {% elif the_plan.category.name == "HIP" %}
+
+            <div class="modal-body" id="contract_body">
+                <h6 style="text-align: center;">CONTRACT AGREEMENT <br/> BETWEEN <br/> PIPMINDS INTERNATIONAL LIMITED <br/> AND <br/>
+                    {{request.user.profile.first_name|upper}} {{request.user.profile.last_name|upper}} </h6>
+                <p>
+                    <img src="{% static 'images/asugo1.png' %}" width="100px" height="auto" alt=""> <img src="{% static 'images/asugo2.png' %}" width="100px" height="auto"  alt=""> <br> <br>
+                    PREPARED BY: <br/>
+                    A.C ALAGOR ESQ. <br> For: PIPMINDS INTERNATIONAL LIMITED <br> 133 ATIKU ABUBAKAR WAY, UYO
+                    AKWA IBOM STATE, NIGERIA.
+                </p>
+
+                <p> <strong>CONTRACT OF AGREEMENT</strong></p>
+
+                <b>THIS AGREEMENT</b> is made this day {{ date_today|date:"l, d M Y" }}
+
+                BETWEEN
+
+                <b>PIPMINDS INTERNATIONAL LIMITED</b> of no. 133 Atiku Abubakar Road, Uyo, Akwa Ibom State of Nigeria (hereinafter referred to as <b>“The Forex Trader/Trader”</b>) which expression shall where the context so admits include its successor-in-title, executors, personal representatives and assigns of the <b>ONE PART</b>. <br/>
+                
+                <b>AND</b> <br/> 
+
+                <b>MR./MRS./MISS {{request.user.profile.first_name|upper}} {{request.user.profile.last_name|upper}} </b>
+                Of {{request.user.profile.address_1}} {% if request.user.profile.address_2 %} {{request.user.profile.address_2 }} {% endif %}, {{request.user.profile.city}} State (hereinafter referred to as the "Financial Investor") which expression shall where the context so admits includes his successor-in-title, executors, personal representatives and assigns of the OTHER PART. <br>
+                
+                <b>WHEREAS:</b>
+
+                <ul  class="list list-sm">
+                    <li>The Trader is Private Limited Liability Company, incorporated under Companies and Allied Matters (CAMA) Act 2020 and carries on the Business of online Forex Trading, foreign exchange, Forex Education, Real Estate, Promotion of Child Education Globally and offering Investment Opportunities to Clients.</li>
+                    <li>The Financial Investor is a Client and has negotiated with the Trader being desirous of investing in the <strong>HEDGE INVESTMENT PLAN</strong>  offered by the Trader by investing the necessary capital into Investment Plan. </li>
+                    <li>Both the Trader and the Financial Investor ("The Parties") are desirous of going into a business relationship upon the receipt of payment of an agreed sum, aimed at realizing and maximizing the full benefits and investment opportunities offered by the Hedge Investment Plan. </li>
+                    <li>The parties have agreed to do the business under the terms and conditions hereunder. </li>
+                </ul>
+                 
+                <b>IT IS AGREED BY THE PARTIES AS FOLLOWS:</b>
+                <ul class="list list-sm">
+              
+                    <li>The financial investor has invested the amount of <span style="color: black;" id="contract_amount"></span> only as capital (receipt of which the Trader acknowledges) into the Forex Trading account to be provided by Trader. </li>
+                    <li>It is agreed by the parties that a phase of the business transaction shall be for a period of <span style="color: black;" id="contract_period"></span> as the case may be, which entitles the  Financial Investor to an accrued interest under the following plans:
+                    {{the_plan.name}}: {{the_plan.percentage_interest}}% interest on capital  
+                    
+                     And upon the expiration of the tenure, the Financial Investor receives payment of his initial capital and accrued interest.</li>
+                    <li>Where the Financier Investor wishes to rollover his capital at the expiration of the <span style="color: black;" id="contract_binding"></span>, he shall give the Trader one month notice of his intention to rollover.  </li>
+                    <li>The Forex Trader shall manage trade and keep proper record of the Forex trading activities. </li>
+                    <li>Upon expiry of the aforementioned tenures, the Trader shall pay the Investor a cumulative Return on investment that is 35% (Starter) 80% (Professional) or 180% (Premier) interest added to initial capital within seven (7) working days.</li>
+                    <li>In the case of any default in the payment of the return on investment by the Forex Trader after the stipulated time, a grace period of (5) five working days shall be given to the Trader to remedy the default, any further default after this shall attract a 5% penalty to be paid by the Trader to the Financial Investor which cumulatively shall give a 40%, 85% and 185% (for Starter, Professional  and Premier respectively) investment benefit to the Financial Investor.</li>
+                    <li>The Financial Investor may appoint an Attorney through a Power of Attorney which must be presented to the Trader for the purposes of liaising with the Trader during any period of his absence to give effect to any part of the agreement as the Financial Investor could have done himself. </li>
+                    <li>In the event of any loss incurred during Forex trading, Financial Investor shall not be responsible for any of such loss. </li>
+                    <li>The Forex Trader shall not be liable for any claim or action brought by any third party against the Financier Investor. </li>
+                    
+
+
+                </ul>
+               <b>TERMINATION</b>
+               <p>Notwithstanding anything contained in this agreement, this contract is deemed terminated:</p>
+               <ul class="list list-sm">
+                <li>Where the agreement is terminated before the expiration of the agreed <span style="color: black;" id="contract_termination"></span> Plan, the Financial Investor forfeits 40% of his accrued interest which is only possible after a minimum of the first 90 days at the expiration of thirty 30 days' notice.
+                </li>
+                <li>Where the Financial Investor intends to terminate the contract, the company shall be notified by the financial investor through an official letter delivered by hand or by an email stating the investment details and purpose of termination which is subject to review by the management.
+                </li>
+                <p>Upon termination of this agreement, neither party shall have any obligation to the other, except for obligations that had already accrued but remained undischarged before such termination.</p>
+            </ul>
+               <b>UBERIMA FIDEI</b>
+               <p>The Parties are to act in the utmost good faith as well as endeavor to be transparent and build a level of trust in each other. None of the parties shall do anything that will be inimical or against the interest of the other party or of the contract. </p>
+               <b>BINDING FORCE</b>
+               <p>This agreement shall be effective and enforceable upon execution by the parties or their authorized Representatives herein above mentioned until the following events occur:</p>
+               <ul class="list list-sm" >
+                    <li>where the agreement is terminated by the Financial Investor </li>
+                    <li>The execution and completion of the contract agreement</li>
+                    <li>At the expiration of the <span style="color: black;" id="contract_termination2"></span>. </li>
+               </ul>
+               <b>CONFIDENTIALITY</b>
+               <p>Each party shall keep in strict confidence all financial, Commercial and technical information belonging to the other party or which was developed jointly by the parties in preparation of this agreement. Without the prior written consent of the other party, neither party shall at any time disclose any confidential information to any third party, save and except where it is required by a Court of Law. Confidential information shall not include information which:</p>
+               <ul class="list list-sm">
+                   <li>Became public through no fault of the receiving party.</li>
+                   <li>Is received on a non-confidential basis from third parties</li>
+                   <li>Is independently developed by the parties with use of confidential
+                    information. Neither party shall expect as required by applicable laws, regulation or the rules of any recognized Foreign Exchange Market cause any public announcement to be made pursuant to any applicable law or regulation. Such party shall provide the other party 48 hours written notice of such announcement.</li>
+               </ul>
+
+               <b>AMENDMENTS / MODIFICATIONS</b>
+               <p>
+                No amendment or modification of the agreement shall be effective against the parties unless such amendments or modification is set forth in writing and signed by the parties.
+               </p>
+
+               <b>LANGUAGE</b>
+               <p>
+                All agreements, correspondence and other documents relevant to this agreement shall be in English language.
+               </p>
+
+               
+               <p>
+                <b>ALTERNATIVE DISPUTE RESOLUTION</b> <br/>
+                Any dispute arising out of this agreement shall be resolved as follows:
+                <ul class="list list-sm">
+                    <li>AMICABLE RESOLUTION:<br/>
+                        The parties recognize that differences sometimes arise in the course of a relationship and wish to avoid litigation. Accordingly, all claims, disputes and other matters in question between any party and the parties arising out of or relating to this agreement, shall first be submitted to negotiation in an attempt to resolve amicably by both parties.</li>
+                        <li>ARBITRATION:<br/>
+                        <ul class="list list-sm">
+                            <li>Any dispute which is not resolved amicably through negotiation, shall be finally settled by Arbitration in accordance with the Provisions of the Arbitration and Conciliation Act CAP 19 Laws of the Federation of Nigeria 1990 and any award made by the Arbitrators shall be entered and enforced by the High Court of Justice where the agreement was entered into.</li>
+                            <li>In the appointment of the Arbitrators, each party shall appoint one Arbitrator and the two shall appoint a third Arbitrator who shall be the Chairman of the panel.</li>
+                            <li>Any award rendered pursuant to arbitration may include reasonable attorneys' fees and costs shall be final and binding upon the parties, and judgment may be entered upon it in the High Court of Justice where the agreement was entered into.</li>
+                            <li>In the event of any party falling in its obligation to appoint an Arbitrator or fail to participate in the arbitration proceedings, the other party can resort to the High Court of Justice where the contract was entered into to ventilate its grievances.</li>
+                            <li>In the event of resort to court action, the defaulting party shall, in addition to the claims of the party signing, be liable to pay the cost of the litigation incurred by the other party.</li>
+                            <li>Pending final resolution of any dispute, including arbitration in accordance with this provision, the party shall proceed diligently with performance of its obligations to the extent it is unrelated to the dispute and the subject matter of the dispute does not inhibit the progress of the business operations generally. Such performance by party shall not operate to waive or stop either party from pursuing the claim which gave rise to the dispute.</li>
+                        </ul>
+                        </li>
+                     </ul>
+               </p>
+
+               <p>
+                <b>APPLICABLE LAWS</b> <br/>
+                The laws of the Federal Republic of Nigeria shall govern the interpretation and enforcement in this contract agreement.
+               </p>
+
+               <p>
+                <b>LEGAL DISCLAIMER CLAUSE</b> <br/>
+                Trading forex and its investment carries a high level of risk and may not be suitable for all investors and as such return on investment rates shall be subject to review as it is affected by market forces as past performance is not indicative of future results. Before deciding to invest with us, you should carefully consider your investment objectives and seek advice from an independent financial advisor if you have any doubts.
+               </p>
+
+               <b>IN WITNESS WHERE OF THE PARTIES HERETO HAVE EXECUTED THIS MOU ON THE DAY AND YEAR FIRST ABOVE WRITTEN. <br> THE COMMON SEAL PIPMINDS INTERNATIONAL LIMITED is hereunto affixed in the presence of:</b> <br>
+
+               <div class="row">
+                   <div class="col text-center">
+                    <img src="{% static 'images/director2.png' %}" width="100px" height="auto" alt="">
+                    <hr>
+                    <b>EMEM ALBAN </b> <br>
+                    <b>CEO/DIRECTOR</b>
+                   </div>
+                   <div class="col text-center">
+                    <img src="{% static 'images/director1.png' %}" width="100px" height="auto" alt="">
+                    <hr>
+                    <b>IFEANYI NWAMUO</b> <br>
+                    <b>DIRECTOR</b>
+                   </div>
+                  
+               </div>
+               
+                
+                <div class="form-group">
+                    <div class="custom-control custom-control-xs custom-checkbox">
+                        <input name="t_and_c" type="checkbox" class="custom-control-input t_and_c" id="checkbox" required>
+                        <label class="custom-control-label" for="checkbox">I have read and I agree to the this agreement </label>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="modal-footer bg-light">
+                
+                 <button type="submit" class="btn btn-lg btn-primary ttu" id="sb-btn">Proceed</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+</form>
+
+
+<div class="nk-footer nk-footer-fluid bg-lighter">
+    <div class="container-xl wide-lg">
+        <div class="nk-footer-wrap">
+            <div class="nk-footer-copyright">  &copy; <script>document.write(new Date().getFullYear());</script> Pipminds International. All Rights Reserved.
+            </div>
+            
+        </div>
+    </div>
+</div>
+<!-- footer @e -->
+</div>
+<!-- wrap @e -->
+</div>
+<!-- app-root @e -->
+<!-- JavaScript -->
+<script src="{% static 'assets/js/bundle.js' %}?ver=2.0.0"></script>
+<script src="{% static 'assets/js/investment_scripts.js' %}?ver=2.0.0"></script>
+<script src="{% static 'assets/js/charts/chart-invest.js' %}?ver=2.0.0"></script>
+
+
+<script>
+$(function () {
+    $("input[name='maturity']").click(function () {
+        console.log((this.value / 30) >> 0);
+        document.getElementById('plan_duration').innerHTML = ((this.value / 30) >> 0) + ' months' ;
+        document.getElementById('contract_period').innerHTML = '<strong>'  + ((this.value / 30) >> 0) + ' months </strong>'  ;
+        document.getElementById('contract_binding').innerHTML = '<strong>'  + ((this.value / 30) >> 0) + ' months </strong>'  ;
+        document.getElementById('contract_termination').innerHTML = '<strong>'  + ((this.value / 30) >> 0) + ' months </strong>';
+        document.getElementById('contract_termination2').innerHTML = '<strong>'  + ((this.value / 30) >> 0) + ' months </strong>';
+    });
+
+
+    $('#custom-amount').keyup(function() {
+        if (event.which >= 37 && event.which <= 40) return;
+
+        amount = this.value.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        document.getElementById('plan_amount').innerHTML = amount + ' NGN' ;
+        document.getElementById('contract_amount').innerHTML = '<strong> NGN' +  amount + ' </strong>' ;
+    });
+
+    $('#display_name').keyup(function() {
+       
+        document.getElementById('plan_display_name').innerHTML = this.value;
+        
+    });
+
+
+});
+
+</script>
+
+<script>
+$(function () {
+    var t_and_c = $('.t_and_c');
+    var sb_btn = $('#sb-btn');
+
+    t_and_c.on('change', function() {
+        sb_btn.prop("disabled", !this.checked);
+        }).trigger('change');
+
+});    
+</script>
+
+
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/5ebab7a8967ae56c521916ca/default';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+</script>
+
+</body> 
+
+</html>

@@ -1,0 +1,226 @@
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="author" content="Olushola Albert">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Pipminds Investment Platform">
+    <!-- Fav Icon  -->
+    <!-- <link rel="shortcut icon" href="./images/favicon.png"> -->
+    <!-- Page Title  -->
+    <title>Confirm Order | Fund Wallet</title>
+    <!-- StyleSheets  -->
+    <link rel="stylesheet" href="{% static 'assets/css/wallet_dashlite.css' %}">
+    <link id="skin-default" rel="stylesheet" href="{% static 'assets/css/theme.css' %}">
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
+    <link rel="stylesheet" href="{% static 'assets/dist/css/vex.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/dist/css/vex-theme-os.css' %}" />
+
+<script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window,document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+         fbq('init', '2227317817403128'); 
+        fbq('track', 'PageView');
+</script>
+<noscript>
+    <img height="1" width="1" 
+src="https://www.facebook.com/tr?id=2227317817403128&ev=PageView
+&noscript=1"/>
+</noscript>
+
+
+
+</head>
+
+<body class="nk-body bg-white npc-general pg-auth">
+    <div class="nk-app-root">
+        <!-- main @s -->
+        <div class="nk-main ">
+            <!-- wrap @s -->
+            <div class="nk-wrap nk-wrap-nosidebar">
+                <!-- content @s -->
+                <div class="nk-content ">
+                    <div class="nk-block nk-block-middle nk-auth-body">
+                        
+                        
+
+                        <div class="nk-block-head nk-block-head-xs text-center">
+                            <h5 class="nk-block-title">Confirm Deposit</h5>
+                            <div class="nk-block-text">
+                                <div class="caption-text">You are about to pay <strong>{{transaction.amount|intcomma}} </strong> NGN*</div>
+                                
+                            </div>
+                        </div>
+                        <div class="nk-block">
+                            <div class="buysell-overview">
+                                <ul class="buysell-overview-list">
+                                    <li class="buysell-overview-item">
+                                        <span class="pm-title">Pay with</span>
+                                        <span class="pm-currency"> &nbsp; <em class="icon fas fa-mobile"></em> </span>
+                                    </li>
+                                    <li class="buysell-overview-item">
+                                        <span class="pm-title">Total</span>
+                                        <span class="pm-currency">{{transaction.amount|intcomma}} NGN</span>
+                                    </li>
+                                
+                                <li class="buysell-overview-item" >
+                                    <div style="text-align: center;" class="container">
+                                        <strong> <p>  Be sure to transfer the exact amount stated above. Anything more or less will be not be processed and funds refunded  </p>  </strong>
+                                    </div>
+                                </li>
+
+                                </ul>
+                                
+                            </div>
+                            
+                            <div class="buysell-field form-action text-center">
+                                <div>
+                                    <form id="payment-form"  method="POST">
+                                        {% csrf_token %}
+                                        <script type="text/javascript" src="https://sdk.monnify.com/plugin/monnify.js"></script>
+                                        <input id="amount" type="hidden" value="{{transaction_amount}}" />
+
+                                        <input id="pay-email" type="hidden" value="{{request.user.email}}" />
+
+                                        <input id="pay-fullname" type="hidden" value="{{request.user.profile.first_name}} {{request.user.profile.last_name}}" />
+                                        <input id="pay-phone" type="hidden" value="{{request.user.profile.phone}}" />
+
+                                        <input name="transaction_code" id="transaction_code" type="hidden" value="{{transaction.txn_code}}" />
+
+                                        <button type="button"  onclick= "payWithMonnify()" class="btn btn-primary btn-lg" >Proceed</button>
+                                    </form>
+                                    
+                                </div>
+                                <div class="pt-3">
+                                    <a href="{% url 'wallet:cancel-deposit' transaction_code=transaction.txn_code %}"  class="link link-danger eg-swal-av3">Cancel Deposit</a>
+                                </div>
+                            </div>
+                        </div><!-- .nk-block -->
+
+                    </div>
+                    <div class="nk-footer nk-auth-footer-full">
+                        <div class="container wide-lg">
+                            <div class="row g-3">
+                                <div class="col-lg-6 order-lg-last">
+                                    <ul class="nav nav-sm justify-content-center justify-content-lg-end">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Terms & Condition</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Privacy Policy</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Help</a>
+                                        </li>
+                                        
+                                    </ul>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="nk-block-content text-center text-lg-left">
+                                        <p class="text-soft">&copy; 2021 Pipminds. All Rights Reserved.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- wrap @e -->
+            </div>
+            <!-- content @e -->
+        </div>
+        <!-- main @e -->
+    </div>
+    <!-- app-root @e -->
+    <!-- JavaScript -->
+<script src="{% static 'assets/js/bundle.js' %}"></script>
+<script src="{% static 'assets/js/wallet_scripts.js' %}"></script>
+<script src="{% static 'assets/js/charts/chart-crypto.js' %}"></script>
+
+
+
+
+
+<script type="text/javascript">
+
+   
+
+    var formm = document.getElementById("payment-form");
+
+    formm.addEventListener("submit", function (event) {
+        event.preventDefault();
+    });
+
+
+
+    function payWithMonnify() {
+        MonnifySDK.initialize({
+            amount: $("input#amount").val(),
+            currency: "NGN",
+            reference: $("input#transaction_code").val(),
+            customerName: $("input#pay-fullname").val(),
+            customerEmail: $("input#pay-email").val(),
+            customerMobileNumber: $("input#pay-phone").val(),
+            apiKey: "MK_PROD_7R3CB32H7Q",
+            contractCode: "643871235542",
+            paymentDescription: "Wallet Deposit",
+            isTestMode: false,
+            metadata: {
+                    "name": " ",
+                    "age": 45
+            },
+            paymentMethods: ["ACCOUNT_TRANSFER"],
+           
+            onComplete: function(response){
+                //Implement what happens when transaction is completed.
+
+                console.log(response);
+                console.log(response.transactionReference);
+                var element = document.createElement("input");
+                element.setAttribute("type", "hidden");
+                element.setAttribute("name", "monifyToken");
+                element.setAttribute("value", response.transactionReference);
+                var form = document.getElementById("payment-form");
+                form.appendChild(element);
+                form.submit();
+            },
+
+            onClose: function(data){
+               
+                console.log(data);
+                // alert("Abandon Deposit?");
+
+            }
+        });
+    }
+</script>
+
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/5ebab7a8967ae56c521916ca/default';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+</script>
+
+
+</body>
+
+
+
+
+</html>

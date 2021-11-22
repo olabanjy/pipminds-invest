@@ -1,0 +1,312 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load humanize %}
+{% load mathfilters %}
+
+{% block content %}
+                <!-- content @s -->
+                <div class="nk-content nk-content-fluid">
+                    <div class="container-xl wide-lg">
+                        <div class="nk-content-body">
+                            <div class="nk-block-head nk-block-head-sm">
+                                <div class="nk-block-between">
+                                    <div class="nk-block-head-content">
+                                        <h3 class="nk-block-title page-title">Investment Dashboard</h3>
+                                        <div class="nk-block-des text-soft">
+                                            <p>Welcome to your investment Dashboard </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="nk-block-head-content">
+                                      
+                                            <!-- <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a> -->
+                                           
+                                                <ul class="nk-block-tools g-3">
+                                                    <li><a href="{% url 'investment:plans' %}" class="btn btn-white btn-dim btn-outline-primary"><em class="icon ni ni-signin"></em><span>Invest Now </span></a></li>
+  
+                                                    
+                                                </ul>
+                                       
+                                       
+                                    </div><!-- .nk-block-head-content -->
+                                    
+                                    
+                                </div>
+                            </div>
+                            <div class="nk-block">
+                                
+                                <div class="row g-gs">
+                                    <div class="col-md-4">
+                                        <div class="card card-bordered card-full">
+                                            <div class="card-inner">
+                                                <div class="card-title-group align-start mb-0">
+                                                    <div class="card-title">
+                                                        <h6 class="subtitle">Active  Portfolio </h6>
+                                                    </div>
+                                                    <div class="card-tools">
+                                                        <em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="Portfolio"></em>
+                                                    </div>
+                                                </div> 
+                                                <div class="card-amount">
+                                                    <span class="amount"> {{portfolio|floatformat:'0'|intcomma}} <span class="currency currency-usd">NGN</span>
+                                                    </span>
+              
+                                                </div>
+                                                <div class="invest-data">
+                                                    <div class="invest-data-amount g-2">
+                                                        <div class="invest-data-history">
+                                                            <div class="title">In Dollars  </div>
+                                                            <div class="amount"> {{portfolio|intdiv:dollar_rate_val|floatformat:'0'|intcomma}} <span class="currency currency-usd">USD</span></div>
+                                                        </div>
+                                                       
+                                                    </div>
+                                                    <div class="invest-data-ck">
+                                                        <!-- <canvas class="iv-data-chart" id="totalDeposit"></canvas> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><!-- .card -->
+                                    </div><!-- .col -->
+                                    <div class="col-md-4">
+                                        <div class="card card-bordered card-full">
+                                            <div class="card-inner">
+                                                <div class="card-title-group align-start mb-0">
+                                                    <div class="card-title">
+                                                        <h6 class="subtitle"> Active Invested Funds  </h6>
+                                                    </div>
+                                                    <div class="card-tools">
+                                                        <em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="Total Invested Funds"></em>
+                                                    </div>
+                                                </div>
+                                                <div class="card-amount">
+                                                    <span class="amount">{{user_total_invested_funds|floatformat:'0'|intcomma}} <span class="currency currency-usd">NGN</span>
+                                                    </span>
+              
+                                                </div>
+                                                <div class="invest-data">
+                                                    <div class="invest-data-amount g-2">
+                                                        <div class="invest-data-history">
+                                                            <div class="title">In Dollars</div>
+                                                            <div class="amount">{{user_total_invested_funds|intdiv:dollar_rate_val|floatformat:'0'|intcomma}} <span class="currency currency-usd">USD</span></div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    <div class="invest-data-ck">
+                                                      
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><!-- .card -->
+                                    </div><!-- .col -->
+                                    <div class="col-md-4">
+                                        <div class="card card-bordered  card-full">
+                                            <div class="card-inner">
+                                                <div class="card-title-group align-start mb-0">
+                                                    <div class="card-title">
+                                                        <h6 class="subtitle">Active  Investment Earnings </h6>
+                                                    </div>
+                                                    <div class="card-tools">
+                                                        <em class="card-hint icon ni ni-help-fill" data-toggle="tooltip" data-placement="left" title="Total Investment Earnings"></em>
+                                                    </div>
+                                                </div>
+                                                <div class="card-amount">
+                                                    <span class="amount">{{user_total_profit|floatformat:'0'|intcomma}}<span class="currency currency-usd">NGN</span>
+                                                    </span>
+                                                </div>
+                                                <div class="invest-data">
+                                                    <div class="invest-data-amount g-2">
+                                                        <div class="invest-data-history">
+                                                            <div class="title">In Dollars</div>
+                                                            <div class="amount">{{user_total_profit|intdiv:dollar_rate_val|floatformat:'0'|intcomma}} <span class="currency currency-usd">USD</span></div>
+                                                        </div>
+                                                       
+                                                    </div>
+                                                    <div class="invest-data-ck">
+                                                        <!-- <canvas class="iv-data-chart" id="totalBalance"></canvas> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><!-- .card -->
+                                    </div><!-- .col -->
+
+                                    <div class="col-xl-12 col-xxl-8">
+                                        <div class="card card-bordered card-full">
+                                            <div class="card-inner border-bottom">
+                                                <div class="card-title-group">
+                                                    <div class="card-title">
+                                                        <h6 class="title">Recent Investment</h6>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="nk-tb-list">
+                                                <div class="nk-tb-item nk-tb-head">
+                                                    <div class="nk-tb-col"><span>Plan</span></div>
+                                                    <div class="nk-tb-col tb-col-lg"><span>Started </span></div>
+                                                    <div class="nk-tb-col tb-col-lg"><span>Maturity Date </span></div>
+                                                    <div class="nk-tb-col"><span>Amount</span></div>
+                                                    <div class="nk-tb-col tb-col-sm"><span>Status</span></div>
+                                                    <div class="nk-tb-col"><span>&nbsp;</span></div>
+                                                </div>
+                                                {% if user_investments %}
+                                                {% for investment in  user_investments%}
+                                                <div class="nk-tb-item">
+                                                    
+                                                    <div class="nk-tb-col">
+                                                        <div class="align-center">
+                                                            <div class="user-avatar user-avatar-sm bg-light">
+                                                                <span>{{investment.plan.category.name}}</span>
+                                                            </div>
+                                                            <span class="tb-sub ml-2">{{investment.plan.name}} - {{investment.plan.category.name}}</span>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="nk-tb-col tb-col-lg">
+                                                        <span class="tb-sub">{{investment.created_at}}</span>
+                                                    </div>
+                                                    <div class="nk-tb-col tb-col-lg">
+                                                        <span class="tb-sub">{{investment.maturity_date}}</span>
+                                                    </div>
+
+                                                    <div class="nk-tb-col">
+                                                        <span class="tb-sub tb-amount">{{investment.amount|floatformat:'0'|intcomma}} <span>NGN</span></span>
+                                                    </div>
+                                                    <div class="nk-tb-col tb-col-sm">
+                                                        {% if investment.completed %}
+                                                            {% if investment.has_been_rolled_over %}
+                                                            <span class="tb-sub text-success">Completed</span>
+                                                            {% else %}
+                                                                {% if today >= investment.get_rollover_starts and today <= investment.get_rollover_ends %}
+                                                                <span class="tb-sub text-warning">Idle</span>
+                                                                {% else %}
+                                                                <span class="tb-sub text-success">Completed</span>
+                                                                {% endif %}
+                                                            {% endif %}
+                                                            
+                                                        {% else %}
+                                                        <span class="tb-sub text-blue">Ongoing</span>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="nk-tb-col nk-tb-col-action">
+                                                        <div>
+                                                            {% if investment.completed %}
+                                                                {% if investment.has_been_rolled_over %}
+                                                                <a class="text-soft btn btn-sm btn-icon btn-trigger"><em class="icon ni ni-stop-fill"></em></a>
+                                                                {% else %}
+                                                                    {% if today >= investment.get_rollover_starts and today <= investment.get_rollover_ends %}
+                                                                    <a class="text-soft btn btn-sm btn-icon btn-trigger" href="{% url 'investment:rollover_plans' investment.txn_code %}"><em class="icon ni ni-repeat-v" data-toggle="tooltip" data-placement="left" title="Click to rollover this Investment" ></em></a>
+                                                                    {% else %}
+                                                                    <a class="text-soft btn btn-sm btn-icon btn-trigger"><em class="icon ni ni-stop-fill"></em></a>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                        
+                                                            
+                                                            {% else %}
+                                                            <a class="text-soft btn btn-sm btn-icon btn-trigger" href="{% url 'investment:plan_details' investment.id %}"><em class="icon ni ni-chevron-right"></em></a>
+                                                            {% endif %}
+                                                            
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                                {% endfor %}
+                                                {% endif %}
+                                            
+                                            </div>
+                                        </div><!-- .card -->
+                                    </div>
+
+
+                                    {% if user_payouts %}
+
+
+                                    <div class="col-xl-12 col-xxl-8">
+                                        <div class="card card-bordered card-full">
+                                            <div class="card-inner border-bottom">
+                                                <div class="card-title-group">
+                                                    <div class="card-title">
+                                                        <h6 class="title">Recent ROI Payments </h6>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="nk-tb-list">
+                                                <div class="nk-tb-item nk-tb-head">
+                                                    <div class="nk-tb-col"><span>Transaction Code</span></div>
+                                                    <div class="nk-tb-col tb-col-lg"><span>Remark </span></div>
+                                                    <div class="nk-tb-col tb-col-lg"><span> Date Initiated </span></div>
+                                                    <div class="nk-tb-col"><span>Amount</span></div>
+                                                    <div class="nk-tb-col"><span>Destination</span></div>
+                                                    <div class="nk-tb-col tb-col-sm"><span>Status</span></div>
+                                                    <div class="nk-tb-col"><span>&nbsp;</span></div>
+                                                </div>
+                                                
+                                                {% for payout in  user_payouts%}
+                                                <div class="nk-tb-item">
+                                                    
+                                                    <div class="nk-tb-col">
+                                                        <div class="align-center">
+                                                            
+                                                            <span class="tb-sub ml-2">{{payout.txn_code}}</span>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="nk-tb-col tb-col-lg">
+                                                        <span class="tb-sub">{{payout.remark}}</span>
+                                                    </div>
+                                                    <div class="nk-tb-col tb-col-lg">
+                                                        <span class="tb-sub">{{payout.created_at|naturaltime}}</span>
+                                                    </div>
+
+                                                    <div class="nk-tb-col">
+                                                        <span class="tb-sub tb-amount">{{payout.amount|floatformat:'0'|intcomma}} <span>NGN</span></span>
+                                                    </div>
+                                                    <div class="nk-tb-col">
+                                                        {% if payout.destination == 'bank_account' %}
+                                                        <span class="tb-sub tb-amount">Bank Account </span>
+                                                        {% elif payout.destination == 'investment_wallet' %}
+                                                        <span class="tb-sub tb-amount">Investment Wallet</span>
+                                                        {% elif payout.destination == 'referral_wallet' %}
+                                                        <span class="tb-sub tb-amount">Referral Wallet</span>
+                                                       {% endif %}
+                                                    </div>
+                                                    <div class="nk-tb-col tb-col-sm">
+                                                        {% if payout.status == 'approved' %}
+                                                        <span class="tb-sub text-success">Completed</span>
+                                                        {% elif payout.status == 'pending' %}
+                                                        <span class="tb-sub text-blue">Pending</span>
+                                                        {% elif payout.status == 'cancelled' %}
+                                                        <span class="tb-sub text-danger">Cancelled</span>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="nk-tb-col nk-tb-col-action">
+                                                        <div>
+                                                            <a class="text-soft btn btn-sm btn-icon btn-trigger" href="#"><em class="icon ni ni-chevron-right"></em></a>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                                {% endfor %}
+                                               
+                                            
+                                            </div>
+                                        </div><!-- .card -->
+                                    </div>
+
+
+
+                                    {% endif %}
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- content @e -->
+                <!-- footer @s -->
+              {% endblock content %}

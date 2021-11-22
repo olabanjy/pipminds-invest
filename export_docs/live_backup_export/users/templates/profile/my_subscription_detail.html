@@ -1,0 +1,384 @@
+
+
+{% extends 'home/base.html' %}
+
+{% load static %}
+{% load humanize %}
+{% load mathfilters %}
+
+
+{% block content %}
+
+
+
+ <div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-lg">
+        <div class="nk-content-body">
+            <div class="nk-block-head nk-block-head-sm">
+               
+                <div class="nk-block-between">
+                    <div class="nk-block-head-content">
+                        <h3 class="nk-block-title page-title">Pipminds Partners Program </h3>
+                       
+                    </div>
+
+                    <!-- <div class="nk-block-head-content">
+                        <ul class="nk-block-tools justify-content-md-end g-4 flex-wrap">
+                            
+                            <li>
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" class="custom-control-input" checked="" id="auto-plan-p1">
+                                    <label class="custom-control-label text-soft" for="auto-renew">Auto Renew</label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div> -->
+
+                   
+                    
+                    
+                </div>
+            </div>
+
+            {% if not request.user.profile.pioneer_ppp_member %}
+
+            <div class="nk-block">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card card-bordered">
+                            <div class="card-inner-group">
+
+                                
+                                <div class="card-inner">
+                                    <div class="sp-plan-head">
+                                        <h6 class="title">Membership  Details</h6>
+                                    </div> <br>
+                                    <div class="sp-plan-desc sp-plan-desc-mb">
+                                        <ul class="row gx-1">
+                                            <li class="col-sm-4">
+                                                <p><span class="text-soft"> Name <br> </span> Pipminds Partners Program</p>
+                                            </li>
+                                            <li class="col-sm-4">
+                                                <p><span class="text-soft">Price  <br> </span> NGN50,000 /Year</p>
+                                            </li>
+                                            <li class="col-sm-4">
+                                                <p><span class="text-soft">Access <br> </span> Coperate Investment Pool </p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-inner">
+                                    <div class="sp-plan-head">
+                                        <h6 class="title">Payment  Details</h6>
+                                    </div> <br>
+                                    <div class="sp-plan-desc sp-plan-desc-mb">
+                                        <ul class="row gx-1">
+                                            <li class="col-sm-4">
+                                                <p><span class="text-soft">Method <br> </span> Card Payment </p>
+                                            </li>
+                                            {% if not user_sub %}
+                                            <li class="col-sm-4">
+                                                <p><span class="text-soft">Status <br> </span> Not Active </p>
+                                            </li>
+                                            <li class="col-sm-4 cc-pay-btn">
+                                        
+                                                <button data-toggle="modal" data-target="#ppp_not_available" class="btn btn-secondary" ><span>Pay Now </span><em class="icon ni ni-arrow-long-right"></em> </button>
+
+                                                <!-- <form id="payment-form" action="#" method="POST">
+                                                    {% csrf_token %}
+                                                    <script src="https://checkout.flutterwave.com/v3.js"></script>
+
+                                                    <input id="pay-price" type="hidden" value="{{premium_sub.price}}">
+                                                    
+                                                    <input id="pay-email" type="hidden" value="{{request.user.email}}">
+
+                                                    <input id="pay-phone" type="hidden" value="{{request.user.profile.phone}}">
+
+                                                    <input type="hidden" value="{{request.user.profile.first_name}} {{request.user.profile.last_name}}" id="pay-name">
+
+                                                    <li class="cc-pay-btn">
+                                                        <button type="button" onclick="makePayment()" class="btn btn-secondary"><span>Pay Now</span> <em class="icon ni ni-arrow-long-right"></em></button>
+                                                    </li>
+                                                </form> -->
+
+                                            </li>
+                                            {% else %}
+                                            <li class="col-sm-4">
+                                                <p><span class="text-soft">Status <br> </span> Active & Running  </p>
+                                            </li>
+                                            
+                                            {% endif %}
+                                            
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="card-inner">
+                                    <div class="sp-plan-head-group">
+                                        <div class="sp-plan-head">
+                                            <h6 class="title">Subscription Details  </h6>
+                                            
+                                        </div>
+                                        
+                                    </div> <br>
+                                  
+                                    {% if user_sub %}
+                                    <div class="sp-plan-desc sp-plan-desc-mb">
+                                        <ul class="row gx-1">
+                                            <li class="col-sm-4">
+                                                <p><span class="text-soft">Subscription ID   <br> </span> {{user_sub.paystack_subscription_id}}</p>
+                                            </li>
+                                            <li class="col-sm-4">
+                                                <p><span class="text-soft">Started On <br> </span> {{user_sub.get_created_date}}</p>
+                                            </li>
+                                            
+                                            <li class="col-sm-4">
+                                                <p><span class="text-soft">Next Billing Date  <br> </span>  {{user_sub.get_next_billing_date}}  </p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    {% else %}
+                                    <div class="sp-plan-desc sp-plan-desc-mb">
+                                        <ul class="row gx-1">
+                                            <li class="col-sm-4">
+                                                <p><span class="text-soft">Subscription ID   <br> </span> Not Available </p>
+                                            </li>
+                                            <li class="col-sm-4">
+                                                <p><span class="text-soft">Started On <br> </span> Not Available </p>
+                                            </li>
+                                            
+                                            <li class="col-sm-4">
+                                                <p><span class="text-soft">Next Billing Date  <br> </span>  Not Available   </p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    {% endif %}
+                                    
+
+
+                                </div><!-- .card-inner -->
+                                <div class="card-inner">
+                                    
+                                </div><!-- .card-inner -->
+                            </div><!-- .card-inner-group -->
+                        </div><!-- .card -->
+                    </div>
+
+
+
+
+                </div>
+            </div>
+            {% else %}
+
+            <div class="nk-block">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card card-bordered">
+                            <div class="card-inner-group">
+
+                                
+                                <div class="card-inner">
+                                    <div class="sp-plan-head">
+                                        <h6 class="title">Membership  Details</h6>
+                                    </div> <br>
+                                    <div class="sp-plan-desc sp-plan-desc-mb">
+                                        <ul class="row gx-1">
+                                            <li class="col-sm-4">
+                                                <p><span class="text-soft"> Name <br> </span> Pipminds Partners Program</p>
+                                            </li>
+                                            <li class="col-sm-4">
+                                                <p><span class="text-soft">Price  <br> </span> NGN50,000 /Year</p>
+                                            </li>
+                                            <li class="col-sm-4">
+                                                <p><span class="text-soft">Access <br> </span> Coperate Investment Pool </p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-inner">
+                                    <div class="sp-plan-head">
+                                        <h6 class="title">Payment  Details</h6>
+                                    </div> <br>
+                                    <div class="sp-plan-desc sp-plan-desc-mb">
+                                        <ul class="row gx-1">
+                                            <li class="col-sm-6">
+                                                <p><span class="text-soft">Method <br> </span> Card Payment </p>
+                                            </li>
+                                        
+                                            <li class="col-sm-6">
+                                                <p><span class="text-soft">Status <br> </span> Active & Running  </p>
+                                            </li>
+                                            
+                                            
+                                            
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="card-inner">
+                                    <div class="sp-plan-head-group">
+                                        <div class="sp-plan-head">
+                                            <h6 class="title">Subscription Details  </h6>
+                                            
+                                        </div>
+                                        
+                                    </div> <br>
+                                  
+                                 
+                                
+                                    <div class="sp-plan-desc sp-plan-desc-mb">
+                                        <ul class="row gx-1">
+                                            <li class="col-sm-4">
+                                                <p><span class="text-soft">Subscription ID   <br> </span> Not Available </p>
+                                            </li>
+                                            <li class="col-sm-4">
+                                                <p><span class="text-soft">Started On <br> </span> {{request.user.profile.created_at}} </p>
+                                            </li>
+                                            
+                                            <li class="col-sm-4">
+                                                <p><span class="text-soft">Next Billing Date  <br> </span>  {{request.user.profile.pioneer_ppp_reg_expires}}  </p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                              
+                                    
+
+
+                                </div><!-- .card-inner -->
+                                <div class="card-inner">
+                                    
+                                </div><!-- .card-inner -->
+                            </div><!-- .card-inner-group -->
+                        </div><!-- .card -->
+                    </div>
+
+
+
+
+                </div>
+            </div>
+
+            {% endif %}
+
+
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+{% block modals %}
+
+<div class="modal fade zoom" tabindex="-1" id="ppp_not_available">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body modal-body-lg text-center">
+                <div class="nk-modal">
+                    <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-alert-c bg-danger"></em>
+                    <h4 class="nk-modal-title">PPP Registration Suspended</h4>
+                    <div class="nk-modal-text">
+                        <p class="lead"> Dear {{request.user.profile.first_name}} {{request.user.profile.last_name}}  </p>
+                        <p class="lead">Please be informed that registration to Pipminds Partners Program has been placed on hold, hence, we are currently not processing any new registrations into the Pipminds Partners Program. You will be notified as soon as registration resumes.</p>
+                        <p class="text-soft">If you need help please contact us at +2349010636070.</p>
+                    </div>
+                    <div class="nk-modal-action mt-5">
+                        <a href="#" class="btn btn-lg btn-mw btn-light" data-dismiss="modal">Return to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade zoom" tabindex="-1" id="ppp_under_maintenance">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body modal-body-lg text-center">
+                <div class="nk-modal">
+                    <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-alert-c bg-danger"></em>
+                    <h4 class="nk-modal-title">PPP Will Be Back Soon </h4>
+                    <div class="nk-modal-text">
+                        <p class="lead"> Dear {{request.user.profile.first_name}} {{request.user.profile.last_name}}  </p>
+                        <p class="lead">Please be informed that registration to Pipminds Partners Program is currently under maintenance. We will be back shortly! </p>
+                        <p class="text-soft">If you need help please contact us at +2349010636070.</p>
+                    </div>
+                    <div class="nk-modal-action mt-5">
+                        <a href="#" class="btn btn-lg btn-mw btn-light" data-dismiss="modal">Return to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+
+
+
+{% endblock modals %}
+
+
+
+{% block extra_scripts %}
+
+
+
+
+<script>
+
+var formm = $("#payment-form");
+formm.addEventListener("submit", function (event) {
+    event.preventDefault();
+});
+
+function makePayment() {
+    FlutterwaveCheckout({
+    public_key: "FLWPUBK-aa9002e07f6f439c1589cf171571a746-X",
+    // public_key: "FLWPUBK_TEST-a5ff4ae51736c51994d32a4c8f1a938e-X",
+    tx_ref: '' + Math.floor((Math.random() * 1000000000) + 1),
+    amount: $("input#pay-price").val(),
+    currency: "NGN",
+    country: "NG",
+    payment_options: "card,mobilemoney,ussd",
+    customer: {
+        email: $("input#pay-email").val(),
+        phone_number: $("input#pay-phone").val(),
+        name: $("input#pay-name").val(),
+    },
+    callback: function (data) { // specified callback function
+        console.log(data.transaction_id);
+        console.log(data);
+
+       
+        var element = document.createElement("input");
+        element.setAttribute("type", "hidden");
+        element.setAttribute("name", "flutterTranxID");
+        element.setAttribute("value", data.transaction_id);
+        var form = document.getElementById("payment-form");
+        form.appendChild(element);
+
+        var element2 = document.createElement("input");
+        element2.setAttribute("type", "hidden");
+        element2.setAttribute("name", "flutterTranxRef");
+        element2.setAttribute("value", data.tx_ref);
+        var form = document.getElementById("payment-form");
+        form.appendChild(element2);
+
+        form.submit()
+    },
+    customizations: {
+        title: "PPP Subscription",
+        description: "PPP Membership Subscribtion",
+        // logo: "https://assets.piedpiper.com/logo.png",
+        logo: "https://imaginariumng.com/email_images/michael/Icon.png",
+    },
+    });
+}
+
+</script>
+
+
+
+{% endblock extra_scripts %}

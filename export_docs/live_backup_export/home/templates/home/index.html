@@ -1,0 +1,328 @@
+{% extends 'home/base.html' %}
+
+{% load static %}
+{% load humanize %}
+{% load mathfilters %}
+
+
+{% block content %}
+                <!-- content @s -->
+                <div class="nk-content nk-content-fluid">
+                    <div class="container-xl wide-lg">
+                        <div class="nk-content-body">
+                            <div class="nk-block-head nk-block-head-sm">
+                                <div class="nk-block-between">
+                                    <div class="nk-block-head-content">
+                                        <h3 class="nk-block-title page-title">{{request.user.profile.first_name}} {{request.user.profile.last_name}}</h3>
+                                        <div class="nk-block-des text-soft">
+                                            <p>Welcome to Pipminds Investment Platform.</p>
+                                        </div>
+                                        <h6 style="color: red;">User ID: {{request.user.profile.user_code}}</h6>
+                                        
+                                    </div><!-- .nk-block-head-content -->
+                                  
+                                </div><!-- .nk-block-between -->
+                            </div><!-- .nk-block-head -->
+                            <div class="nk-block">
+                                <div class="row g-gs">
+                                    <div class="col-lg-8">
+                                        <div class="card card-bordered h-100">
+                                            <div class="card-inner">
+                                                <div class="card-title-group align-start mb-3">
+                                                    <div class="card-title">
+                                                        <h6 class="title">Portfolio Overview</h6>
+                                                        <p>At a glance summary of your account. Have fun!</p>
+                                                    </div>
+                                                    
+                                                </div><!-- .card-title-group -->
+                                                <div class="nk-order-ovwg">
+                                                    <div class="row g-4 align-end">
+                                                        <div class="col-xxl-8">
+                                                            <div class="align-end gy-3 gx-5 flex-wrap flex-md-nowrap flex-lg-wrap flex-xxl-nowrap">
+                                                                <div class="nk-sale-data-group flex-md-nowrap g-4">
+                                                                    <div class="nk-sale-data">
+                                                                        <span class="amount">{{portfolio|floatformat:'0'|intcomma}} <span><em class="currenct currency-usd"></em>NGN</span></span>
+                                                                        <span class="sub-title">Sum of invested and earnings </span>
+                                                                    </div>
+                                                                    
+                                                                </div>
+                                                                
+                                                            </div>
+                                                        </div><!-- .col -->
+                                                        <div class="col-xxl-4">
+                                                            <div class="row g-4">
+                                                                <div class="col-sm-6 col-xxl-12">
+                                                                    <div class="nk-order-ovwg-data buy">
+                                                                        <div class="amount">{{user_total_invested_funds|floatformat:'0'|intcomma}} <small class="currenct currency-usd">NGN</small></div>
+                                                                        <div class="info"><strong>{{user_total_invested_funds|intdiv:dollar_rate_val|floatformat:'0'|intcomma}} <span class="currenct currency-usd">USD</span></strong></div>
+                                                                        <div class="title"><em class="icon ni ni-arrow-down-left"></em> Invested Portfolio</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-6 col-xxl-12">
+                                                                    <div class="nk-order-ovwg-data sell">
+                                                                        <div class="amount">{{user_total_profit|floatformat:'0'|intcomma}} <small class="currenct currency-usd">NGN</small></div>
+                                                                        <div class="info"><strong>{{user_total_profit|div:dollar_rate_val|floatformat:'0'|intcomma}} <span class="currenct currency-usd">USD</span></strong></div>
+                                                                        <div class="title"><em class="icon ni ni-arrow-up-left"></em> Earning Portfolio </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div><!-- .col -->
+                                                    </div>
+                                                </div><!-- .nk-order-ovwg -->
+                                            </div><!-- .card-inner -->
+                                        </div><!-- .card -->
+                                    </div><!-- .col -->
+                                    <div class="col-lg-4">
+                                        <div class="card card-bordered h-100">
+                                            <div class="card-inner-group">
+                                                <div class="card-inner card-inner-md">
+                                                    <div class="card-title-group">
+                                                        <div class="card-title">
+                                                            <h6 class="title">Action Center</h6>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                                {% if not request.user.profile.ppp_verfied %}
+                                                <div class="card-inner">
+                                                    <div class="nk-wg-action">
+                                                        <div class="nk-wg-action-content">
+                                                            <em class="icon ni ni-users-fill"></em>
+                                                            <div class="title">Become a Partner</div>
+                                                            <p>Refer your friends and earn a percentage from their investments </p>
+                                                        </div> 
+                                                        <a href="{% url 'users:ppp-dashboard' %}" class="btn btn-icon btn-trigger mr-n2"><em class="icon ni ni-forward-ios"></em></a>
+                                                    </div>
+                                                </div> 
+                                                {% endif %}
+                                                <div class="card-inner">
+                                                    <div class="nk-wg-action">
+                                                        <div class="nk-wg-action-content">
+                                                            <em class="icon ni ni-book-fill"></em>
+                                                            <div class="title">Coming Soon</div>
+                                                            <p>Pipminds Academy in the pipline. Get early access  </p>
+                                                        </div>
+                                                        <a href="#" class="btn btn-icon btn-trigger mr-n2"><em class="icon ni ni-forward-ios"></em></a>
+                                                    </div>
+                                                </div><!-- .card-inner -->
+                                                <div class="card-inner">
+                                                    <div class="nk-wg-action">
+                                                        <div class="nk-wg-action-content">
+                                                            <em class="icon ni ni-signal"></em>
+                                                            <div class="title">Executive Trade House </div>
+                                                            <p>Maximize your earning chances with Executive Trade House </p>
+                                                        </div>
+                                                        <a href="#" class="btn btn-icon btn-trigger mr-n2"><em class="icon ni ni-forward-ios"></em></a>
+                                                    </div>
+                                                </div><!-- .card-inner -->
+                                            </div><!-- .card-inner-group -->
+                                        </div><!-- .card -->
+                                    </div><!-- .col -->
+                                    <div class="col-xl-7 col-xxl-8">
+                                        <div class="card card-bordered card-full">
+                                            <div class="card-inner">
+                                                <div class="card-title-group">
+                                                    <div class="card-title">
+                                                        <h6 class="title"><span class="mr-2">Transactions </span></h6>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div><!-- .card-inner -->
+                                            <div class="card-inner p-0 border-top">
+                                                <div class="nk-tb-list nk-tb-orders">
+                                                    <div class="nk-tb-item nk-tb-head">
+                                                        <div class="nk-tb-col nk-tb-orders-type"><span>Type</span></div>
+                                                        <div class="nk-tb-col"><span>Desc</span></div>
+                                                        <div class="nk-tb-col tb-col-sm"><span>Date</span></div>
+                                                        <div class="nk-tb-col tb-col-xxl"><span>Time</span></div>
+                                                        <div class="nk-tb-col tb-col-xxl"><span>Ref</span></div>
+                                                        <div class="nk-tb-col text-right"><span>Amount</span></div>
+                                                        <div class="nk-tb-col text-right"><span>Status </span></div>
+                                                    </div><!-- .nk-tb-item -->
+
+                                                    {% if deposit_trans %}
+                                                    {% for tran in deposit_trans %}
+                                                    <div class="nk-tb-item">
+                                                        <div class="nk-tb-col nk-tb-orders-type">
+                                                            <ul class="icon-overlap">
+                                                                <li><em class="bg-btc-dim icon-circle icon ni ni-sign-kobo-alt"></em></li>
+                                                                <li><em class="bg-success-dim icon-circle icon ni ni-arrow-down-left"></em></li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="nk-tb-col">
+                                                            <span class="tb-lead">Deposit</span>
+                                                        </div>
+                                                        <div class="nk-tb-col tb-col-sm">
+                                                            <span class="tb-sub">{{tran.created_at}}</span>
+                                                        </div>
+                                                       
+                                                        <div class="nk-tb-col tb-col-xxl">
+                                                            <span class="tb-sub text-primary">{{tran.txn_code}}</span>
+                                                        </div>
+                                                       
+                                                        <div class="nk-tb-col text-right">
+                                                            <span class="tb-sub tb-amount ">{{tran.amount|intcomma}} <span>NGN</span></span>
+                                                        </div>
+                                                        <div class="nk-tb-col text-right">
+                                                            {% if tran.status == "approved" %}
+                                                            <span class="user-status user-status-verified"><span>Approved </span></span>
+                                                            {% elif tran.status == "pending" %}
+                                                            <span class="user-status user-status-unverified"> <span>Pending  </span></span>
+                                                            {% elif tran.status == "cancelled" %}
+                                                            <span class="user-status user-status-unverified"> <span>Cancelled  </span></span>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                    {% endfor %}
+                                                    {% endif %}
+
+                                                    {% if withdrawal_trans %}
+                                                    {% for tran in withdrawal_trans %}
+                                                    <div class="nk-tb-item">
+                                                        <div class="nk-tb-col nk-tb-orders-type">
+                                                            <ul class="icon-overlap">
+                                                                <li><em class="bg-btc-dim icon-circle icon ni ni-sign-kobo-alt"></em></li>
+                                                                <li><em class="bg-success-dim icon-circle icon ni ni-arrow-up-right"></em></li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="nk-tb-col">
+                                                            <span class="tb-lead">Withdrawal</span>
+                                                        </div>
+                                                        <div class="nk-tb-col tb-col-sm">
+                                                            <span class="tb-sub">{{tran.created_at}}</span>
+                                                        </div>
+                                                       
+                                                        <div class="nk-tb-col tb-col-xxl">
+                                                            <span class="tb-sub text-primary">{{tran.txn_code}}</span>
+                                                        </div>
+                                                       
+                                                        <div class="nk-tb-col text-right">
+                                                            <span class="tb-sub tb-amount ">{{tran.amount|intcomma}} <span>NGN</span></span>
+                                                        </div>
+                                                        <div class="nk-tb-col text-right">
+                                                            {% if tran.status == "approved" %}
+                                                            <span class="user-status user-status-verified"><span>Approved </span></span>
+                                                            {% elif tran.status == "pending" %}
+                                                            <span class="user-status user-status-unverified"> <span>Pending  </span></span>
+                                                            {% elif tran.status == "cancelled" %}
+                                                            <span class="user-status user-status-unverified"> <span>Cancelled  </span></span>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                    {% endfor %}
+                                                    {% endif %}
+
+                                                </div>
+                                            </div><!-- .card-inner -->
+                                            
+                                        </div><!-- .card -->
+                                    </div><!-- .col -->
+                                    <div class="col-xl-5 col-xxl-4">
+                                        <div class="row g-gs">
+
+                                            <div class="col-md-6 col-lg-12">
+                                                <div class="card card-bordered card-full">
+                                                    <div class="card-inner">
+                                                        <div class="card-title-group align-start mb-3">
+                                                            <div class="card-title">
+                                                                <h6 class="title">Pipminds Partnership Program</h6>
+                                                                <p>Status   <em class="icon ni ni-info" data-toggle="tooltip" data-placement="right" title="Referral information"></em></p>
+                                                            </div>
+                                                            <div class="card-tools mt-n1 mr-n1">
+                                                                
+                                                            </div>
+                                                        </div>
+                                                        {% if request.user.profile.ppp_verfied %}
+                                                        <div class="user-activity-group g-4">
+
+                                                            <div class="user-activity">
+                                                                <em class="icon ni ni-users"></em>
+                                                                <div class="info">
+                                                                    <span class="amount">{{request.user.profile.user_code}}</span>
+                                                                    
+                                                                </div>
+                                                            </div> 
+                                                        
+                                                        
+                                                        </div>
+                                                        {% else %}
+                                                        <div class="user-activity-group g-4">
+
+                                                            <div class="user-activity">
+                                                                <em class="icon ni ni-users"></em>
+                                                                <div class="info">
+                                                                    <a href="{% url 'users:subscription-detail' %}"> Join PPP Now </a>
+                                                                    
+                                                                </div>
+                                                            </div> 
+                                                        
+                                                        
+                                                        </div>
+
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="user-activity-ck">
+                                                        
+                                                    </div>
+                                                </div><!-- .card -->
+                                            </div><!-- .col -->
+                                        </div><!-- .row -->
+                                    </div><!-- .col -->
+                                </div><!-- .row -->
+                            </div><!-- .nk-block -->
+                        </div>
+                    </div>
+                </div>
+                <!-- content @e -->
+              {% endblock content %}
+
+
+
+{% block modals %}
+
+<div  class="modal fade" tabindex="-1" id="announcementModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> HOW TO MIGRATE FROM CIP TO HIP PACKAGE</h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+                <p>Dear {% if request.user.profile.first_name %} {{request.user.profile.first_name}} {% else %} {{request.user.email}} {% endif %} </p>
+                <p> We noticed that some of our customers are having some difficulty migrating their portfolio over to the Hedge Investment Fund Package (HIP). </p>
+                <p>Below is a step-by-step guide on how to do that. <br>
+                   
+                    <ul class="list list-sm">
+                        <li>Log Into your Pipminds Account.</li>
+                        <li>Click on “Investment Dashboard” in the menu bar</li>
+                        <li>At the top right of the screen, click on “Invest now”</li>
+                        <li>Select your preferred HIP plan</li>
+                        <li>Fill in the required details and click “Confirm” to proceed.</li>
+                    </ul>
+                    
+                </p>
+                
+            </div>
+            <div style="text-align: center;" class="modal-footer bg-light">
+                <span class="sub-text">For more information, kindly send us a mail on: <a href="mailto:hello@pipminds.com"> <strong> hello@pipminds.com </strong></a> , call our customer care service on: <a href="tel:+2349010636070 "> <strong>+2349010636070 </strong></a> or <a href="https://tawk.to/chat/6092d7b5b1d5182476b5fd8d/1f4upl96n" target="_blank"> <strong>Click Here </strong>  </a> to chat with us now! </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock modals %}
+
+
+{% block extra_scripts %}
+
+<script type="text/javascript">
+    $(function () {
+        $('#announcementModal').modal('show');
+    });
+
+</script>
+
+{% endblock extra_scripts %}

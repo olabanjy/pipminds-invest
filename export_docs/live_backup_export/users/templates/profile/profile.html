@@ -1,0 +1,239 @@
+{% extends 'profile/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+                            <div class="nk-content-body">
+                                <div class="nk-content-wrap">
+                                    <div class="nk-block-head">
+                                        <div class="nk-block-head-content">
+                                            <div class="nk-block-head-sub"><span>Account Setting</span></div>
+                                            <h2 class="nk-block-title fw-normal">My Profile</h2>
+                                            <div class="nk-block-des">
+                                                <p>You have full control to manage your own account setting. <span class="text-primary"><em class="icon ni ni-info"></em></span></p>
+                                            </div>
+                                        </div>
+                                    </div><!-- .nk-block-head -->
+                                    <ul class="nk-nav nav nav-tabs">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" href="{% url 'users:profile-settings' %}">Personal</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'account_change_password' %}">Change Password</a>
+                                        </li>
+                                       
+                                        
+                                    </ul><!-- nav-tabs -->
+                                    <div class="nk-block">
+                                        <div class="nk-block-head">
+                                            <div class="nk-block-head-content">
+                                                <h5 class="nk-block-title">Personal Information</h5>
+                                                <div class="nk-block-des">
+                                                    <p>Basic info, like your name and address, that you use on Pipminds Platform.</p>
+                                                </div>
+                                            </div>
+                                        </div><!-- .nk-block-head -->
+                                        <div class="card card-bordered">
+                                            <div class="nk-data data-list">
+                                                <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                                                    <div class="data-col">
+                                                        <span class="data-label">First Name</span>
+                                                        <span class="data-value">{{request.user.profile.first_name}}</span>
+                                                    </div>
+                                                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                                                </div>
+                                                <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                                                    <div class="data-col">
+                                                        <span class="data-label">Last Name</span>
+                                                        <span class="data-value">{{request.user.profile.last_name}}</span>
+                                                    </div>
+                                                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                                                </div>
+                                                <div class="data-item">
+                                                    <div class="data-col">
+                                                        <span class="data-label">Email</span>
+                                                        <span class="data-value">{{request.user.email}}</span>
+                                                    </div>
+                                                    <div class="data-col data-col-end"><span class="data-more disable"><em class="icon ni ni-lock-alt"></em></span></div>
+                                                </div>
+
+                                                <div class="data-item">
+                                                    <div class="data-col">
+                                                        <span class="data-label">Referral Code</span>
+                                                        <span class="data-value">{{request.user.profile.user_code}}</span>
+                                                    </div>
+                                                    <div class="data-col data-col-end"><span class="data-more disable"><em class="icon ni ni-lock-alt"></em></span></div>
+                                                </div><!-- .data-item -->
+
+                                                <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                                                    <div class="data-col">
+                                                        <span class="data-label">Phone Number</span>
+                                                        <span class="data-value text-soft">{{request.user.profile.phone}}</span>
+                                                    </div>
+                                                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                                                </div><!-- .data-item -->
+                                                <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                                                    <div class="data-col">
+                                                        <span class="data-label">Date of Birth</span>
+                                                        <span class="data-value">{{request.user.profile.dob}}</span>
+                                                    </div>
+                                                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                                                </div><!-- .data-item -->
+                                                <div class="data-item" data-toggle="modal" data-target="#profile-edit">
+                                                    <div class="data-col">
+                                                        <span class="data-label">Address</span>
+                                                        <span class="data-value">{{request.user.profile.address_1}}<br>{{request.user.profile.address_2}}</span>
+                                                    </div>
+                                                    <div class="data-col data-col-end"><span class="data-more"><em class="icon ni ni-forward-ios"></em></span></div>
+                                                </div><!-- .data-item -->
+                                            </div><!-- .nk-data -->
+                                        </div><!-- .card -->
+                                        <!-- Another Section -->
+                                       
+
+
+
+                                    </div><!-- .nk-block -->
+                                </div>
+                                <!-- footer @s -->
+                                <div class="nk-footer">
+                                    <div class="container wide-xl">
+                                        <div class="nk-footer-wrap g-2">
+                                            <div class="nk-footer-copyright"> &copy; 2020 Pipminds.
+                                            </div>
+                                            <div class="nk-footer-links">
+                                                <ul class="nav nav-sm">
+                                                    <li class="nav-item"><a class="nav-link" href="#">Terms</a></li>
+                                                    <li class="nav-item"><a class="nav-link" href="#">Privacy</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- footer @e -->
+                            </div>
+
+
+{% endblock content %}
+
+
+{% block modals %}
+             
+        <!-- main @e -->
+        <!-- @@ Profile Edit Modal @e -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="profile-edit">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <a href="#" class="close" data-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
+                    <div class="modal-body modal-body-lg">
+                        <h5 class="title">Update Profile</h5>
+                        <ul class="nk-nav nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#personal">Personal</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#address">Address</a>
+                            </li>
+                        </ul><!-- .nav-tabs -->
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="personal">
+                                <form action="{% url 'users:profile-settings' %}" method="POST">
+                                <div class="row gy-4">  
+                                    {% csrf_token %}
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label" for="first-name">First Name</label>
+                                            {{p_form.first_name}}
+                                            <!-- <input type="text" class="form-control form-control-lg" id="first-name" value="Abu Bin Ishtiyak" placeholder="Enter Full name"> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label" for="last-name">Last Name</label>
+                                            {{p_form.last_name}}
+                                            <!-- <input type="text" class="form-control form-control-lg" id="last-name" value="Ishtiyak" placeholder="Enter display name"> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label" for="phone-no">Phone Number</label>
+                                            {{p_form.phone}}
+                                            <!-- <input type="text" class="form-control form-control-lg" id="phone-no" value="+880" placeholder="Phone Number"> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label" for="birth-day">Date of Birth</label>
+                                            {{p_form.dob}}
+                                            <!-- <input type="text" class="form-control form-control-lg date-picker" id="birth-day"> -->
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="col-12">
+                                        <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
+                                            <li>
+                                                <button type="submit" class="btn btn-lg btn-primary">Update Profile</button>
+                                            </li>
+                                            <li>
+                                                <a href="#" data-dismiss="modal" class="link link-light">Cancel</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                
+
+                                </div>
+                            </form>
+                            </div><!-- .tab-pane -->
+
+
+
+                            <div class="tab-pane" id="address">
+                                <form action="{% url 'users:profile-settings' %}" method="POST">
+                                    {% csrf_token %}
+                                <div class="row gy-4">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label" for="address-l1">Address Line 1</label>
+                                           {{a_form.address_1}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label" for="address-l2">Address Line 2</label>
+                                            {{a_form.address_2}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label" for="address-st">State</label>
+                                            {{a_form.state}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="form-label" for="address-county">Country</label>
+                                            {{a_form.nationality}}
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
+                                            <li>
+                                                <button type="submit" class="btn btn-lg btn-primary">Update Address</button>
+                                            </li>
+                                            <li>
+                                                <a href="#" data-dismiss="modal" class="link link-light">Cancel</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </form>
+                            </div><!-- .tab-pane -->
+                        </div><!-- .tab-content -->
+                    </div><!-- .modal-body -->
+                </div><!-- .modal-content -->
+            </div><!-- .modal-dialog -->
+        </div><!-- .modal -->
+
+     {% endblock modals %}

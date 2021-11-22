@@ -1,0 +1,268 @@
+{% load static %}
+{% load humanize %}
+
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="author" content="Olushola Albert">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Pipminds Investment Platform">
+    <!-- Fav Icon  -->
+    <!-- <link rel="shortcut icon" href="./images/favicon.png"> -->
+    <!-- Page Title  -->
+    <title>Confirm Order | Fund Wallet</title>
+    <!-- StyleSheets  -->
+    <link rel="stylesheet" href="{% static 'assets/css/wallet_dashlite.css' %}">
+    <link id="skin-default" rel="stylesheet" href="{% static 'assets/css/theme.css' %}">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3YN97TPDLC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3YN97TPDLC');
+</script>
+
+<script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window,document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+     fbq('init', '2227317817403128'); 
+    fbq('track', 'PageView');
+</script>
+<noscript>
+    <img height="1" width="1" 
+src="https://www.facebook.com/tr?id=2227317817403128&ev=PageView
+&noscript=1"/>
+</noscript>
+
+
+
+<style type="text/css">
+    #list > li { margin-top: 0  !important; margin-bottom: 0 !important;  padding-top: 0 !important; padding-bottom:0  !important; }
+</style>
+
+</head>
+
+<body class="nk-body bg-white npc-general pg-auth">
+    <div class="nk-app-root">
+        <!-- main @s -->
+        <div class="nk-main ">
+            <!-- wrap @s -->
+            <div class="nk-wrap nk-wrap-nosidebar">
+                <!-- content @s -->
+                <div class="nk-content ">
+                    <div class="nk-block nk-block-middle nk-auth-body">
+                        
+                        
+
+                        <div class="nk-block">
+
+                         
+                                
+                                <a   href="{% url 'wallet:dashboard' %}"  class="btn btn-block bg-light"> Return to Dashboard  </a>
+                          
+                            <div class="buysell-overview">
+                                
+                                
+                                <ul class="buysell-overview-list">
+                                    <form method="POST" enctype="multipart/form-data" >
+                                        {% csrf_token %}
+                                    <div style="text-align: center;" class="container">
+                                      <br>
+                                        <p> Time left to complete transaction <br> <span id="count_dwn" style="color: red;">  </span> </p>
+                                    </div>
+                                    <hr>
+
+                                    <input id="trans_timeout" value="{{js_timeout}}" type="hidden">
+                                    <input id="the_trans_code" name="the_trans_code" value="{{transaction.txn_code}}" type="hidden">
+
+                         
+                                   
+                                    <br>
+                                    <div class="container">
+                                        <p style="text-align: left;"> Please proceed to your local bank and complete this bank deposit </p>
+            
+
+                                        <div  class="form-control-wrap text-center">
+                                            <div class="form-clip clipboard-init" data-clipboard-target="#refCode" data-success="Copied" data-text="Copy Link"><em class="clipboard-icon icon ni ni-copy"></em> <span class="clipboard-text">Copy Code </span></div>
+                                            
+                                            <input type="text" class="form-control copy-text bg-purple-dim" id="refCode" value="{{transaction.txn_code}}">
+                                        </div>
+
+                                    </div>
+                                   
+                                   
+                                    <li class="buysell-overview-item">
+                                        <span class="pm-title">Amount</span>
+                                        <span class="pm-currency">NGN{{transaction.amount|intcomma}} </span>
+                                    </li>
+                                    <li class="buysell-overview-item">
+                                        <span class="pm-title">Account Number</span>
+                                        <span class="pm-currency">1023082686</span>
+                                    </li>
+                                    <li class="buysell-overview-item">
+                                        <span class="pm-title">Bank Name </span>
+                                        <span class="pm-currency">United Bank for Africa (UBA)</span>
+                                    </li>
+                                    <li class="buysell-overview-item">
+                                        <span class="pm-title">Beneficiary Name </span>
+                                        <span class="pm-currency">Pipminds International Limited </span>
+                                    </li>
+                                    
+
+                                    <div class="container" >
+                                        <ul style="font-size: smaller;" id="list" class="list">
+                                            <li> This transaction should be completed within 48hours  </li>
+                                            <li> Third party deposits are not allowed  </li>
+                                            <li> Upload proof of payment after payment has been made </li>
+                                        </ul>
+                                        <p>Upload proof of Payment! </p>
+
+                                        <div class="custom-file">
+                                            
+                                               
+                                            <input name="proof_file" id="proof_file" type="file" class="custom-file-input" id="proofFile" accept='file_extension|.pdf, .jpg, .png, .jpeg' >
+                                            <label class="custom-file-label" for="proofFile">
+                                                
+                                            </label>
+                                       
+                                        </div>
+                                    </div>
+                                            
+                                        
+
+                                        
+                                    {% if messages %}
+                                <div style="color: red;"  class="nk-block-des text-center">
+                                    <ul class="messages">
+                                        {% for message in messages %}
+                                        {% if 'error' == message.tags %}
+                                        <li>{{ message }}</li>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                {% endif %}
+                                   
+                                   
+                                    <li class="buysell-overview-item">
+                                        <!-- <a style="color: aliceblue;" href="{% url 'wallet:payment-success' transaction.txn_code %} " class="btn btn-lg btn-block btn-primary" >I have made this bank transfer </a> -->
+                                        <button style="color: aliceblue;" type="submit" class="btn btn-lg btn-block btn-primary" >I have made this bank transfer </button>
+                                    </li>
+                                    
+                                        
+                                       
+                                        
+                                    
+                                    <div class="text-center" >
+                                        <em class="icon ni ni-cross"></em> &nbsp;
+                                        <a href="{% url 'wallet:cancel-deposit'  transaction_code=transaction.txn_code %}"  class="link link-danger">Cancel this Payment </a>
+                                    </div>
+                                    <br>
+                                </form>
+                                </ul>
+                                <div style="text-align: center !important;" >
+                                    <small  >This confirmation page will remain accessible from your dashboard within the next 48 hours until you confirm your deposit</small>
+                                </div>
+                                
+                            </div>
+                            
+
+        
+                                                       
+                        </div>
+
+                    </div>
+                    <div class="nk-footer nk-auth-footer-full">
+                        <div class="container wide-lg">
+                            <div class="row">
+                                
+                                <div class="col-lg-12">
+                                    <div class="nk-block-content text-center">
+                                        <p class="text-soft">&copy;<script>document.write(new Date().getFullYear())</script> Pipminds. All Rights Reserved.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- wrap @e -->
+            </div>
+            <!-- content @e -->
+        </div>
+        <!-- main @e -->
+    </div>
+    <!-- app-root @e -->
+    <!-- JavaScript -->
+<script src="{% static 'assets/js/bundle.js' %}"></script>
+<script src="{% static 'assets/js/wallet_scripts.js' %}"></script>
+<script src="{% static 'assets/js/charts/chart-crypto.js' %}"></script>
+
+<script type="text/javascript">
+    console.log($('#trans_timeout').val())
+    var trans_countdown = $('#trans_timeout').val()
+
+    
+
+    var countDownDate = new Date(trans_countdown).getTime();
+    console.log(countDownDate)
+
+  
+    var x = setInterval(function() {
+
+    var now = new Date().getTime();
+
+    console.log(now)
+
+   
+    var distance = countDownDate - now;
+
+    console.log(distance)
+
+ 
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+ 
+    document.getElementById("count_dwn").innerHTML = days + "day " + hours + "hr "
+    + minutes + "min " + seconds + "sec ";
+
+   
+    if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("count_dwn").innerHTML = "COUNTDOWN EXPIRED";
+    
+    }
+    }, 1000);
+
+
+</script>
+
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/5ebab7a8967ae56c521916ca/default';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+</script>
+
+</body>
+
+
+</html>

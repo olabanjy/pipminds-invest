@@ -1,0 +1,403 @@
+{% extends 'pools/base.html' %}
+{% load static %}
+{% load humanize %}
+{% load mathfilters %}
+
+{% block content %}
+               
+
+<div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-lg">
+        <div class="nk-content-body">
+            <div class="components-preview wide-md mx-auto">
+            <div class="nk-block-head nk-block-head-sm">
+                <div class="nk-block-between">
+                    <div class="nk-block-head-content">
+                        <h3 class="nk-block-title page-title">Active Premium Pools </h3>
+                        <div class="nk-block-des text-soft">
+                            <p>Buy pool slots to get started  </p>
+                        </div>
+                    </div>
+
+                  
+                    
+                    
+                </div>
+                                    {% if messages %}
+                                        <div style="color: red;"  class="nk-block-des text-center">
+                                            <ul class="messages">
+                                                {% for message in messages %}
+                                                {% if 'error' == message.tags %}
+                                                <li>{{ message }}</li>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                        {% endif %}
+            </div>
+
+
+            <div class="nk-block">
+                <div class="row g-gs">
+                    {% if pools  %}
+                    {% for pool in pools %}
+                    <div class="col-sm-6 col-xl-4">
+                        <div class="card card-bordered h-100">
+                            <div class="card-inner">
+                                <div class="project">
+                                    <div class="project-head">
+                                        <a href="" class="project-title">
+                                            <div class="user-avatar sq bg-blue"><span>PP</span></div>
+                                            <div class="project-info">
+                                                <h6 class="title">{{pool.unique_instance_id}} </h6>
+                                                <span class="sub-text">&#8358;{{pool.pool_type.amount_per_slot|floatformat:"0"|intcomma}}/slot</span>
+                                            </div>
+                                        </a>
+                                       
+                                    </div>
+                                    <div class="project-details">
+                                        <p>Buy premium pool slots and enjoy <strong>{{pool.pool_type.min_percentage_promise}}% - {{pool.pool_type.max_percentage_promise}}% returns in {{pool.pool_type.active_period_window.name}} </strong>   </p>
+                                    </div>
+                                    <div class="project-progress">
+                                        <div class="project-progress-details">
+                                            <div class="project-progress-task"><em class="icon ni ni-check-round-cut"></em><span> {{pool.slots}} slots taken  </span></div>
+                                            <div class="project-progress-percent">{{pool.get_percentage_days_left|floatformat:"0"|intcomma}}%</div>
+                                        </div>
+                                        <div class="progress progress-pill progress-md bg-light">
+                                            <div class="progress-bar" data-progress="{{pool.get_percentage_days_left}}"></div>
+                                        </div>
+                                    </div>
+                                    <div class="project-meta">
+                                      
+                                        <ul class="project-users g-1">
+                                            <li>
+                                                <a href="#" class="toggle btn btn-sm btn-white btn-dim btn-outline-primary" data-target="poolAside_{{pool.unique_instance_id}}"><span>Buy Slots </span></a>
+                                            </li>
+
+
+                                            
+                                          
+                                        </ul>
+
+                                    
+                                        <span class="badge badge-dim badge-warning text-gray"><em class="icon ni ni-clock"></em><span>{{pool.get_days_left}} Days Left</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="poolAside_{{pool.unique_instance_id}}" class="card-aside card-aside-right user-aside toggle-slide toggle-slide-right toggle-break-xxl" data-content="poolAside_{{pool.unique_instance_id}}" data-toggle-screen="xxl" data-toggle-overlay="true" data-toggle-body="true">
+                        <div class="card-inner-group" data-simplebar>
+                            <div class="card-inner">
+                                <div class="user-card user-card-s2">
+                                    <div class="user-avatar lg bg-primary">
+                                        <span>PP</span>
+                                    </div>
+                                    <div class="user-info">
+                                        <div class="badge badge-outline-light badge-pill ucap">{{pool.pool_type.unique_pool_type_id}}</div>
+                                        <h5>{{pool.unique_instance_id}}</h5>
+                                   
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-inner text-center">
+                                
+                                <div id="{{pool.unique_instance_id}}" class="form-group">
+                                    <label class="form-label">Buy Pool Slots </label>
+                                    <div class="form-control-wrap number-spinner-wrap">
+                                        <button id="{{pool.unique_instance_id}}" class="btn btn-icon btn-outline-light number-spinner-btn number-minus {{pool.unique_instance_id}}" data-number="minus"><em class="icon ni ni-minus"></em></button>
+                                        <input  id="slot_number_{{pool.unique_instance_id}}" type="number" class="form-control number-spinner slot_number" value="1" min="1" max="{{pool.get_available_slots}}" disabled>
+                                        <button id="{{pool.unique_instance_id}}" class="btn btn-icon btn-outline-light number-spinner-btn number-plus {{pool.unique_instance_id}}" data-number="plus"><em class="icon ni ni-plus"></em></button>
+                                    </div>
+                                    
+                                    <input type="hidden"  id="pool_slot_amt_{{pool.unique_instance_id}}" value="{{pool.pool_type.amount_per_slot}}">
+                                    <input type="hidden" id="wallet_balance" value="{{wallet_balance|floatformat:'0'}}">
+                                    <input id="amt_to_pay_hidden_{{pool.unique_instance_id}}" type="hidden"> 
+                                    <span id="pool_val_{{pool.unique_instance_id}}">&#8358;{{pool.pool_type.amount_per_slot|floatformat:"0"|intcomma}} </span>
+                                </div>
+                                <label style="text-decoration: underline;" class="form-label"> Addon Offerings </label>
+                                <form class="process_form" method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="chosen_slot_number" id="chosen_slot_number_{{pool.unique_instance_id}}">
+                                    <input type="hidden" name="chosen_pool_unique_id" id="chosen_pool_unique_id_{{pool.unique_instance_id}}" value="{{pool.unique_instance_id}}">
+                                        {% if check_offering_purchase %}
+                                                <p>You have active subscription for: </p>
+                                             
+
+                                                <ul class="g-1">
+                                                    {% for user_purchase in check_offering_purchase.first.offerings.all  %}
+                                                    <li class="btn-group">
+                                                        <a class="btn btn-xs btn-light btn-dim" href="#">{{user_purchase.desc}}</a>
+                                                        <a class="btn btn-xs btn-icon btn-light btn-dim" href="#"><em class="icon ni ni-cross"></em></a>
+                                                    </li>
+                                                    {% endfor %}
+                                                
+                                                </ul>
+                                      
+                                                
+                                            {% else %}
+
+                                            <ul id="pool_instance_offering_{{pool.unique_instance_id}}" class="custom-control-group btn-toolbar justify-center gx-1">
+                                                {% for offer in pool_offerings %}
+                                                <li>
+                                                    <div class="custom-control custom-checkbox custom-control-pro custom-control-pro-icon no-control">
+                                                        <input  type="checkbox" name="chosen_offering" class="custom-control-input" value="{{offer.name}}" id="{{offer.name}}_{{pool.unique_instance_id}}" {% if offer.name == 'academy' %} checked  disabled {% endif %} >
+                                                        <label class="custom-control-label" for="{{offer.name}}_{{pool.unique_instance_id}}"><em class="icon ni {% if offer.name == 'academy' %} ni-building-fill {% elif offer.name == 'executive_trade_house' %} ni-users-fill {% elif offer.name == 'mentorship' %} ni-network {% endif %}" data-toggle="tooltip" data-placement="{% if offer.name == 'academy' %} left {% elif offer.name == 'executive_trade_house' %}  top {% elif offer.name == 'mentorship' %} bottom {% endif %}" title="{{offer.desc}}"></em><span></span></label>
+                                                 
+                                                       
+                                                    </div>
+                                                </li>
+ 
+                                                {% endfor %}
+
+                                                
+                                            </ul>
+
+                                            {% endif %}
+                                             
+
+                                            <br>
+                                         
+                                     <button id="proceed_btn_{{pool.unique_instance_id}}" type="submit"  class="btn btn-dim btn-lg btn-outline-secondary">Proceed to Payment</button>
+                                     
+                                    <span id="err_msg_{{pool.unique_instance_id}}"> </span>
+
+                                </form>
+                                
+                            </div>
+                            <div class="card-inner card-inner-sm">
+                                <div class="overline-title-alt mb-2"> Wallet Balance </div>
+                                <div class="profile-balance">
+                                    <div class="profile-balance-group gx-4">
+                                        <div class="profile-balance-sub">
+                                            <div class="profile-balance-amount">
+                                                <div class="number">&#8358;{{wallet_balance|floatformat:"0"|intcomma}}</div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-inner card-inner-sm">
+                                <ul class="btn-toolbar justify-center gx-1">
+                                    <li><a href="#" class="btn btn-trigger btn-icon"><em class="icon ni ni-shield-off"></em></a></li>
+                                    <li><a href="#" class="btn btn-trigger btn-icon"><em class="icon ni ni-mail"></em></a></li>
+                                    <li><a href="#" class="btn btn-trigger btn-icon"><em class="icon ni ni-download-cloud"></em></a></li>
+                                    <li><a href="#" class="btn btn-trigger btn-icon"><em class="icon ni ni-bookmark"></em></a></li>
+                                    <li><a href="#" class="btn btn-trigger btn-icon text-danger"><em class="icon ni ni-na"></em></a></li>
+                                </ul>
+                            </div>
+                            <div class="card-inner">
+                                <div class="overline-title-alt mb-2"> Pool Info </div>
+                                <div class="profile-balance">
+                                    <div class="profile-balance-group gx-4">
+                                        <div class="profile-balance-sub">
+                                            <div class="profile-balance-amount">
+                                                <div class="number">&#8358;{{pool.value_bought|floatformat:"0"|intcomma}}</div>
+                                            </div>
+                                            <div class="profile-balance-subtitle">Purchased </div>
+                                        </div>
+                                        <div class="profile-balance-sub">
+                                            <span class="profile-balance-plus text-soft"></span>
+                                            <div class="profile-balance-amount">
+                                                <div class="number">&#8358;{{pool.pool_type.amount_per_slot|floatformat:"0"|intcomma}}</div>
+                                            </div>
+                                            <div class="profile-balance-subtitle">per slot</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- .card-inner -->
+                            <div class="card-inner">
+                                <div class="overline-title-alt mb-2"> Slots </div>
+                                <div class="row text-center">
+                                    <div class="col-6">
+                                        <div class="profile-stats">
+                                            <span class="icon ni ni-repeat-v amount"> </span>
+                                            <span class="sub-text">Available Slots</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="profile-stats">
+                                            <span class="amount">{{pool.slots}} </span>
+                                            <span class="sub-text">Purchased Slots </span>
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                            </div><!-- .card-inner -->
+                            <div class="card-inner">
+                                <h6 class="overline-title-alt mb-2">Additional</h6>
+                                <div class="row g-3">
+                                    <div class="col-6">
+                                        <span class="sub-text">Period:</span>
+                                        <span>{{pool.pool_type.active_period_window.name}}</span>
+                                    </div>
+                                    <div class="col-6">
+                                        <span class="sub-text">Expected Return:</span>
+                                        <span>{{pool.pool_type.min_percentage_promise}}% - {{pool.pool_type.max_percentage_promise}}%</span>
+                                    </div>
+                                    <div class="col-6">
+                                        <span class="sub-text">Entry Opens:</span>
+                                        <span>{{pool.entry_starts}}</span>
+                                    </div>
+                                    <div class="col-6">
+                                        <span class="sub-text">Entry Closes:</span>
+                                        <span>{{pool.entry_ends}}</span>
+                                    </div>
+                                    <div class="col-12 text-center">
+                                        <span class="lead-text">DISCLAIMER</span>
+                                        <span>Capital + profit is paid at maturity date</span>
+                                    </div>
+                                    
+                                </div>
+                            </div><!-- .card-inner -->
+                            <!-- <div class="card-inner">
+                                <h6 class="overline-title-alt mb-3">Offerings</h6>
+                                {% if pool.pool_type.offerings %}
+                                <ul class="g-1">
+                                    {% for offer in pool.pool_type.offerings.all %}
+                                    <li class="btn-group">
+                                        <a class="btn btn-xs btn-light btn-dim" href="#">{{offer.name}}</a>
+                                        <a class="btn btn-xs btn-icon btn-light btn-dim" href="#"><em class="icon ni ni-cross"></em></a>
+                                    </li>
+                                    {% endfor %}
+                                
+                                </ul>
+                                {% endif %}
+                            </div> -->
+                            
+                        </div><!-- .card-inner -->
+                    </div><!-- .card-aside -->
+
+                    {% endfor %}
+                    {% endif %}
+
+                    
+                    
+                </div>
+            </div>
+        <div class="nk-block">
+            <div class="nk-block-head">
+                <div class="nk-block-head-content">
+                    <h4 class="nk-block-title"> Running Pools </h4>
+                    <div class="nk-block-des">
+                        <p> Closed and Running Pools  </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <div class="nk-block">
+                <div class="row g-gs">
+                    {% if already_active_pools  %}
+                        {% for active_pool in already_active_pools %}
+                        <div class="col-sm-6 col-xl-4">
+                            <div class="card card-bordered h-100">
+                                <div class="card-inner">
+                                    <div class="project">
+                                        <div class="project-head">
+                                            <a href="#" class="project-title">
+                                                <div class="user-avatar sq bg-dark"><span>PP</span></div>
+                                                <div class="project-info">
+                                                    <h6 class="title">{{active_pool.unique_instance_id}}</h6>
+                                                    <span class="sub-text">&#8358;{{active_pool.pool_type.amount_per_slot|floatformat:"0"|intcomma}}/slot</span>
+                                                </div>
+                                            </a>
+                                           
+                                        </div>
+                                        <div class="project-details">
+                                            <p><strong>{{active_pool.pool_type.min_percentage_promise}}% - {{active_pool.pool_type.max_percentage_promise}}% returns in {{active_pool.pool_type.active_period_window.name}} </strong>   </p>
+                                        </div>
+                                        <div class="project-progress">
+                                            <div class="project-progress-details">
+                                                <div class="project-progress-task"><em class="icon ni ni-check-round-cut"></em><span>{{active_pool.slots}} slots bought</span></div>
+                                                <div class="project-progress-percent">100%</div>
+                                            </div>
+                                            <div class="progress progress-pill progress-md ">
+                                                <div class="progress-bar bg-dark" data-progress="100"></div>
+                                            </div>
+                                        </div>
+                                        <div class="project-meta">
+                                            <ul class="project-users g-1">
+                                                <li>
+                                                    <!-- <div class="user-avatar sm bg-primary"><span>A</span></div> -->
+                                                    <a class="btn btn-sm btn-dim btn-outline-secondary" > <span> Entry Closed  </span></a>
+                                                </li>
+                                               
+                                            </ul>
+                                            <span class="badge badge-dim badge-success"><em class="icon ni ni-meter"></em><span>Running</span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}
+
+
+{% block extra_scripts %}
+
+<script type="text/javascript">
+    $('.process_form').submit(function(){
+    $(".process_form :disabled").removeAttr('disabled');
+    });
+</script>
+
+
+<script>
+$(function () {
+
+    $(".number-plus, .number-minus").on('click',  function () {
+        // console.log(this)
+        
+        var slot_number = $("#slot_number_" + this.id).val()
+        var amt_per_slot = $("#pool_slot_amt_" + this.id).val()
+        var wallet_balance = $("#wallet_balance").val()
+
+        console.log("number of slots to buy is " + slot_number);
+        console.log("amount/slot is " + amt_per_slot);
+        console.log("wallet value is " + wallet_balance)
+
+        var amt_to_pay = slot_number * amt_per_slot
+        console.log("total amount to pay is  " + amt_to_pay)
+
+        $('#amt_to_pay_hidden_' + this.id).val(amt_to_pay);
+        $('#chosen_slot_number_' + this.id).val(slot_number);
+
+
+        if (event.which >= 37 && event.which <= 40) return;
+        total_amt = $("#amt_to_pay_hidden_" + this.id).val().replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        document.getElementById('pool_val_' + this.id).innerHTML = '&#8358;' + total_amt ;
+
+
+        if (amt_to_pay > wallet_balance){
+            document.getElementById('proceed_btn_' + this.id).style.display  = 'none';
+            document.getElementById('err_msg_' + this.id).innerHTML = '<p style="color:red; font-weight:600;" >  You do not have enough funds to proceed! </p>' ;
+        } else{
+            document.getElementById('err_msg_' + this.id).innerHTML = '' ;
+            document.getElementById('proceed_btn_' + this.id).style.display  = 'block';
+            // document.getElementById('proceed_btn_' + this.id).style.textAlign  = 'center';
+        }
+    
+    });
+
+});
+
+
+     
+</script>
+
+
+{% endblock extra_scripts %}

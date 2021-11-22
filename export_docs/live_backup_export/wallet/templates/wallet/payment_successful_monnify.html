@@ -1,0 +1,145 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+<head>
+    
+    <meta charset="utf-8">
+    <meta name="author" content="Olushola Albert">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Pipminds Investment Platform">
+    <!-- Fav Icon  -->
+    <!-- <link rel="shortcut icon" href="./images/favicon.png"> -->
+    <!-- Page Title  -->
+    <title>Verifying Monnify Deposit  | Fund Wallet</title>
+    <!-- StyleSheets  -->
+    <link rel="stylesheet" href="{% static 'assets/css/wallet_dashlite.css' %}">
+    <link id="skin-default" rel="stylesheet" href="{% static 'assets/css/theme.css' %}">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3YN97TPDLC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3YN97TPDLC');
+</script>
+
+
+<script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window,document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+     fbq('init', '2227317817403128'); 
+    fbq('track', 'PageView');
+</script>
+<noscript>
+    <img height="1" width="1" 
+src="https://www.facebook.com/tr?id=2227317817403128&ev=PageView
+&noscript=1"/>
+</noscript>
+
+
+
+
+</head>
+
+<body class="nk-body bg-white npc-general pg-auth">
+    <div class="nk-app-root">
+        <!-- main @s -->
+        <div class="nk-main ">
+            <!-- wrap @s -->
+            <div class="nk-wrap nk-wrap-nosidebar">
+                <!-- content @s -->
+                <div class="nk-content ">
+                    <div class="nk-block nk-block-middle nk-auth-body">
+                        
+                        
+
+                        <div class="nk-block-head nk-block-head-xs text-center">
+                            <h5 class="nk-block-title">Verifying Deposit</h5>
+                            <div class="nk-block-text">
+                                <div class="caption-text">Kindly hold on while we verify your payment of NGN{{amount|intcomma}}</div>
+                                
+                            </div>
+                        </div>
+                        <div class="nk-block">
+                            
+                            
+                            <div class="buysell-field form-action text-center">
+                                <!-- <div>
+                                <a href="{% url 'wallet:dashboard' %} " class="btn btn-primary btn-lg" >Return to Dashboard </a>
+
+                                </div> -->
+                                <div id="nwDv">
+
+                                    <div style="width: 5rem !important; height: 5rem !important;" class="spinner-border text-primary" role="status">  <span class="sr-only">Loading...</span></div>
+                                </div>
+                            </div>
+                        </div><!-- .nk-block -->
+
+                    </div>
+                    <div class="nk-footer nk-auth-footer-full">
+                        <div class="container wide-lg">
+                            <div class="row">
+                                
+                                <div class="col-lg-12">
+                                    <div class="nk-block-content text-center">
+                                        <p class="text-soft">&copy;<script>document.write(new Date().getFullYear())</script> Pipminds. All Rights Reserved.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- wrap @e -->
+            </div>
+            <!-- content @e -->
+        </div>
+        <!-- main @e -->
+    </div>
+    <!-- app-root @e -->
+    <!-- JavaScript -->
+    <script src="{% static 'assets/js/bundle.js' %}"></script>
+    <script src="{% static 'assets/js/wallet_scripts.js' %}"></script>
+    <script src="{% static 'assets/js/charts/chart-crypto.js' %}"></script>
+
+<script type="text/javascript">
+
+$(document).ready(function (){
+         setTimeout(function(){
+        document.getElementById('nwDv').innerHTML = '<h6> Your transaction has been processed. </h6> <br> <p> You will be redirected to your dashboard in a bit </p> ';
+          
+         }, 10000);
+
+    setTimeout(function(){
+        window.location.href = '{% url "wallet:dashboard" %}';
+          
+         }, 15000);
+        
+});    
+</script>
+
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/5ebab7a8967ae56c521916ca/default';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+</script>
+
+
+</body>
+   
+
+</html>

@@ -1,0 +1,629 @@
+{% load static %}
+{% load humanize %}
+{% load mathfilters %}
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+<head>
+ 
+    <meta charset="utf-8">
+    <meta name="author" content="Olushola Albert">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Pipminds Investment Platform">
+   
+    <title>Pipminds Investment Dashboard </title>
+   
+    <link rel="stylesheet" href="{% static 'assets/css/investment_dashlite.css' %}?ver=2.0.0">
+    <link id="skin-default" rel="stylesheet" href="{% static 'assets/css/theme.css' %}?ver=2.0.0">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3YN97TPDLC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3YN97TPDLC');
+</script>
+
+<script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window,document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+     fbq('init', '2227317817403128'); 
+    fbq('track', 'PageView');
+</script>
+<noscript>
+    <img height="1" width="1" 
+src="https://www.facebook.com/tr?id=2227317817403128&ev=PageView
+&noscript=1"/>
+</noscript>
+
+
+
+
+
+<style type="text/css">
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
+
+</style>
+</head>
+
+<body class="nk-body npc-invest bg-lighter ">
+    <div class="nk-app-root">
+        <div class="nk-wrap ">
+
+ 
+
+
+
+
+
+ <!-- content @s -->
+ <div class="nk-content nk-content-lg nk-content-fluid">
+    <div class="container-xl wide-lg">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head">
+                    <div class="nk-block-head-content">
+                       
+                        <div class="nk-block-between-md g-4">
+                            <div class="nk-block-head-content">
+                                <div class="nk-block-head-sub"><a href="{% url 'investment:dashboard' %}" class="back-to"><em class="icon ni ni-arrow-left"></em><span>Return to Dashboard </span></a></div>
+                                {% if my_plan.display_name %}
+                                <h2 class="nk-block-title fw-normal">{{my_plan.display_name}}</h2>
+                                {% endif %}
+                                <h4 class="nk-block-title fw-normal">{{my_plan.plan.name}} - {{my_plan.plan.period.name}} {{my_plan.plan.percentage_interest}}% for {{my_plan.plan.maturity_period}} Days</h4>
+                                <div class="nk-block-des">
+                                    <p>{{my_plan.txn_code}}  {% if my_plan.completed %} <span class="badge badge-outline badge-success">Completed </span>{% else %} <span class="badge badge-outline badge-primary">Running</span>  {% endif %}</p>
+                                </div>
+                            </div>
+                        
+                            {% if not my_plan.completed %}
+
+                                {% if my_plan.can_top_up %}
+
+                                        {% if today >= my_plan.get_topup_starts and today <= my_plan.get_topup_ends %}
+                                            
+                                            <div class="nk-block-head-content">
+                                                <ul class="nk-block-tools gx-3">
+                                                    <li class="order-md-last"><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#topupModal" ><em class="icon ni ni-plus"></em> <span>Top up investment</span> </a>   </li>
+                                                    <li><a>&#128526;</a></li>
+                                                    
+                                                </ul>
+                                            </div>
+
+                                                
+
+                                        {% else %}
+                                        
+                                            <div style="opacity: 0.7;" class="nk-block-head-content">
+                                                <ul class="nk-block-tools gx-3">
+                                                    <li class="order-md-last"><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#topupModalDeactivated" ><em class="icon ni ni-plus"></em> <span>Top up investment</span> </a>   </li>
+                                                    <li><a>&#128526;</a></li>
+                                                    
+                                                </ul>
+                                            </div>
+                                        {% endif %}
+                                    
+                                    {% else %}
+
+                                    <div class="nk-block-head-content">
+                                        <ul class="nk-block-tools gx-3">
+                                            <li class="order-md-last"><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#topuplockedModal" ><em class="icon ni ni-plus"></em> <span>Top up investment</span> </a>   </li>
+                                            <li><a>&#128526;</a></li>
+                                            
+                                        </ul>
+                                    </div>
+
+                                    {% endif %}
+
+                            {% endif %}
+
+                        </div>
+                    </div> 
+                </div><!-- .nk-block-head -->
+
+                {% if messages %}
+                <div style="color: red;"  class="nk-block-des text-center">
+                    <ul class="messages">
+                        {% for message in messages %}
+                        {% if 'error' == message.tags %}
+                        <li>{{ message }}</li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                <div class="nk-block">
+                    <div class="card card-bordered">
+                        
+                        <div class="card-inner">
+                            <div class="row gy-gs">
+                                <div class="col-md-6">
+                                    <div class="nk-iv-wg3">
+                                        <div class="nk-iv-wg3-group flex-lg-nowrap gx-4">
+                                            <div class="nk-iv-wg3-sub">
+                                                <div class="nk-iv-wg3-amount">
+                                                    <div class="number">{{my_plan.amount|floatformat:'0'|intcomma}} NGN </div>
+                                                    <input type="hidden" id="plan_amount" name="plan_amount" value="{{my_plan.amount|floatformat:'0'}}">
+                                                </div>
+                                                <div class="nk-iv-wg3-subtitle">Invested Amount</div>
+                                            </div>
+                                            <div class="nk-iv-wg3-sub">
+                                                <span class="nk-iv-wg3-plus text-soft"><em class="icon ni ni-plus"></em></span>
+                                                <div class="nk-iv-wg3-amount">
+                                                    <div class="number">{{current_earning|floatformat:'0'|intcomma}} NGN </div>
+                                                    <!-- <div class="number">{{my_plan.profit_earned|floatformat:'0'|intcomma}} NGN </div> -->
+                                                </div>
+                                                <div class="nk-iv-wg3-subtitle"> Earning this month </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- .col -->
+                                <div class="col-md-6 col-lg-4 offset-lg-2">
+                                    <div class="nk-iv-wg3 pl-md-3">
+                                        <div class="nk-iv-wg3-group flex-lg-nowrap gx-4">
+                                           
+                                        </div>
+                                    </div>
+                                </div><!-- .col -->
+                            </div><!-- .row -->
+                        </div>
+                        <div id="schemeDetails" class="nk-iv-scheme-details">
+                            <ul class="nk-iv-wg3-list">
+                                <li>
+                                    <div class="sub-text">Term</div>
+                                    <div class="lead-text">{{my_plan.maturity_days|intdiv:30}} Months </div>
+                                </li>
+                                <li>
+                                    <div class="sub-text">Term start at</div>
+                                    <div class="lead-text">{{my_plan.created_at}}</div>
+                                </li>
+                                <li>
+                                    <div class="sub-text">Term end at</div>
+                                    <div class="lead-text"> {{my_plan.maturity_date}}</div>
+                                </li>
+                                <li>
+                                    <div class="sub-text">{{my_plan.plan.period.name}} interest </div>
+                                    <div class="lead-text">{{my_plan.plan.percentage_interest}} %</div>
+                                </li>
+                            </ul><!-- .nk-iv-wg3-list -->
+                            <ul class="nk-iv-wg3-list">
+                                <li>
+                                    <div class="sub-text">Reference Number </div>
+                                    <div class="lead-text">{{my_plan.txn_code}}</div>
+                                </li>
+                                <li>
+                                    <div class="sub-text">Next Payout </div>
+                                    <div class="lead-text">{{my_plan.next_payout}}</div>
+                                </li>
+                                <li>
+                                    <div class="sub-text">Investement Funded via</div>
+                                    <div class="lead-text">Flex Wallet</div>
+                                </li>
+                                <li>
+                                    <div class="sub-text">ROI payment method</div>
+                                    <div class="lead-text">Investment Wallet</div>
+                                </li>
+                            </ul><!-- .nk-iv-wg3-list -->
+                            <ul class="nk-iv-wg3-list">
+                                <li>
+                                    <div class="sub-text">Investment Plan Name</div>
+                                    <div class="lead-text"> {{my_plan.plan.name}}</div>
+                                </li>
+                                
+                                <li>
+                                    <div class="sub-text">Investment Plan Category </div>
+                                    <div class="lead-text">{{my_plan.plan.category.name}}</div>
+                                </li>
+
+                                <li>
+                                    <div class="sub-text">ROI processing fee </div>
+                                    <div class="lead-text">0 NGN </div>
+                                </li>
+
+                                <li>
+                                    <div class="sub-text"> Profit Earned </div>
+                                    <div class="lead-text">{{my_plan.profit_earned|floatformat:'0'|intcomma}} NGN </div>
+                                </li>
+                                
+                                
+                            </ul>
+                        </div>
+                        <hr>
+                        <div class="card-inner ">
+                            <ul class="nk-iv-wg3-nav">
+                                {% if my_plan.contract_file %}
+                                <li><a href="{{my_plan.contract_file.url}}" download="{{my_plan.contract_file.url}}" target="_blank"><em class="icon ni ni-notes-alt"></em> <span>Download Investement Agreement </span></a></li>
+                                {% endif %}
+                                <li><a data-toggle="modal" data-target="#comingSoon" href="#"><em class="icon ni ni-report-profit"></em> <span>Monthly Statement</span></a></li>
+                                <li><a data-toggle="modal" data-target="#comingSoon" href="#"><em class="icon ni ni-help"></em> <span>Investment Tips</span></a></li>
+                            </ul>
+                        </div>
+
+
+
+                    </div>
+
+                   
+
+                </div>
+
+                {% if my_plan.user_investment_topup.exists %}
+              
+              
+
+                <div class="nk-block nk-block-lg">
+                    <div class="nk-block-head">
+                        <h5 class="nk-block-title">Investment Top Ups</h5>
+                    </div>
+                    <div class="card card-bordered">
+                        <table class="table table-iv-tnx">
+                            <thead class="thead-light">
+                                <tr>
+                                    
+                                    <th class="tb-col-date"><span class="overline-title">Date</span></th>
+                                    <th class="tb-col-time "><span class="overline-title">Amount</span></th>
+                                    <th class="tb-col-type tb-col-end"><span class="overline-title">Agreement</span></th>
+                                </tr>
+                            </thead>
+                           
+                            <tbody>
+                                {% for topup in my_plan.user_investment_topup.all %}
+                                <tr>
+                                   
+                                    <td class="tb-col-date"> 
+                                        <span class="lead-text">{{topup.created_at|naturaltime}}</span></td>
+                                    <td class="tb-col-time "><span class="lead-text">{{topup.amount}} NGN </span></td>
+                                    {% if topup.contract_file %}
+                                    <td class="tb-col-type tb-col-end"> <a  href="{{topup.contract_file.url}}" download="{{topup.contract_file.url}}" target="_blank" ><span style="color: blue !important;"  class="lead-text"> Download Topup Agreement  </span> </a></td>
+                                    {% endif %}
+                                </tr>
+
+                                
+                                {% endfor %}
+                            </tbody>
+                           
+                        </table>
+                    </div><!-- .card -->
+                </div><!-- .nk-block -->
+
+                {% endif %}
+               
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content @e -->
+
+  <!-- footer @s -->
+  <div class="nk-footer nk-footer-fluid bg-lighter">
+    <div class="container-xl wide-lg">
+        <div class="nk-footer-wrap">
+            <div class="nk-footer-copyright"> &copy; 2021 PIPMINDS.
+            </div>
+            <div class="nk-footer-links">
+                <ul class="nav nav-sm">
+                    <li class="nav-item"><a class="nav-link" href="#">Terms</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Privacy</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Help</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- footer @e -->
+</div>
+<!-- wrap @e -->
+</div>
+<!-- app-root @e -->
+
+<div class="modal fade zoom" tabindex="-1" id="topupModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form method="POST" class="form-validate is-alter">
+                {% csrf_token %}
+            <div class="modal-header">
+                <h5 class="modal-title"> INVESTMENT TOP UP </h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            {% if user_deposit_balance >= 100000 %}
+
+            <div class="modal-body">
+                <div>
+                    <h5> Current Invested Amount: N{{my_plan.amount|floatformat:'0'|intcomma}} </h5>
+                </div> 
+                <br>
+                <div>
+                    <p> Your Flex wallet balance is <strong> N{{user_deposit_balance|floatformat:'0'|intcomma}}  </strong>  <br>
+                    Your top up window is between  <strong> {{my_plan.get_topup_starts}} and {{my_plan.get_topup_ends}} </strong> </p>
+                </div>
+                <br> <br>
+                <div class="form-group">
+                    <label class="form-label" for="topup_amount">Top Up Amount</label>
+                    <div class="form-control-wrap">
+                        <input name="topup_amount" type="number" class="form-control" placeholder="Enter Amount" id="topup_amount">
+                    </div>
+                    <p id="custom_amount"></p>
+                </div>
+
+                <div style="overflow-y: scroll; height: 120px; background-color: #ffc; color: black; text-align: left;" class="">
+                    <br>
+                    <h6 style="text-decoration: underline;"> TOP-UP ANNEXATION </h6>
+                    <p style="padding: 10px 10px 10px 10px;"> 
+                        
+                                                I, {% if profile.first_name %} {{profile.first_name}} {% endif %}  {% if profile.last_name %}  {{profile.last_name}} {% endif %} of {% if profile.address_1 %} {{ profile.address_1 }} {% endif %} {% if profile.address_2 %} {{ profile.address_2 }} {% endif %} {% if profile.city %} {{ profile.city }} {% endif %}  {% if profile.state %} {{ profile.state }}  {% endif %} in line with Clause 7 of my contract agreement with Pipminds International ltd dated the {{ my_plan.created_at |date:"l, d M Y"  }}
+                         do increase my capital investment with the sum of <span id="custom_topup"> ___ </span> bringing  my total investment to the sum of  <span id="total_sum_if_topup"> ___ </span> <input id="sum_hidden" type="hidden"> (<span id="sum_after"></span> )    <br>
+                        
+                        This document shall be annexed to my contract agreement and be part and parcel of same.
+                        Dated this day {{ today|date:"l, d M Y"  }}
+
+                    </p>
+                    <p> <strong> LEGAL DISCLAIMER CLAUSE  </strong> </p>
+                    <p> Trading forex and its investment carries a high level of risk and may not be suitable for all investors and as such fixed return on investment is globally illegal. Past performance is not indicative of future results hence the need for the new return on investment margin.  Before deciding to invest with us, you should carefully consider your investment objectives and seek advice from an independent financial advisor if you have any doubts.  </p>
+
+                    <p>  Dated this day {{ today|date:"l, d M Y"  }} </p>
+                    
+                    <b>IN WITNESS WHERE OF THE PARTIES HERETO HAVE EXECUTED THIS MOU ON THE DAY AND YEAR FIRST ABOVE WRITTEN. <br> THE COMMON SEAL PIPMINDS INTERNATIONAL LIMITED is hereunto affixed in the presence of:</b> <br>
+
+                    <div class="row">
+                        <div class="col text-center">
+                         <img src="{% static 'images/director2.png' %}" width="100px" height="auto" alt="">
+                         <hr>
+                         <b>EMEM ALBAN </b> <br>
+                         <b>CEO/DIRECTOR</b>
+                        </div>
+                        <div class="col text-center">
+                         <img src="{% static 'images/director1.png' %}" width="100px" height="auto" alt="">
+                         <hr>
+                         <b>IFEANYI NWAMUO</b> <br>
+                         <b>DIRECTOR</b>
+                        </div>
+                       
+                    </div>
+
+                    
+                </div>
+                <br>
+               
+                <div class="form-group">
+                    <div class="custom-control custom-control-xs custom-checkbox">
+                        <input name="t_and_c" type="checkbox" class="custom-control-input t_and_c" id="checkbox">
+                        <label class="custom-control-label" for="checkbox">I agree to the <a href="#"> Terms & Condition </a> </label>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <br>
+            <div class="modal-footer bg-light">
+                 <button type="submit" class="btn btn-lg btn-primary ttu" id="sb-btn">Proceed</button>
+            </div>
+
+            {% else %}
+            <div class="modal-body">
+                <div>
+                    <h4> Sorry! You need to have a minimum of <strong>N100,000</strong> balance in your Flex wallet before you can proceed </h4>
+                    <h6> Your current balance is <strong> N{{user_deposit_balance|floatformat:'0'|intcomma}} </strong> </h6>
+                </div>
+               
+                
+            </div>
+            {% endif %}
+
+        </form>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade zoom" tabindex="-1" id="topLimitExceeded">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          
+                
+            <div class="modal-header">
+                <h5 class="modal-title">  INVESTMENT TOP UP </h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+           
+
+            <div class="modal-body">
+                <div>
+                    <h6> Hi {% if request.user.profile.first_name %} {{request.user.profile.first_name}} {% else %} {{request.user.email}} {% endif %}, <br> <br>
+                
+                        Sorry, you have exceeded the number of topups for this investment 
+                        
+                    </h6>
+                    
+                </div> 
+
+            </div>
+            
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade zoom" tabindex="-1" id="topupModalDeactivated">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          
+                
+            <div class="modal-header">
+                <h5 class="modal-title">  INVESTMENT TOP UP </h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+           
+
+            <div class="modal-body">
+                <div>
+                    <h6> Hi {% if request.user.profile.first_name %} {{request.user.profile.first_name}} {% else %} {{request.user.email}} {% endif %}, <br> <br>
+                
+                        Top up is currently locked <br>
+                        Your next top window will available between <span style="text-decoration: underline;"> {{my_plan.get_future_topup_starts}} </span>  and  <span style="text-decoration: underline;"> {{my_plan.get_future_topup_ends}} </span> 
+                    </h6>
+                    <p>Investment Top ups are allowed within the first seven days after each ROI payment. During this period each month, your top up button would be active and you can click on it to top up your active investment.</p>
+                </div> 
+
+            </div>
+            
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade zoom" tabindex="-1" id="topuplockedModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          
+                
+            <div class="modal-header">
+                <h5 class="modal-title">  INVESTMENT TOP UP </h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+           
+
+            <div class="modal-body">
+                <div>
+                    <h6> Hi {% if request.user.profile.first_name %} {{request.user.profile.first_name}} {% else %} {{request.user.email}} {% endif %}, <br> <br>
+                
+                        Top up for this investment has been disbaled <br>
+              
+                    </h6>
+                    <!-- <p>Investment Top ups are allowed within the first seven days after each ROI payment. During this period each month, your top up button would be active and you can click on it to top up your active investment.</p> -->
+                </div> 
+
+            </div>
+            
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade zoom" tabindex="-1" id="comingSoon">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          
+                
+            <div class="modal-header">
+                <h5 class="modal-title"> AWESOME FEATURE COMING SOON  &#128526; </h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+           
+
+            <div class="modal-body">
+                <div>
+                    <h6> Hi {% if request.user.profile.first_name %} {{request.user.profile.first_name}} {% else %} {{request.user.email}} {% endif %}, <br> <br>
+                
+                        We are working on something beautiful to make the platform seamless for you. <br> <br>
+                       We will let you know the moment its ready ! 
+                    </h6>
+             
+                </div> 
+
+            </div>
+            
+
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script src="{% static 'assets/js/bundle.js' %}?ver=2.0.0"></script>
+<script src="{% static 'assets/js/investment_scripts.js' %}?ver=2.0.0"></script>
+<script src="{% static 'assets/js/charts/chart-invest.js' %}?ver=2.0.0"></script>
+<script>
+$(function () {
+    var t_and_c = $('.t_and_c');
+    var sb_btn = $('#sb-btn');
+
+    var plan_amount = $('#plan_amount').val();
+
+
+    t_and_c.on('change', function() {
+        sb_btn.prop("disabled", !this.checked);
+        }).trigger('change');
+
+
+        $('#topup_amount').keyup(function() {
+        if (event.which >= 37 && event.which <= 40) return;
+
+        var the_topup = this.value
+     
+
+        var total_sum_after_topup = parseInt(the_topup)  + parseInt(plan_amount) 
+      
+        $('#sum_hidden').val(total_sum_after_topup);
+        
+        amount = this.value.replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        document.getElementById('custom_amount').innerHTML = '<strong> NGN ' +  amount + ' </strong>' ;
+        document.getElementById('custom_topup').innerHTML = '<strong> NGN ' +  amount + ' </strong>' ;
+        document.getElementById('total_sum_if_topup').innerHTML = '<strong> NGN ' + total_sum_after_topup   + ' </strong>' ;
+
+        sum_after = $('#sum_hidden').val().replace(/\D/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        document.getElementById('sum_after').innerHTML = '<strong> NGN ' +  sum_after + ' </strong>' ;
+
+
+    });
+
+  
+
+}); 
+</script>
+
+
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/5ebab7a8967ae56c521916ca/default';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+</script>
+
+</body>
+
+</html>
+
+
+
+

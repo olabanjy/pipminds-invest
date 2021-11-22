@@ -1,0 +1,152 @@
+{% load static %} {% load humanize %} {% load mathfilters %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito&display=swap"
+      rel="stylesheet"
+    />
+    <title>HIP Contract</title>
+<style type="text/css">
+
+@page {
+        size: A4;
+        margin: 1cm;
+    }
+
+body{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+    font-family: 'Nunito', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { margin-bottom: 0.5rem; font-family: Nunito, sans-serif; font-weight: 700; line-height: 1.1; color: #364a63; }
+
+
+h1, .h1 { font-size: 2rem; }
+
+h2, .h2 { font-size: 1.75rem; }
+
+h3, .h3 { font-size: 1.5rem; }
+
+h4, .h4 { font-size: 1.25rem; }
+
+h5, .h5 { font-size: 1.15rem; }
+
+h6, .h6 { font-size: 1rem; }
+
+hr { margin-top: 1rem; margin-bottom: 1rem; border: 0; border-top: 1px solid #b7c2d0; }
+
+
+.list-unstyled { padding-left: 0; list-style: none; }
+
+.list-inline { padding-left: 0; list-style: none; }
+
+.list-inline-item { display: inline-block; }
+
+
+img { vertical-align: middle; border-style: none; }
+
+.list-inline li { display: inline-block; }
+
+
+.list-sm li { padding-left: 1.2rem; }
+
+
+.list-sm li:before { font-size: 12px; }
+
+
+.contract__signature {
+    display: flex;
+    justify-content: space-between;
+}
+.contract__signature > div {
+width: 200px;
+}
+.contract__signature img {
+width: 100px;
+height: 80px;
+object-fit: contain;
+}
+
+.form-group {
+display: flex;
+align-items: center;
+justify-content: center;
+margin-top: 5rem;
+}
+
+.form-group input {
+margin-right: 0.5rem;
+cursor: pointer;
+}
+</style>
+
+  </head>
+  <body>
+    <div id="contract_body" class="contract">
+      <h6 style="text-align: center">
+        HIP TOP-UP ANNEXATION <br />
+        BETWEEN <br />
+        PIPMINDS INTERNATIONAL LIMITED <br />
+        AND <br />
+       {% if first_name %} {{first_name}} {% endif %}  {% if last_name %}  {{last_name}} {% endif %}
+      </h6>
+      
+      <div>
+        <p><strong>CONTRACT OF AGREEMENT</strong></p>
+        <p>
+            I, {% if first_name %} {{first_name}} {% endif %}  {% if last_name %}  {{last_name}} {% endif %} of {% if address_1 %} {{ address_1 }} {% endif %} {% if address_2 %} {{ address_2 }} {% endif %} {% if city %} {{ city }} {% endif %}  {% if state %} {{ state }}  {% endif %} in line with Clause 7 of my contract agreement with Pipminds International ltd dated the {{ plan_created |date:"l, d M Y"  }}
+            do increase my capital investment with the sum of <span id="custom_topup"> {{custom_topup|floatformat:'0'|intcomma}} </span> bringing  my total investment to the sum of  <span id="total_sum_if_topup"> {{total_sum_if_topup|floatformat:'0'|intcomma}}  <br>
+           
+           This document shall be annexed to my contract agreement and be part and parcel of same.
+        
+       
+        </p>
+
+        <p> <strong> LEGAL DISCLAIMER CLAUSE  </strong> </p>
+
+        <p> Trading forex and its investment carries a high level of risk and may not be suitable for all investors and as such fixed return on investment is globally illegal. Past performance is not indicative of future results hence the need for the new return on investment margin.  Before deciding to invest with us, you should carefully consider your investment objectives and seek advice from an independent financial advisor if you have any doubts.  </p>
+
+        <p>  Dated this day {{ today|date:"l, d M Y"  }} </p>
+
+        <b>IN WITNESS WHERE OF THE PARTIES HERETO HAVE EXECUTED THIS MOU ON THE DAY AND YEAR FIRST ABOVE WRITTEN. <br> THE COMMON SEAL PIPMINDS INTERNATIONAL LIMITED is hereunto affixed in the presence of:</b> <br>
+
+        <div class="row">
+            <div class="col text-center">
+             <img src="https://imaginariumng.com/email_images/michael/director2.png" width="100px" height="auto" alt="">
+             <hr>
+             <b>EMEM ALBAN </b> <br>
+             <b>CEO/DIRECTOR</b>
+            </div>
+            <div class="col text-center">
+             <img src="https://imaginariumng.com/email_images/michael/director1.png" width="100px" height="auto" alt="">
+             <hr>
+             <b>IFEANYI NWAMUO</b> <br>
+             <b>DIRECTOR</b>
+            </div>
+           
+        </div>
+
+
+        
+      </div>
+
+
+
+      <div class="form-group">
+        
+        <label class="custom-control-label"
+          >I have read and I agreed to the this contract
+        </label>
+      </div>
+    </div>
+  </body>
+</html>

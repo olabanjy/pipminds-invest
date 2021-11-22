@@ -1,0 +1,606 @@
+{% load static %}
+{% load humanize %}
+{% load mathfilters %}
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+<head>
+ 
+    <meta charset="utf-8">
+    <meta name="author" content="Olushola Albert">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Pipminds Investment Platform">
+   
+    <title>Pipminds Investment Dashboard </title>
+   
+    <link rel="stylesheet" href="{% static 'assets/css/investment_dashlite.css' %}?ver=2.0.0">
+    <link id="skin-default" rel="stylesheet" href="{% static 'assets/css/theme.css' %}?ver=2.0.0">
+</head>
+
+<body class="nk-body npc-invest bg-lighter ">
+    <div class="nk-app-root">
+        <div class="nk-wrap ">
+
+ 
+
+
+
+
+
+ <!-- content @s -->
+ <div class="nk-content nk-content-lg nk-content-fluid">
+    <div class="container-xl wide-lg">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head">
+                    <div class="nk-block-head-content">
+                       
+                        <div class="nk-block-between-md g-4">
+                            <div class="nk-block-head-content">
+                                <div class="nk-block-head-sub"><a href="{% url 'investment:dashboard' %}" class="back-to"><em class="icon ni ni-arrow-left"></em><span>Return to Dashboard </span></a></div>
+                                {% if my_plan.display_name %}
+                                <h2 class="nk-block-title fw-normal">{{my_plan.display_name}}</h2>
+                                {% endif %}
+                                <h4 class="nk-block-title fw-normal">{{my_plan.plan.name}} - {{my_plan.plan.period.name}} {{my_plan.plan.percentage_interest}}% for {{my_plan.plan.maturity_period}} Days</h4>
+                                <div class="nk-block-des">
+                                    <p>{{my_plan.txn_code}}  {% if my_plan.completed %} <span class="badge badge-outline badge-success">Completed </span>{% else %} <span class="badge badge-outline badge-primary">Running</span>  {% endif %}</p>
+                                </div>
+                            </div>
+                            {% if not my_plan.completed %}
+                                {% if my_plan.get_topup_starts <= today <= my_plan.get_topup_ends %}
+                                    <div class="nk-block-head-content">
+                                        <ul class="nk-block-tools gx-3">
+                                            <li class="order-md-last"><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#topupModal" ><em class="icon ni ni-plus"></em> <span>Top up investment</span> </a>   </li>
+                                            <li><a>&#128526;</a></li>
+                                            
+                                        </ul>
+                                    </div>
+                                    {% else %}
+                                    <div style="opacity: 0.7;" class="nk-block-head-content">
+                                        <ul class="nk-block-tools gx-3">
+                                            <li class="order-md-last"><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#topupModalDeactivated" ><em class="icon ni ni-plus"></em> <span>Top up investment</span> </a>   </li>
+                                            <li><a>&#128526;</a></li>
+                                            
+                                        </ul>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+
+                        </div>
+                    </div> 
+                </div><!-- .nk-block-head -->
+
+                {% if messages %}
+                <div style="color: red;"  class="nk-block-des text-center">
+                    <ul class="messages">
+                        {% for message in messages %}
+                        {% if 'error' == message.tags %}
+                        <li>{{ message }}</li>
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                <div class="nk-block">
+                    <div class="card card-bordered">
+                        <div class="card-inner">
+                            <div class="row gy-gs">
+                                <div class="col-md-6">
+                                    <div class="nk-iv-wg3">
+                                        <div class="nk-iv-wg3-group flex-lg-nowrap gx-4">
+                                            <div class="nk-iv-wg3-sub">
+                                                <div class="nk-iv-wg3-amount">
+                                                    <div class="number">{{my_plan.amount|floatformat:'0'|intcomma}} NGN </div>
+                                                </div>
+                                                <div class="nk-iv-wg3-subtitle">Invested Amount</div>
+                                            </div>
+                                            <div class="nk-iv-wg3-sub">
+                                                <span class="nk-iv-wg3-plus text-soft"><em class="icon ni ni-plus"></em></span>
+                                                <div class="nk-iv-wg3-amount">
+                                                    <div class="number">{{my_plan.profit_earned|floatformat:'0'|intcomma}} NGN </div>
+                                                </div>
+                                                <div class="nk-iv-wg3-subtitle">Profit Earned</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- .col -->
+                                <div class="col-md-6 col-lg-4 offset-lg-2">
+                                    <div class="nk-iv-wg3 pl-md-3">
+                                        <div class="nk-iv-wg3-group flex-lg-nowrap gx-4">
+                                           
+                                        </div>
+                                    </div>
+                                </div><!-- .col -->
+                            </div><!-- .row -->
+                        </div>
+                        <div id="schemeDetails" class="nk-iv-scheme-details">
+                            <ul class="nk-iv-wg3-list">
+                                <li>
+                                    <div class="sub-text">Term</div>
+                                    <div class="lead-text">{{my_plan.maturity_days|intdiv:30}} Months </div>
+                                </li>
+                                <li>
+                                    <div class="sub-text">Term start at</div>
+                                    <div class="lead-text">{{my_plan.created_at}}</div>
+                                </li>
+                                <li>
+                                    <div class="sub-text">Term end at</div>
+                                    <div class="lead-text"> {{my_plan.maturity_date}}</div>
+                                </li>
+                                <li>
+                                    <div class="sub-text">{{my_plan.plan.period.name}} interest </div>
+                                    <div class="lead-text">{{my_plan.plan.percentage_interest}} %</div>
+                                </li>
+                            </ul><!-- .nk-iv-wg3-list -->
+                            <ul class="nk-iv-wg3-list">
+                                <li>
+                                    <div class="sub-text">Reference Number </div>
+                                    <div class="lead-text">{{my_plan.txn_code}}</div>
+                                </li>
+                                <li>
+                                    <div class="sub-text">Next Payout </div>
+                                    <div class="lead-text">{{my_plan.next_payout}}</div>
+                                </li>
+                                <li>
+                                    <div class="sub-text">Investement Funded via</div>
+                                    <div class="lead-text">Flex Wallet</div>
+                                </li>
+                                <li>
+                                    <div class="sub-text">ROI payment method</div>
+                                    <div class="lead-text">Investment Wallet</div>
+                                </li>
+                            </ul><!-- .nk-iv-wg3-list -->
+                            <ul class="nk-iv-wg3-list">
+                                <li>
+                                    <div class="sub-text">Investment Plan Name</div>
+                                    <div class="lead-text"> {{my_plan.plan.name}}</div>
+                                </li>
+                                
+                                <li>
+                                    <div class="sub-text">Investment Plan Category </div>
+                                    <div class="lead-text">{{my_plan.plan.category.name}}</div>
+                                </li>
+
+                                <li>
+                                    <div class="sub-text">ROI processing fee </div>
+                                    <div class="lead-text">0 NGN </div>
+                                </li>
+                                
+                                
+                            </ul><!-- .nk-iv-wg3-list -->
+                        </div><!-- .nk-iv-scheme-details -->
+                    </div>
+
+                   
+
+                </div><!-- .nk-block -->
+               
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content @e -->
+
+  <!-- footer @s -->
+  <div class="nk-footer nk-footer-fluid bg-lighter">
+    <div class="container-xl wide-lg">
+        <div class="nk-footer-wrap">
+            <div class="nk-footer-copyright"> &copy; 2021 PIPMINDS.
+            </div>
+            <div class="nk-footer-links">
+                <ul class="nav nav-sm">
+                    <li class="nav-item"><a class="nav-link" href="#">Terms</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Privacy</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Help</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- footer @e -->
+</div>
+<!-- wrap @e -->
+</div>
+<!-- app-root @e -->
+
+<div class="modal fade zoom" tabindex="-1" id="topupModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form method="POST" class="form-validate is-alter">
+                {% csrf_token %}
+            <div class="modal-header">
+                <h5 class="modal-title">  TOP UP YOUR INVESTMENT </h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            {% if user_deposit_balance >= 50000 %}
+
+            <div class="modal-body">
+                <div>
+                    <h5> Current Invested Amount: N{{my_plan.amount|floatformat:'0'|intcomma}} </h5>
+                </div> <br>
+                <div class="form-group">
+                    <label class="form-label" for="topup_amount">Amount top up</label>
+                    <div class="form-control-wrap">
+                        <input name="topup_amount" type="number" class="form-control" id="topup_amount">
+                    </div>
+                </div>
+               
+                <div class="form-group">
+                    <div class="custom-control custom-control-xs custom-checkbox">
+                        <input name="t_and_c" type="checkbox" class="custom-control-input t_and_c" id="checkbox">
+                        <label class="custom-control-label" for="checkbox">I agree to the <a href="#"> Terms & Condition </a> </label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center">
+                <h6> Your Flex wallet balance is <strong> N{{user_deposit_balance|floatformat:'0'|intcomma}} </strong> </h6>
+            </div>
+            <br>
+            <div class="modal-footer bg-light">
+                 <button type="submit" class="btn btn-lg btn-primary ttu" id="sb-btn">Proceed</button>
+            </div>
+
+            {% else %}
+            <div class="modal-body">
+                <div>
+                    <h4> Sorry! You need to have a minimum of <strong>N50,000</strong> balance in your Flex wallet before you can proceed </h4>
+                    <h6> Your current balance is <strong> N{{user_deposit_balance|floatformat:'0'|intcomma}} </strong> </h6>
+                </div>
+               
+                
+            </div>
+            {% endif %}
+
+        </form>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade zoom" tabindex="-1" id="topupModalDeactivated">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          
+                
+            <div class="modal-header">
+                <h5 class="modal-title">  TOP UP NOT AVAILABLE </h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+           
+
+            <div class="modal-body">
+                <div>
+                    <h5> Hi {% if request.user.profile.first_name %} {{request.user.profile.first_name}} {% else %} {{request.user.email}}, <br>
+                    Your next top-up window is between {{my_plan.get_topup_starts}} and  {{my_plan.get_topup_ends}}. Kindly check back.
+                    </h5>
+                </div> 
+
+            </div>
+            
+
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script src="{% static 'assets/js/bundle.js' %}?ver=2.0.0"></script>
+<script src="{% static 'assets/js/investment_scripts.js' %}?ver=2.0.0"></script>
+<script src="{% static 'assets/js/charts/chart-invest.js' %}?ver=2.0.0"></script>
+<script>
+$(function () {
+    var t_and_c = $('.t_and_c');
+    var sb_btn = $('#sb-btn');
+
+    t_and_c.on('change', function() {
+        sb_btn.prop("disabled", !this.checked);
+        }).trigger('change');
+
+}); 
+</script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% load static %}
+{% load humanize %}
+{% load mathfilters %}
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+<head>
+ 
+    <meta charset="utf-8">
+    <meta name="author" content="Olushola Albert">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Pipminds Investment Platform">
+   
+    <title>Pipminds Investment Dashboard </title>
+   
+    <link rel="stylesheet" href="{% static 'assets/css/investment_dashlite.css' %}?ver=2.0.0">
+    <link id="skin-default" rel="stylesheet" href="{% static 'assets/css/theme.css' %}?ver=2.0.0">
+</head>
+
+<body class="nk-body npc-invest bg-lighter ">
+    <div class="nk-app-root">
+        <div class="nk-wrap ">
+
+ 
+
+
+
+
+
+ <!-- content @s -->
+ <div class="nk-content nk-content-lg nk-content-fluid">
+    <div class="container-xl wide-lg">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head">
+                    <div class="nk-block-head-content">
+                       
+                        <div class="nk-block-between-md g-4">
+                            <div class="nk-block-head-content">
+                                <div class="nk-block-head-sub"><a href="{% url 'investment:dashboard' %}" class="back-to"><em class="icon ni ni-arrow-left"></em><span>Return to Dashboard </span></a></div>
+                                {% if my_plan.display_name %}
+                                <h2 class="nk-block-title fw-normal">{{my_plan.display_name}}</h2>
+                                {% endif %}
+                                <h4 class="nk-block-title fw-normal">{{my_plan.plan.name}} - {{my_plan.plan.period.name}} {{my_plan.plan.percentage_interest}}% for {{my_plan.plan.maturity_period}} Days</h4>
+                                <div class="nk-block-des">
+                                    <p>{{my_plan.txn_code}}  {% if my_plan.completed %} <span class="badge badge-outline badge-success">Completed </span>{% else %} <span class="badge badge-outline badge-primary">Running</span>  {% endif %}</p>
+                                </div>
+                            </div>
+                            {% if not my_plan.completed %}
+                                {% if my_plan.get_topup_starts <= today <= my_plan.get_topup_ends %}
+                                    <div class="nk-block-head-content">
+                                        <ul class="nk-block-tools gx-3">
+                                            <li class="order-md-last"><a href="#" class="btn btn-primary" data-toggle="modal" data-target="#topupModal" ><em class="icon ni ni-plus"></em> <span>Top up investment</span> </a>   </li>
+                                            <li><a>&#128526;</a></li>
+                                            
+                                        </ul>
+                                    </div>
+                                    {% endif %}
+                            {% endif %}
+
+                        </div>
+                    </div> 
+                </div><!-- .nk-block-head -->
+
+                {% if messages %}
+                <div style="color: red;"  class="nk-block-des text-center">
+                    <ul class="messages">
+                        {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                <div class="nk-block">
+                    <div class="card card-bordered">
+                        <div class="card-inner">
+                            <div class="row gy-gs">
+                                <div class="col-md-6">
+                                    <div class="nk-iv-wg3">
+                                        <div class="nk-iv-wg3-group flex-lg-nowrap gx-4">
+                                            <div class="nk-iv-wg3-sub">
+                                                <div class="nk-iv-wg3-amount">
+                                                    <div class="number">{{my_plan.amount|floatformat:'0'|intcomma}} NGN </div>
+                                                </div>
+                                                <div class="nk-iv-wg3-subtitle">Invested Amount</div>
+                                            </div>
+                                            <div class="nk-iv-wg3-sub">
+                                                <span class="nk-iv-wg3-plus text-soft"><em class="icon ni ni-plus"></em></span>
+                                                <div class="nk-iv-wg3-amount">
+                                                    <div class="number">{{my_plan.profit_earned|floatformat:'0'|intcomma}} NGN </div>
+                                                </div>
+                                                <div class="nk-iv-wg3-subtitle">Profit Earned</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- .col -->
+                                <div class="col-md-6 col-lg-4 offset-lg-2">
+                                    <div class="nk-iv-wg3 pl-md-3">
+                                        <div class="nk-iv-wg3-group flex-lg-nowrap gx-4">
+                                           
+                                        </div>
+                                    </div>
+                                </div><!-- .col -->
+                            </div><!-- .row -->
+                        </div>
+                        <div id="schemeDetails" class="nk-iv-scheme-details">
+                            <ul class="nk-iv-wg3-list">
+                                <li>
+                                    <div class="sub-text">Term</div>
+                                    <div class="lead-text">{{my_plan.maturity_days|intdiv:30}} Months </div>
+                                </li>
+                                <li>
+                                    <div class="sub-text">Term start at</div>
+                                    <div class="lead-text">{{my_plan.created_at}}</div>
+                                </li>
+                                <li>
+                                    <div class="sub-text">Term end at</div>
+                                    <div class="lead-text"> {{my_plan.maturity_date}}</div>
+                                </li>
+                                <li>
+                                    <div class="sub-text">{{my_plan.plan.period.name}} interest </div>
+                                    <div class="lead-text">{{my_plan.plan.percentage_interest}} %</div>
+                                </li>
+                            </ul><!-- .nk-iv-wg3-list -->
+                            <ul class="nk-iv-wg3-list">
+                                <li>
+                                    <div class="sub-text">Reference Number </div>
+                                    <div class="lead-text">{{my_plan.txn_code}}</div>
+                                </li>
+                                <li>
+                                    <div class="sub-text">Next Payout </div>
+                                    <div class="lead-text">{{my_plan.next_payout}}</div>
+                                </li>
+                                <li>
+                                    <div class="sub-text">Investement Funded via</div>
+                                    <div class="lead-text">Flex Wallet</div>
+                                </li>
+                                <li>
+                                    <div class="sub-text">ROI payment method</div>
+                                    <div class="lead-text">Investment Wallet</div>
+                                </li>
+                            </ul><!-- .nk-iv-wg3-list -->
+                            <ul class="nk-iv-wg3-list">
+                                <li>
+                                    <div class="sub-text">Investment Plan Name</div>
+                                    <div class="lead-text"> {{my_plan.plan.name}}</div>
+                                </li>
+                                
+                                <li>
+                                    <div class="sub-text">Investment Plan Category </div>
+                                    <div class="lead-text">{{my_plan.plan.category.name}}</div>
+                                </li>
+
+                                <li>
+                                    <div class="sub-text">ROI processing fee </div>
+                                    <div class="lead-text">0 NGN </div>
+                                </li>
+                                
+                                
+                            </ul><!-- .nk-iv-wg3-list -->
+                        </div><!-- .nk-iv-scheme-details -->
+                    </div>
+
+                   
+
+                </div><!-- .nk-block -->
+               
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- content @e -->
+
+  <!-- footer @s -->
+  <div class="nk-footer nk-footer-fluid bg-lighter">
+    <div class="container-xl wide-lg">
+        <div class="nk-footer-wrap">
+            <div class="nk-footer-copyright"> &copy; 2020 PIPMINDS.
+            </div>
+            <div class="nk-footer-links">
+                <ul class="nav nav-sm">
+                    <li class="nav-item"><a class="nav-link" href="#">Terms</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Privacy</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Help</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- footer @e -->
+</div>
+<!-- wrap @e -->
+</div>
+<!-- app-root @e -->
+
+<div class="modal fade zoom" tabindex="-1" id="topupModal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form method="POST" class="form-validate is-alter">
+                {% csrf_token %}
+            <div class="modal-header">
+                <h5 class="modal-title">  TOP UP YOUR INVESTMENT </h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            {% if user_deposit_balance >= 50000 %}
+
+            <div class="modal-body">
+                <div>
+                    <h5> Current Invested Amount: N{{my_plan.amount|floatformat:'0'|intcomma}} </h5>
+                </div> <br>
+                <div class="form-group">
+                    <label class="form-label" for="topup_amount">Amount top up</label>
+                    <div class="form-control-wrap">
+                        <input name="topup_amount" type="number" class="form-control" id="topup_amount">
+                    </div>
+                </div>
+               
+                <div class="form-group">
+                    <div class="custom-control custom-control-xs custom-checkbox">
+                        <input name="t_and_c" type="checkbox" class="custom-control-input t_and_c" id="checkbox">
+                        <label class="custom-control-label" for="checkbox">I agree to the <a href="#"> Terms & Condition </a> </label>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="modal-footer bg-light">
+                 <button type="submit" class="btn btn-lg btn-primary ttu" id="sb-btn">Proceed</button>
+            </div>
+
+            {% else %}
+            <div class="modal-body">
+                <div>
+                    <h4> Sorry! You need to have a minimum of <strong>N50,000</strong> balance in your Main wallet before you can proceed </h4>
+                    <h6> Your current balance is <strong> N{{user_deposit_balance|floatformat:'0'|intcomma}} </strong> </h6>
+                </div>
+               
+                
+            </div>
+            {% endif %}
+
+        </form>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script src="{% static 'assets/js/bundle.js' %}?ver=2.0.0"></script>
+<script src="{% static 'assets/js/investment_scripts.js' %}?ver=2.0.0"></script>
+<script src="{% static 'assets/js/charts/chart-invest.js' %}?ver=2.0.0"></script>
+<script>
+$(function () {
+    var t_and_c = $('.t_and_c');
+    var sb_btn = $('#sb-btn');
+
+    t_and_c.on('change', function() {
+        sb_btn.prop("disabled", !this.checked);
+        }).trigger('change');
+
+}); 
+</script>
+
+</body>
+
+</html>

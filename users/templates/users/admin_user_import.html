@@ -1,0 +1,209 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="author" content="Pipminds">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Pipminds Investment Platform">
+   
+        <title>User Import|  Pipminds Invest </title>
+        <!-- StyleSheets  -->
+        <link rel="stylesheet" href="{% static 'auths/assets/css/auths_dashlite.css' %}">
+        <link id="skin-default" rel="stylesheet" href="{% static 'auths/assets/css/theme.css' %}">
+    </head>
+
+<body class="nk-body npc-invest bg-lighter ">
+    <div class="nk-app-root">
+        <!-- wrap @s -->
+        <div class="nk-wrap ">
+
+
+            
+            <!-- content @s -->
+            <div class="nk-content nk-content-lg nk-content-fluid">
+                <div class="container-xl wide-lg">
+                    <div class="nk-content-inner">
+                        <div class="nk-content-body">
+                            <div class="kyc-app wide-sm m-auto">
+                                <div class="nk-block-head nk-block-head-lg wide-xs mx-auto">
+                                    <div class="nk-block-head-content text-center">
+                                        <h2 class="nk-block-title fw-normal">User Import </h2>
+                                        <div class="nk-block-des">
+                                            <p>To comply with regulation, each participant will have to go through identity verification (KYC/AML) to prevent fraud cases. </p>
+                                        </div>
+                                    </div>
+                                </div><!-- nk-block -->
+                                <div class="nk-block">
+                                    <form method="POST" enctype="multipart/form-data" id="kyc_form">
+                                        {% csrf_token %}
+                                    <div class="card card-bordered">
+                                        <div class="nk-kycfm">
+                                            
+
+                                            
+
+
+
+                                            <div class="nk-kycfm-content">
+                                               
+                                                
+                                                
+                                                <div id="id_back_view" class="nk-kycfm-upload">
+                                                    <h6 class="title nk-kycfm-upload-title">Upload Back Page</h6>
+                                                    <div class="row align-items-center">
+                                                        <div class="col-sm-8">
+                                                            <div class="nk-kycfm-upload-box">
+                                                                <div>
+
+                                                                    {{form.document}}
+                                                                   
+                                                                </div>
+                                                                <div>
+                                                                    {% if form.document_back.errors %}
+                                                                        {% for error in form.document_back.errors %}
+                                                                        <div class="nk-kycfm-note">
+                                                                            <em class="icon ni ni-info-fill" data-toggle="tooltip" data-placement="right" title="Tooltip on right"></em>
+                                                                            <p style="color: red !important;">{{ error|escape }}</p>
+                                                                        </div>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-4 d-none d-sm-block">
+                                                            <div class="mx-md-4">
+                                                                <img src="{% static 'auths/images/icons/id-back.svg' %}" alt="ID Back">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div><!-- nk-kycfm-upload -->
+                                                
+                                            </div><!-- nk-kycfm-content -->
+
+                                            
+                                           
+                                           
+
+                                            <div class="nk-kycfm-footer">
+                                                
+                                      
+                                                <div class="nk-kycfm-action pt-2">
+                                                    <button type="submit" class="btn btn-lg btn-primary"> Submit</button>
+                                                </div>
+
+                                                
+
+                                            
+
+                                            </div><!-- nk-kycfm-footer -->
+                                        </div><!-- nk-kycfm -->
+                                    </div><!-- .card -->
+
+                                    </form>
+                                </div><!-- nk-block -->
+
+
+                            </div><!-- .kyc-app -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content @e -->
+            <!-- footer @s -->
+            <div class="nk-footer nk-footer-fluid bg-lighter">
+                <div class="container-xl wide-lg">
+                    <div class="nk-footer-wrap">
+                        <div class="nk-footer-copyright"> &copy; <script>document.write(new Date().getFullYear());</script> Pipminds International. All Rights Reserved.
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- footer @e -->
+        </div>
+        <!-- wrap @e -->
+    </div>
+    <!-- app-root @e -->
+    <!-- JavaScript -->
+    
+    <script src="{% static 'auths/assets/js/charts/chart-invest.js' %}"></script> 
+    <script src="{% static 'auths/assets/js/bundle.js' %}"></script>
+    <script src="{% static 'auths/assets/js/auths_scripts.js' %}"></script>
+
+
+
+
+
+<script>
+
+var timeout = null;
+
+$('#acct_num').keyup(function() {
+    clearTimeout(timeout);
+    // document.getElementById('err_msg').innerHTML = '<p style="color:blue; font-weight:600;" >  Verifying Account name --- </p>' ;
+    document.getElementById('err_msg').innerHTML = '<div class="d-flex align-items-center">  <strong>Verifying Account...</strong>  <div class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></div></div>' ;
+
+    timeout = setTimeout(function() {
+        //do stuff here
+
+        acct_num = $('#acct_num').val();
+
+        $.ajax({
+            type:"GET", 
+            url: "{% url 'users:check_account_details' %}",
+            data:{'acct_num':acct_num},
+            dataType: 'json',
+            success: function (data){
+                if (data.status) {
+                    console.log("Account Found")
+                    document.getElementById('err_msg').innerHTML = '<p style="color:blue; font-weight:600;" >  Account Verified </p>' ;
+                    document.getElementById("acct_name").value = data.acct_name;
+                    document.getElementById("bank_name").value = data.bank_name;
+                    
+                } else{
+                    console.log("Account not found")
+             
+                    document.getElementById('err_msg').innerHTML = '<p style="color:red; font-weight:600;" > ' + data.msg + '&nbsp;' +  '</p>' ;
+                    document.getElementById("acct_name").value = '';
+                    document.getElementById("bank_name").value = '';
+                }
+            }
+        })
+
+
+    }, 3000);
+});
+
+
+
+</script>
+
+<script type="text/javascript">
+
+    $(function () {
+        $("input[name='doc_type']").click(function () {
+            if ($(".id_passport").is(":checked")) {
+                $("#id_back_view").hide();
+            } else {
+                $("#id_back_view").show();
+            }
+        });
+    });
+
+
+</script>
+
+<script type="text/javascript">
+    $('#kyc_form').submit(function(){
+    $("#kyc_form :disabled").removeAttr('disabled');
+    });
+</script>
+
+
+</body>
+
+</html>

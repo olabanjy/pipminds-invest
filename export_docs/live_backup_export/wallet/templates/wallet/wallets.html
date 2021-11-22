@@ -1,0 +1,199 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load humanize %}
+{% load mathfilters %}
+{% block content %}
+                <!-- content @s -->
+                <div class="nk-content nk-content-fluid">
+                    <div class="container-xl wide-lg">
+                        <div class="nk-content-body">
+                            <div class="nk-block-head">
+                                <div class="nk-block-head-sub"><span>Account Wallet</span> </div><!-- .nk-block-head-sub -->
+                                <div class="nk-block-between-md g-4">
+                                    <div class="nk-block-head-content">
+                                        <h2 class="nk-block-title fw-normal">Wallet / Assets</h2>
+                                        <div class="nk-block-des">
+                                            <p>Here is the list of your assets / wallets!</p>
+                                        </div>
+                                        {% if messages %}
+                                        <div style="color: red;"  class="nk-block-des text-center">
+                                            <ul class="messages">
+                                                {% for message in messages %}
+                                                {% if 'error' == message.tags %}
+                                                <li>{{ message }}</li>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                </div><!-- .nk-block-between -->
+                            </div><!-- .nk-block-head -->
+                            <div class="nk-block">
+                                
+                                <div class="row g-gs">
+                                    <div class="col-sm-6 col-lg-4 col-xl-6 col-xxl-4">
+                                        <div class="card card-bordered is-dark">
+                                            <div class="nk-wgw">
+                                                <div class="nk-wgw-inner">
+                                                    <a class="nk-wgw-name" >
+                                                        <div class="nk-wgw-icon is-default">
+                                                            <em class="icon ni ni-sign-kobo"></em>
+                                                        </div>
+                                                        <h5 class="nk-wgw-title title">Flex Wallet</h5>
+                                                    </a>
+                                                    <div class="nk-wgw-balance">
+                                                        <div class="amount">{{flex_wallet.overall_balance|floatformat:'0'|intcomma}} <span class="currency currency-nio">NGN</span></div>
+                                                     
+                                                    </div>
+                                                </div>
+                                                <div class="nk-wgw-actions">
+                                                    <ul>
+                                                        <li><a href="{% url 'wallet:deposit' %}"><em class="icon ni ni-arrow-up-right"></em> <span>Deposit</span></a></li>
+                                                        {% if flex_can_withdraw %}
+                                                        <li><a href="{% url 'wallet:withdraw' wallet='flex_wallet' %}"><em class="icon ni ni-arrow-to-right"></em><span>Withdraw</span></a></li>
+                                                        {% else %}
+                                                        <li><a href="#" data-toggle="modal" data-target="#flex_cannot_withdraw"  ><em class="icon ni ni-arrow-to-right"></em><span>Withdraw</span></a></li>
+                                                        {% endif %}
+                                                        
+                                                    </ul>
+                                                    
+                                                </div>
+                                                
+                                            </div>
+                                        </div><!-- .card -->
+                                    </div><!-- .col -->
+                                    <div class="col-sm-6 col-lg-4 col-xl-6 col-xxl-4">
+                                        <div class="card card-bordered">
+                                            <div class="nk-wgw">
+                                                <div class="nk-wgw-inner">
+                                                    <a class="nk-wgw-name">
+                                                        <div class="nk-wgw-icon">
+                                                            <em class="icon ni ni-sign-kobo"></em>
+                                                        </div>
+                                                        <h5 class="nk-wgw-title title">Investment Earnings </h5>
+                                                    </a>
+                                                    <div class="nk-wgw-balance">
+                                                        <div class="amount"> {{investment_wallet.balance|floatformat:'0'|intcomma}} <span class="currency currency-eth">NGN</span></div>
+                                                       
+                                                    </div>
+                                                </div>
+                                                <div class="nk-wgw-actions">
+                                                    <ul>
+                                                       
+                                                        <li><a href="{% url 'wallet:withdraw' wallet='investment' %}"><em class="icon ni ni-arrow-to-right"></em><span>Withdraw</span></a></li>
+                                                        
+                                                    </ul>
+                                                </div>
+                                               
+                                            </div>
+                                        </div><!-- .card -->
+                                    </div><!-- .col -->
+                                    <div class="col-sm-6 col-lg-4 col-xl-6 col-xxl-4">
+                                        <div class="card card-bordered">
+                                            <div class="nk-wgw">
+                                                <div class="nk-wgw-inner">
+                                                    <a class="nk-wgw-name">
+                                                        <div class="nk-wgw-icon">
+                                                            <em class="icon ni ni-sign-kobo"></em>
+                                                        </div>
+                                                        <h5 class="nk-wgw-title title"> Referral Earnings   </h5>
+                                                    </a>
+                                                    <div class="nk-wgw-balance">
+                                                        {% if request.user.profile.ppp_verfied %}
+                                                        <div class="amount"> {{referral_wallet.balance|floatformat:'0'|intcomma}} <span class="currency currency-btc">NGN</span></div>
+                                                       {% else %}
+                                                       <h4> <a href="{% url 'users:subscription-detail' %}">Subscribe</a> to PPP to unlock Referral Benefits  </h4>
+                                                       {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="nk-wgw-actions">
+                                                    <!-- <ul>
+                                                        {% if request.user.profile.ppp_verfied %}
+                                                            {% if ref_can_withdraw %}
+                                                            <li><a href="{% url 'wallet:withdraw' wallet='referral' %}"><em class="icon ni ni-arrow-to-right"></em><span>Withdraw</span></a></li>
+                                                            {% else %}
+                                                            <li><a href="#" data-toggle="modal" data-target="#ref_cannot_withdraw" ><em class="icon ni ni-arrow-to-right"></em><span>Withdraw</span></a></li>
+                                                            {% endif %}
+                                                        {% else %}
+                                                        <li><a href="#####"><span></span></a></li>
+                                                        {% endif %}
+                                                    </ul> -->
+                                                </div>
+                                                
+                                            </div>
+                                        </div><!-- .card -->
+                                    </div><!-- .col -->
+                                </div><!-- .row -->
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- content @e -->
+{% endblock content %}
+
+{% block modals %}
+                
+               
+   
+            
+<div class="modal fade" tabindex="-1" role="dialog" id="ref_cannot_withdraw">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+            <a href="#" class="close" data-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
+            <div class="modal-body modal-body-lg text-center">
+                <div class="nk-modal">
+                    <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-check-circle-cut bg-danger"></em>
+                    <h4 class="nk-modal-title">You cannot withdraw now </h4>
+                    <div class="nk-modal-text">
+                        <p class="caption-text"> <strong>  Your next withdrawal date is the first day of next month  </strong> </p>
+                       
+                    </div>
+                    <div class="nk-modal-action-lg">
+                        <ul class="btn-group gx-4">
+                            <li><a href="{% url 'wallet:dashboard' %}" class="btn btn-lg btn-mw btn-primary">Return</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div><!-- .modal-body -->
+            <div class="modal-footer bg-lighter">
+                <div class="text-center w-100">
+                   
+                </div>
+            </div>
+        </div><!-- .modal-content -->
+    </div><!-- .modla-dialog -->
+</div><!-- .modal -->
+
+
+<div class="modal fade" tabindex="-1" role="dialog" id="flex_cannot_withdraw">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+            <a href="#" class="close" data-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
+            <div class="modal-body modal-body-lg text-center">
+                <div class="nk-modal">
+                    <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-check-circle-cut bg-danger"></em>
+                    <h4 class="nk-modal-title">Flex Withdrawal Disabled </h4>
+                    <div class="nk-modal-text">
+                        <p class="caption-text"> <strong> You have made a withdrawal in the past 7 days.   Your next withdrawal date is {{flex_next_withdrawal}} </strong> </p>
+                       
+                    </div>
+                    <div class="nk-modal-action-lg">
+                        <ul class="btn-group gx-4">
+                            <li><a href="{% url 'wallet:dashboard' %}" class="btn btn-lg btn-mw btn-primary">Return</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div><!-- .modal-body -->
+            <div class="modal-footer bg-lighter">
+                <div class="text-center w-100">
+                   
+                </div>
+            </div>
+        </div><!-- .modal-content -->
+    </div><!-- .modla-dialog -->
+</div><!-- .modal -->
+
+{% endblock modals %}

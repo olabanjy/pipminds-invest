@@ -1,0 +1,133 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load humanize %}
+
+
+
+{% block content %}
+ <!-- content @s -->
+ <div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-lg">
+        <div class="nk-content-body">
+            <div class="buysell wide-xs m-auto">
+               
+                <div class="buysell-title text-center">
+                    <h2 class="title">How much do you would you like to withdraw </h2>
+                </div><!-- .buysell-title -->
+                <div class="buysell-block">
+                    <form method="POST" class="buysell-form">
+                        {% csrf_token %}
+
+                        <div class="buysell-field form-group">
+                            <div class="form-label-group">
+                                <label class="form-label" for="buysell-amount">Amount</label>
+                            </div>
+                            <div class="form-control-group">
+                                <input type="hidden" name="user_profile" id="user_profile" value="{{request.user.profile}}">
+                                <input type="hidden" name="which_wallet" id="which_wallet" value="{{which_wallet}}">
+
+                                {{form.amount}}
+                                
+                                
+                            </div>
+                            
+                            
+                             
+                        </div>
+                        {% if which_wallet == 'investment' %}
+                        <div class="buysell-field form-group">
+                            <div class="form-label-group">
+                                <label class="form-label">Choose destination </label>
+                            </div>
+                            <div class="form-control-wrap">
+                                <div class="form-control-select">
+                                    {{form.destination}}
+                                </div>
+                            </div>
+                            
+                        </div>
+                        {% elif which_wallet == 'flex_wallet' %}
+
+                        <div class="buysell-field form-group">
+                            <div class="form-label-group">
+                                <label class="form-label">Withdrawal made to Bank Account </label>
+                            </div>
+                            <div class="container">
+                                <p>Bank Name: {{user_bank_account.bank_name}} </p>
+                                <p>Account Name: {{user_bank_account.account_name}} </p>
+                                <p>Account Number: {{user_bank_account.account_number}} </p>
+                            </div>
+                            
+                        </div>
+
+                        {% endif %}
+
+                        <div class="form-note-group">
+                            <span id="err_msg" class="buysell-min form-note-alt">  </span>
+                            
+                        </div> 
+                    
+                        <div id="continue_btn" class="buysell-field form-action">
+                            <button type="submit" class="btn btn-lg btn-block btn-primary" >Continue </button>
+                        </div>
+                        
+                    </form><!-- .buysell-form -->
+                    <div class="form-note-group">
+                        {% if messages %}
+                        <div style="color: red;"  class="nk-block-des text-center">
+                            <ul class="messages">
+                                {% for message in messages %}
+                                {% if 'error' == message.tags %}
+                                <li>{{ message }}</li>
+                                {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div><!-- .buysell-block -->
+            </div><!-- .buysell -->
+        </div>
+    </div>
+</div>
+<!-- content @e -->
+
+{% endblock content %}
+
+
+{% block extra_scripts %}
+ 
+<script>
+    function checkBalance() {
+
+        var amount = document.getElementById("buysell-amount").value;
+        var user = document.getElementById("user_profile").value;
+        var which_wallet = document.getElementById("which_wallet").value;
+
+
+        $.ajax({
+            type:"GET", 
+            url: "{% url 'wallet:check_balance' %}",
+            data:{'user':user, 'amount':amount, 'which_wallet': which_wallet}, 
+            dataType: 'json',
+            success: function (data){
+                if ( amount <=  Math.floor(data.my_balance)) {
+                    console.log("Amount is less or equal to balance ")
+                    console.log(Math.floor(data.my_balance))
+                    document.getElementById('err_msg').innerHTML = '';
+                    document.getElementById('continue_btn').style.display = 'block';
+                } else{
+                    console.log("Amount is higher than balance")
+                    console.log(Math.floor(data.my_balance))
+                    document.getElementById('err_msg').innerHTML = '<p style="color:red; font-weight:600;"> You do not have enough to withdraw. Please enter an amount less or equal to '  + data.my_balance +   '</p>';
+                    document.getElementById('continue_btn').style.display = 'none';
+                }
+            }
+        })
+
+       
+    }
+</script>
+
+
+{% endblock extra_scripts %}

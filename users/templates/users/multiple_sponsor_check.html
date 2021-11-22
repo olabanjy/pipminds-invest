@@ -1,0 +1,93 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="author" content="Pipminds">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Pipminds Investment Platform">
+   
+        <title>User Import|  Pipminds Invest </title>
+        <!-- StyleSheets  -->
+        <link rel="stylesheet" href="{% static 'auths/assets/css/auths_dashlite.css' %}">
+        <link id="skin-default" rel="stylesheet" href="{% static 'auths/assets/css/theme.css' %}">
+    </head>
+
+<body class="nk-body npc-invest bg-lighter ">
+    <div class="nk-app-root">
+        <!-- wrap @s -->
+        <div class="nk-wrap ">
+
+
+            
+            <!-- content @s -->
+            <div class="nk-content nk-content-lg nk-content-fluid">
+                <div class="container-xl wide-lg">
+                    <div class="nk-content-inner">
+                        <div class="nk-content-body">
+                            <div class="kyc-app wide-sm m-auto">
+                                <div class="nk-block-head nk-block-head-lg wide-xs mx-auto">
+                                    <div class="nk-block-head-content text-center">
+                                        <h2 class="nk-block-title fw-normal"> Multilple sponsor checks  </h2>
+                                        <div class="nk-block-des">
+                                            <p> </p>
+                                        </div>
+                                    </div>
+                                </div><!-- nk-block -->
+                                <div class="nk-block">
+                                    {% for record in the_data %}
+                                 <div>
+                                     <span> {{record.the_user}} </span> <span> {{record.the_sponsor}} </span>
+                                 </div>
+                                    {% endfor %}
+                                 {% if the_data %}
+                                    {{the_data}}
+                                {% else %}
+                                No data here 
+                                {% endif %}
+                                </div><!-- nk-block -->
+
+
+                            </div><!-- .kyc-app -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content @e -->
+            <!-- footer @s -->
+            <div class="nk-footer nk-footer-fluid bg-lighter">
+                <div class="container-xl wide-lg">
+                    <div class="nk-footer-wrap">
+                        <div class="nk-footer-copyright"> &copy; <script>document.write(new Date().getFullYear());</script> Pipminds International. All Rights Reserved.
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- footer @e -->
+        </div>
+        <!-- wrap @e -->
+    </div>
+    <!-- app-root @e -->
+    <!-- JavaScript -->
+    
+    <script src="{% static 'auths/assets/js/charts/chart-invest.js' %}"></script> 
+    <script src="{% static 'auths/assets/js/bundle.js' %}"></script>
+    <script src="{% static 'auths/assets/js/auths_scripts.js' %}"></script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+
+</html>

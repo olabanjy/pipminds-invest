@@ -1,0 +1,348 @@
+{% load static %}
+{% load wallet_tags %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+<head>
+   
+    <meta charset="utf-8">
+    <meta name="author" content="Olushola Albert">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Pipminds Investment Platform">
+    <!-- Fav Icon  -->
+    <!-- <link rel="shortcut icon" href="/img/Icon.png"> -->
+    <!-- Page Title  -->
+    <title>Wallet  | Pipminds </title>
+    <!-- StyleSheets  -->
+    <link rel="stylesheet" href="{% static 'assets/css/wallet_dashlite.css' %}">
+    <link id="skin-default" rel="stylesheet" href="{% static 'assets/css/theme.css' %}">
+</head>
+
+<body class="nk-body npc-crypto bg-white has-sidebar ">
+    <div class="nk-app-root">
+        <!-- main @s -->
+        <div class="nk-main ">
+            <!-- sidebar @s -->
+            <div class="nk-sidebar nk-sidebar-fixed " data-content="sidebarMenu">
+                <div class="nk-sidebar-element nk-sidebar-head">
+                    <div class="nk-sidebar-brand">
+                        <a href="#" class="logo-link nk-sidebar-logo">
+                            <img class="logo-light logo-img" width="63px" height="auto" src="{% static 'images/Icon.png' %}" srcset="{% static 'images/Icon.png' %} 2x" alt="logo">
+                            <img class="logo-dark logo-img" src="{% static 'images/Icon.png' %}" srcset="{% static 'images/Icon.png' %} 2x" alt="logo-dark">
+                        </a>
+                    </div>
+                    <div class="nk-menu-trigger mr-n2">
+                        <a href="#" class="nk-nav-toggle nk-quick-nav-icon d-xl-none" data-target="sidebarMenu"><em class="icon ni ni-arrow-left"></em></a>
+                    </div>
+                </div><!-- .nk-sidebar-element -->
+                <div class="nk-sidebar-element">
+                    <div class="nk-sidebar-body" data-simplebar>
+                        <div class="nk-sidebar-content">
+                            <div class="nk-sidebar-widget d-none d-xl-block">
+                                <div class="user-account-info between-center">
+                                    <div class="user-account-main">
+                                        <h6 class="overline-title-alt">Portfolio</h6>
+                                        <div class="user-balance">{{request.user|overall_balance|intcomma}} <small class="currency currency-btc">NGN</small></div>
+                                        
+                                    </div>
+                                    <a href="#" class="btn btn-white btn-icon btn-light"><em class="icon ni ni-line-chart"></em></a>
+                                </div>
+                                <ul class="user-account-data gy-1">
+                                    <li>
+                                        <div class="user-account-label">
+                                            <span class="sub-text"> Wallets</span>
+                                        </div>
+                                        <div class="user-account-value">
+                                            <span class="lead-text"> 3 </span>
+                                           
+                                        </div>
+                                    </li>
+                                  
+                                </ul>
+                                <div class="user-account-actions">
+                                    <ul class="g-3">
+                                        <li><a href="{% url 'wallet:deposit' %}" class="btn btn-lg btn-primary"><span>Fund Wallet </span></a></li>
+                                    </ul>
+                                </div>
+                            </div><!-- .nk-sidebar-widget -->
+                            <div class="nk-sidebar-widget nk-sidebar-widget-full d-xl-none pt-0">
+                                <a class="nk-profile-toggle toggle-expand" data-target="sidebarProfile" href="#">
+                                    <div class="user-card-wrap">
+                                        <div class="user-card">
+                                            <div class="user-avatar">
+                                                <span>OA</span>
+                                            </div>
+                                            <div class="user-info">
+                                                <span class="lead-text">{{request.user.profile.first_name}} {{request.user.profile.last_name}}</span>
+                                                <span class="sub-text">{{request.user.email}}</span>
+                                            </div>
+                                            <div class="user-action">
+                                                <em class="icon ni ni-chevron-down"></em>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a> 
+                                <div class="nk-profile-content toggle-expand-content" data-content="sidebarProfile">
+                                    <div class="user-account-info between-center">
+                                        <div class="user-account-main">
+                                            <h6 class="overline-title-alt">Portfolio </h6>
+                                            <div class="user-balance"> {{request.user|overall_balance|intcomma}} <small class="currency currency-btc">NGN</small></div>
+                                            <!-- <div class="user-balance-alt">18,934,984<span class="currency currency-btc">NGN</span></div> -->
+                                        </div>
+                                        <a href="#" class="btn btn-icon btn-light"><em class="icon ni ni-line-chart"></em></a>
+                                    </div>
+                                    <ul class="user-account-data">
+                                       
+                                        
+                                    </ul>
+                                    <ul class="user-account-links">
+                                        <li><a href="{% url 'wallet:deposit' %} " class="link"><span>Deposit Funds</span> <em class="icon ni ni-wallet-out"></em></a></li>
+                                        
+                                    </ul>
+                                    <ul class="link-list">
+                                        <li><a href="{% url 'users:dashboard'%}"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
+                                        <li><a href="{% url 'users:profile-settings'%}"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
+                                        
+                                    </ul>
+                                    <ul class="link-list">
+                                        <li><a href="#"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                    </ul>
+                                </div>
+                            </div><!-- .nk-sidebar-widget -->
+                            <div class="nk-sidebar-menu">
+                                <!-- Menu -->
+                                <ul class="nk-menu">
+                                    <li class="nk-menu-heading">
+                                        <h6 class="overline-title">Menu</h6>
+                                    </li>
+                                    <li class="nk-menu-item"> 
+                                        <a href="{% url 'wallet:dashboard' %}" class="nk-menu-link">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-dashboard"></em></span>
+                                            <span class="nk-menu-text">Dashboard</span>
+                                        </a>
+                                    </li>
+                                    
+                                    <li class="nk-menu-item">
+                                        <a href="{% url 'wallet:wallets' %}" class="nk-menu-link">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-wallet-alt"></em></span>
+                                            <span class="nk-menu-text">Wallets</span>
+                                        </a>
+                                    </li>
+                                    <!-- <li class="nk-menu-item">
+                                        <a href="#" class="nk-menu-link">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-coins"></em></span>
+                                            <span class="nk-menu-text">Deposit / Withdraw</span>
+                                        </a>
+                                    </li> -->
+                                    <li class="nk-menu-item">
+                                        <a href="#" class="nk-menu-link">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-repeat"></em></span>
+                                            <span class="nk-menu-text">History</span>
+                                        </a>
+                                    </li>
+                                    
+                                    <li class="nk-menu-item">
+                                        <a href="{% url 'users:dashboard' %}" class="nk-menu-link">
+                                            <span class="nk-menu-icon"><em class="icon ni ni-account-setting"></em></span>
+                                            <span class="nk-menu-text">My Profile</span>
+                                        </a>
+                                    </li>
+                                   
+                                   
+                                   
+
+                                    
+                                </ul><!-- .nk-menu -->
+                            </div><!-- .nk-sidebar-menu -->
+                           
+                            <div class="nk-sidebar-footer">
+                                <ul class="nk-menu nk-menu-footer">
+                                    
+                                    
+                                </ul><!-- .nk-footer-menu -->
+                            </div><!-- .nk-sidebar-footer -->
+                        </div><!-- .nk-sidebar-content -->
+                    </div><!-- .nk-sidebar-body -->
+                </div><!-- .nk-sidebar-element -->
+            </div>
+            <!-- sidebar @e -->
+            <!-- wrap @s -->
+            <div class="nk-wrap ">
+                <!-- main header @s -->
+                <div class="nk-header nk-header-fluid nk-header-fixed is-light">
+                    <div class="container-fluid">
+                        <div class="nk-header-wrap">
+                            <div class="nk-menu-trigger d-xl-none ml-n1">
+                                <a href="#" class="nk-nav-toggle nk-quick-nav-icon" data-target="sidebarMenu"><em class="icon ni ni-menu"></em></a>
+                            </div>
+                            <div class="nk-header-brand d-xl-none">
+                                <a href="#" class="logo-link">
+                                    <img class="logo-light logo-img" width="63px" height="auto" src="{% static 'images/Icon.png' %}" srcset="{% static 'images/Icon.png' %} 2x" alt="logo">
+                                    <img class="logo-dark logo-img" width="63px" height="auto" src="{% static 'images/Icon.png' %}" srcset="{% static 'images/Icon.png' %} 2x" alt="logo-dark">
+                                   
+                                </a>
+                            </div>
+                            <div class="nk-header-news d-none d-xl-block">
+                                <div class="nk-news-list">
+                                    <a class="nk-news-item" href="#">
+                                        <div class="nk-news-icon">
+                                            <em class="icon ni ni-card-view"></em>
+                                        </div>
+                                        {% if messages %}
+                                        <div class="nk-news-text">
+                                            {% for message in messages %}
+                                            <!-- <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                              <p> {{ message }} </p>  
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div> -->
+                                            <p class="text-{{message.tags}}" >{{message}} </p>
+                                            <!-- <em class="icon ni ni-external"></em> -->
+                                            {% endfor %}
+                                        </div>
+                                        {% else %}
+                                        <div class="nk-news-text">
+                                            <p>Pipminds International Limited will never ask you to make cash payment into third party account.</p>
+                                            <!-- <em class="icon ni ni-external"></em> -->
+                                        </div>
+                                        {% endif %}
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="nk-header-tools">
+                                <ul class="nk-quick-nav">
+                                    <li class="dropdown user-dropdown">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                            <div class="user-toggle">
+                                                <div class="user-avatar sm">
+                                                    <em class="icon ni ni-user-alt"></em>
+                                                </div>
+                                                <div class="user-info d-none d-md-block">
+                                                    {% if not request.user.profile.profile_set_up %}
+                                                    <div class="user-status user-status-unverified">Unverified</div>
+                                                    {% else %}
+                                                    <div class="user-status user-status-verified">Verified</div>
+                                                    {% endif %}
+                                                    <div class="user-name dropdown-indicator">{{request.user.profile.first_name}} {{request.user.profile.last_name}}</div>
+                                                </div>
+                                            </div> 
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-md dropdown-menu-right dropdown-menu-s1">
+                                            <div class="dropdown-inner user-card-wrap bg-lighter d-none d-md-block">
+                                                <div class="user-card">
+                                                    <div class="user-avatar">
+                                                        <span>U</span>
+                                                    </div>
+                                                    <div class="user-info">
+                                                        <span class="lead-text">{{request.user.profile.first_name}} {{request.user.profile.last_name}}</span>
+                                                        <span class="sub-text">{{request.user.email}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="dropdown-inner">
+                                                <ul class="link-list">
+                                                    <li><a href="{% url 'users:dashboard' %}"><em class="icon ni ni-user-alt"></em><span>View Profile</span></a></li>
+                                                    <li><a href="{% url 'users:profile-settings' %}"><em class="icon ni ni-setting-alt"></em><span>Account Setting</span></a></li>
+                                                   
+                                                </ul>
+                                            </div>
+                                            <div class="dropdown-inner">
+                                                <ul class="link-list">
+                                                    <li><a href="/accounts/logout"><em class="icon ni ni-signout"></em><span>Sign out</span></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="dropdown notification-dropdown mr-n1">
+                                        <a href="#" class="dropdown-toggle nk-quick-nav-icon" data-toggle="dropdown">
+                                            <div class="icon-status icon-status-info"><em class="icon ni ni-bell"></em></div>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-xl dropdown-menu-right dropdown-menu-s1">
+                                            <div class="dropdown-head">
+                                                <span class="sub-title nk-dropdown-title">Notifications</span>
+                                               
+                                            </div>
+                                            <div class="dropdown-body">
+                                                <div class="nk-notification">
+                                                    <div class="nk-notification-item dropdown-inner">
+                                                        <div class="nk-notification-icon">
+                                                            <em class="icon icon-circle bg-warning-dim ni ni-curve-down-right"></em>
+                                                        </div>
+                                                        <div class="nk-notification-content">
+                                                            <div class="nk-notification-text">You have requested to <span>Widthdrawl</span></div>
+                                                            <div class="nk-notification-time">2 hrs ago</div>
+                                                        </div>
+                                                    </div><!-- .dropdown-inner -->
+                                                    
+                                                   
+                                                   
+                                                    
+                                                    <div class="nk-notification-item dropdown-inner">
+                                                        <div class="nk-notification-icon">
+                                                            <em class="icon icon-circle bg-success-dim ni ni-curve-down-left"></em>
+                                                        </div>
+                                                        <div class="nk-notification-content">
+                                                            <div class="nk-notification-text">Your <span>Deposit Order</span> is placed</div>
+                                                            <div class="nk-notification-time">2 hrs ago</div>
+                                                        </div>
+                                                    </div><!-- .dropdown-inner -->
+                                                </div>
+                                            </div><!-- .nk-dropdown-body -->
+                                            
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- main header @e -->
+                {% block content %}
+                
+               
+                {% endblock content %}
+                <!-- footer @s -->
+                <div class="nk-footer nk-footer-fluid">
+                    <div class="container-fluid">
+                        <div class="nk-footer-wrap">
+                            <div class="nk-footer-copyright"> &copy; 2020 PIPMINDS
+                            </div>
+                            <div class="nk-footer-links">
+                                <ul class="nav nav-sm">
+                                    <li class="nav-item"><a class="nav-link" href="#">Terms</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#">Privacy</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#">Help</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- footer @e -->
+            </div>
+            <!-- wrap @e -->
+        </div>
+        <!-- main @e -->
+    </div>
+    <!-- app-root @e -->
+    <!-- JavaScript -->
+
+    {% block modals %}
+                
+               
+    {% endblock modals %}
+
+    
+
+    <script src="{% static 'assets/js/bundle.js' %}"></script>
+    <script src="{% static 'assets/js/wallet_scripts.js' %}"></script>
+    <script src="{% static 'assets/js/charts/chart-crypto.js' %}"></script>
+    {% block extra_scripts %}
+                
+               
+    {% endblock extra_scripts %}
+</body>
+
+</html>

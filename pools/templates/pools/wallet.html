@@ -1,0 +1,206 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% load humanize %}
+{% load mathfilters %}
+{% block content %}
+                <!-- content @s -->
+                <div class="nk-content nk-content-fluid">
+                    <div class="container-xl wide-lg">
+                        <div class="nk-content-body">
+                            <div class="nk-block-head">
+                                <div class="nk-block-head-sub"><span>Account Wallet</span> </div><!-- .nk-block-head-sub -->
+                                <div class="nk-block-between-md g-4">
+                                    <div class="nk-block-head-content">
+                                        <h2 class="nk-block-title fw-normal">Pools / Assets</h2>
+                                        <div class="nk-block-des">
+                                            <p>Manage your pools assets here! </p>
+                                        </div>
+                                        {% if messages %}
+                                        <div style="color: red;"  class="nk-block-des text-center">
+                                            <ul class="messages">
+                                                {% for message in messages %}
+                                                {% if 'error' == message.tags %}
+                                                <li>{{ message }}</li>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                </div><!-- .nk-block-between -->
+                            </div><!-- .nk-block-head -->
+                            <div class="nk-block">
+                                
+                                <div class="row g-gs">
+                                    <div class="col-sm-6 col-lg-4 col-xl-6 col-xxl-4">
+                                        <div class="card card-bordered is-dark">
+                                            <div class="nk-wgw">
+                                                <div class="nk-wgw-inner">
+                                                    <a class="nk-wgw-name" >
+                                                        <div class="nk-wgw-icon is-default">
+                                                            <em class="icon ni ni-sign-kobo"></em>
+                                                        </div>
+                                                        <h5 class="nk-wgw-title title">Pools Wallet</h5>
+                                                    </a>
+                                                    <div class="nk-wgw-balance">
+                                                        <div class="amount">{{pools_wallet.deposit|floatformat:'0'|intcomma}} <span class="currency currency-nio">NGN</span></div>
+                                                     
+                                                    </div>
+                                                </div>
+                                                <div class="nk-wgw-actions">
+                                                    <ul>
+                                                        <li><a href="#" data-toggle="modal" data-target="#deposit_modal"  ><em class="icon ni  ni-arrow-up-right"></em><span>Deposit</span></a></li>
+                                                        
+                                                        <li><a href="#"  ><em class="icon ni ni-arrow-to-right"></em><span>Withdraw</span></a></li>
+                                                    
+                                                        
+                                                    </ul>
+                                                    
+                                                </div>
+                                                
+                                            </div>
+                                        </div><!-- .card -->
+                                    </div><!-- .col -->
+
+
+                                    <div class="col-sm-6 col-lg-4 col-xl-6 col-xxl-4">
+                                        <div class="card card-bordered">
+                                            <div class="nk-wgw">
+                                                <div class="nk-wgw-inner">
+
+                                                <h5>Test Cards </h5>
+                                                <p>
+                                                    Card number: 5531 8866 5214 2950 <br>
+                                                    cvv: 564 <br>
+                                                    Expiry: 09/32 <br>
+                                                    Pin: 3310 <br>
+                                                    OTP: 12345 
+                                                    
+                                                </p>
+                                                
+                                            </div>
+                                                
+                                            </div>
+                                        </div><!-- .card -->
+                                    </div><!-- .col -->
+
+
+                                </div><!-- .row -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <!-- content @e -->
+                <div class="nk-content nk-content-fluid">
+                    <div class="container-xl wide-lg">
+                        <div class="nk-content-body">
+                           
+                        </div>
+                    </div>
+                </div>
+              
+{% endblock content %}
+
+
+
+
+{% block modals %}
+                         
+<div class="modal fade" tabindex="-1" role="dialog" id="deposit_modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> Fund your pools wallet </h5>
+                <a href="#" class="close" data-dismiss="modal" aria-label="Close">
+                    <em class="icon ni ni-cross"></em>
+                </a>
+            </div>
+            <div class="modal-body">
+                <form id="payment-form" action="#" class="form-validate is-alter" method="POST">
+                    {% csrf_token %}
+                    <script src="https://checkout.flutterwave.com/v3.js"></script>
+
+                    <div class="form-group">
+                        <label class="form-label" for="pay-amount">Amount</label>
+                        <div class="form-control-wrap">
+                            <input type="number" class="form-control" id="pay-amount">
+                        </div>
+                    </div>
+                                                    
+                    <input id="pay-email" type="hidden" value="{{request.user.email}}">
+
+                    <input id="pay-phone" type="hidden" value="{{request.user.profile.phone}}">
+
+                    <input type="hidden" value="{{request.user.profile.first_name}} {{request.user.profile.last_name}}" id="pay-name">
+
+                    <div class="form-group">
+                        <button type="button" onclick="makePayment()"  class="btn btn-lg btn-primary">Proceed</button>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div><!-- .modal -->
+
+{% endblock modals %}
+
+
+{% block extra_scripts %}
+
+<script>
+
+    var formm = $("#payment-form");
+    formm.addEventListener("submit", function (event) {
+        event.preventDefault();
+    });
+    
+    function makePayment() {
+        FlutterwaveCheckout({
+        // public_key: "FLWPUBK-aa9002e07f6f439c1589cf171571a746-X",
+        public_key: "FLWPUBK_TEST-a5ff4ae51736c51994d32a4c8f1a938e-X",
+        tx_ref: '' + Math.floor((Math.random() * 1000000000) + 1),
+        amount: $("input#pay-amount").val(),
+        currency: "NGN",
+        country: "NG",
+        payment_options: "card",
+        customer: {
+            email: $("input#pay-email").val(),
+            phone_number: $("input#pay-phone").val(),
+            name: $("input#pay-name").val(),
+        },
+        callback: function (data) { // specified callback function
+            console.log(data.transaction_id);
+            console.log(data);
+    
+           
+            var element = document.createElement("input");
+            element.setAttribute("type", "hidden");
+            element.setAttribute("name", "flutterTranxID");
+            element.setAttribute("value", data.transaction_id);
+            var form = document.getElementById("payment-form");
+            form.appendChild(element);
+    
+            var element2 = document.createElement("input");
+            element2.setAttribute("type", "hidden");
+            element2.setAttribute("name", "flutterTranxRef");
+            element2.setAttribute("value", data.tx_ref);
+            var form = document.getElementById("payment-form");
+            form.appendChild(element2);
+    
+            form.submit()
+        },
+        customizations: {
+            title: "Pipminds Premium",
+            description: "Fund Pools Wallet",
+            // logo: "https://assets.piedpiper.com/logo.png",
+            logo: "https://imaginariumng.com/email_images/michael/Icon.png",
+        },
+        });
+    }
+    
+    </script>
+
+{% endblock extra_scripts %}

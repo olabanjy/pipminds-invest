@@ -1,0 +1,446 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="author" content="Pipminds">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Pipminds Investment Platform">
+   
+        <title>Profile Set Up |  Pipminds Invest </title>
+        <!-- StyleSheets  -->
+        <link rel="stylesheet" href="{% static 'auths/assets/css/auths_dashlite.css' %}">
+        <link id="skin-default" rel="stylesheet" href="{% static 'auths/assets/css/theme.css' %}">
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3YN97TPDLC"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-3YN97TPDLC');
+</script>
+
+<script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window,document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+     fbq('init', '2227317817403128'); 
+    fbq('track', 'PageView');
+</script>
+<noscript>
+    <img height="1" width="1" 
+src="https://www.facebook.com/tr?id=2227317817403128&ev=PageView
+&noscript=1"/>
+</noscript>
+
+
+</head>
+
+<body class="nk-body npc-invest bg-lighter ">
+    <div class="nk-app-root">
+        <!-- wrap @s -->
+        <div class="nk-wrap ">
+
+            <!-- content @s -->
+            <div class="nk-content nk-content-lg nk-content-fluid">
+                <div class="container-xl wide-lg">
+                    <div class="nk-content-inner">
+                        <div class="nk-content-body">
+                            <div class="kyc-app wide-sm m-auto">
+                                <div class="nk-block-head nk-block-head-lg wide-xs mx-auto">
+                                    <div class="nk-block-head-content text-center">
+                                        <h2 class="nk-block-title fw-normal">Set Up Your Profile</h2>
+                                        <div class="nk-block-des">
+                                            <p>To comply with regulation, each participant will have to go through identity verification (KYC/AML) to prevent fraud cases. </p>
+                                        </div>
+                                    </div>
+                                </div><!-- nk-block -->
+                                <div class="nk-block">
+                                    <form method="POST">
+                                        {% csrf_token %}
+                                    <div class="card card-bordered">
+                                        <div class="nk-kycfm">
+                                            <div class="nk-kycfm-head">
+                                                <div class="nk-kycfm-count">01</div>
+                                                <div class="nk-kycfm-title">
+                                                    <h5 class="title">Personal Details</h5>
+                                          
+                                                </div>
+                                            </div><!-- nk-kycfm-head -->
+                                            <div class="nk-kycfm-content">
+                                                <div class="nk-kycfm-note">
+                                                    <em class="icon ni ni-info-fill" ></em>
+                                                    <p>Please ensure that your personal details(First name & Last name) is the same with your bank account details.</p>
+                                                </div>
+                                                {% if form.errors %}
+                    
+                                                {% for error in form.non_field_errors %}
+                                                <div class="nk-kycfm-note">
+                                                    <em class="icon ni ni-info-fill" data-toggle="tooltip" data-placement="right" title="{{ error|escape }}"></em>
+                                                    <p style="color: red !important;">{{ error|escape }}</p>
+                                                </div>
+                                                {% endfor %}
+                                                {% endif %}
+                                                <div class="row g-4">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">First Name <span class="text-danger">*</span></label>
+                                                            </div>
+                                                            <div class="form-control-group">
+                                                                {{form.first_name}}
+                                                               
+                                                            </div>
+                                                            <div>
+                                                                {% if form.first_name.errors %}
+                                                                        {% for error in form.first_name.errors %}
+                                                                        <div class="nk-kycfm-note">
+                                                                            <em class="icon ni ni-info-fill" data-toggle="tooltip" data-placement="right" title="{{ error|escape }}"></em>
+                                                                            <p style="color: red !important;">{{ error|escape }}</p>
+                                                                        </div>
+                                                                        {% endfor %}
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- .col -->
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">Last Name <span class="text-danger">*</span></label>
+                                                            </div>
+                                                            <div class="form-control-group">
+                                                                {{form.last_name}}
+                                                               
+                                                            </div>
+                                                            <div>
+                                                                {% if form.last_name.errors %}
+                                                                        {% for error in form.last_name.errors %}
+                                                                        <div class="nk-kycfm-note">
+                                                                            <em class="icon ni ni-info-fill" data-toggle="tooltip" data-placement="right" title="{{ error|escape }}"></em>
+                                                                            <p style="color: red !important;">{{ error|escape }}</p>
+                                                                        </div>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- .col -->
+                                                   
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">Phone Number <span class="text-danger">*</span></label>
+                                                            </div>
+                                                            <div class="form-control-group">
+                                                                {{form.phone}}
+                                                          
+                                                            </div>
+                                                            <div>
+                                                                {% if form.phone.errors %}
+                                                                        {% for error in form.phone.errors %}
+                                                                        <div class="nk-kycfm-note">
+                                                                            <em class="icon ni ni-info-fill" data-toggle="tooltip" data-placement="right" title="{{ error|escape }}"></em>
+                                                                            <p style="color: red !important;">{{ error|escape }}</p>
+                                                                        </div>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- .col -->
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">Date of Birth <span class="text-danger">*</span></label>
+                                                            </div>
+                                                            <div class="form-control-group">
+                                                                {{form.dob}}
+                                                                
+                                                            </div>
+                                                            <div>
+                                                            {% if form.dob.errors %}
+                                                                    {% for error in form.dob.errors %}
+                                                                    <div class="nk-kycfm-note">
+                                                                        <em class="icon ni ni-info-fill" data-toggle="tooltip" data-placement="right" title="{{ error|escape }}"></em>
+                                                                        <p style="color: red !important;">{{ error|escape }}</p>
+                                                                    </div>
+                                                                    {% endfor %}
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                   
+                                                </div><!-- .row -->
+                                            </div><!-- nk-kycfm-content -->
+                                            <div class="nk-kycfm-head">
+                                                <div class="nk-kycfm-count">02</div>
+                                                <div class="nk-kycfm-title">
+                                                    <h5 class="title">Your Address</h5>
+                                    
+                                                </div>
+                                            </div><!-- nk-kycfm-head -->
+                                            <div class="nk-kycfm-content">
+                                                <!-- <div class="nk-kycfm-note">
+                                                    <em class="icon ni ni-info-fill" data-toggle="tooltip" data-placement="right" title="Tooltip on right"></em>
+                                                    <p>Residence</p>
+                                                </div> -->
+                                                <div class="row g-4">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">Address Line 1 <span class="text-danger">*</span></label>
+                                                            </div>
+                                                            <div class="form-control-group">
+                                                                {{form.address_1}}
+                                                                
+                                                            </div>
+                                                            <div>
+                                                            {% if form.address_1.errors %}
+                                                                    {% for error in form.address_1.errors %}
+                                                                    <div class="nk-kycfm-note">
+                                                                        <em class="icon ni ni-info-fill" data-toggle="tooltip" data-placement="right" title="{{ error|escape }}"></em>
+                                                                        <p style="color: red !important;">{{ error|escape }}</p>
+                                                                    </div>
+                                                                    {% endfor %}
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- .col -->
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">Address Line 2</label>
+                                                            </div>
+                                                            <div class="form-control-group">
+                                                                {{form.address_2}}
+                                                               
+                                                            </div>
+                                                            <div>
+                                                                {% if form.address_2.errors %}
+                                                                        {% for error in form.address_2.errors %}
+                                                                        <div class="nk-kycfm-note">
+                                                                            <em class="icon ni ni-info-fill" data-toggle="tooltip" data-placement="right" title="{{ error|escape }}"></em>
+                                                                            <p style="color: red !important;">{{ error|escape }}</p>
+                                                                        </div>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- .col -->
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">City <span class="text-danger">*</span></label>
+                                                            </div>
+                                                            <div class="form-control-group">
+                                                                {{form.city}}
+                                                               
+                                                            </div>
+                                                            <div>
+                                                                {% if form.city.errors %}
+                                                                        {% for error in form.city.errors %}
+                                                                        <div class="nk-kycfm-note">
+                                                                            <em class="icon ni ni-info-fill" data-toggle="tooltip" data-placement="right" title="{{ error|escape }}"></em>
+                                                                            <p style="color: red !important;">{{ error|escape }}</p>
+                                                                        </div>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- .col -->
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">State <span class="text-danger">*</span></label>
+                                                            </div>
+                                                            <div class="form-control-group">
+                                                                {{form.state}}
+                                                               
+                                                            </div>
+                                                            <div>
+                                                                {% if form.state.errors %}
+                                                                        {% for error in form.state.errors %}
+                                                                        <div class="nk-kycfm-note">
+                                                                            <em class="icon ni ni-info-fill" data-toggle="tooltip" data-placement="right" title="{{ error|escape }}"></em>
+                                                                            <p style="color: red !important;">{{ error|escape }}</p>
+                                                                        </div>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- .col -->
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">Nationality <span class="text-danger">*</span></label>
+                                                            </div>
+                                                            <div class="form-control-group">
+                                                                {{form.nationality}}
+                                                               
+                                                            </div>
+                                                            <div>
+                                                                {% if form.nationality.errors %}
+                                                                        {% for error in form.nationality.errors %}
+                                                                        <div class="nk-kycfm-note">
+                                                                            <em class="icon ni ni-info-fill" data-toggle="tooltip" data-placement="right" title="{{ error|escape }}"></em>
+                                                                            <p style="color: red !important;">{{ error|escape }}</p>
+                                                                        </div>
+                                                                        {% endfor %}
+                                                                    {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div><!-- .col -->
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">Zip Code <span class="text-danger"></span></label>
+                                                            </div>
+                                                            <div class="form-control-group">
+                                                                {{form.zip_code}}
+                                                              
+                                                            </div>
+
+                                                        </div>
+                                                    </div><!-- .col -->
+                                                </div><!-- .row -->
+                                            </div><!-- nk-kycfm-content -->
+
+                                            <div class="nk-kycfm-head">
+                                                <div class="nk-kycfm-count">03</div>
+                                                <div class="nk-kycfm-title">
+                                                    <h5 class="title">Got a Referral Code ? </h5>
+                                                    <p class="sub-title">This field is completely optional</p>
+                                                </div>
+                                            </div><!-- nk-kycfm-head -->
+                                            <div class="nk-kycfm-content">
+                                                <div class="row g-4">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="form-label-group">
+                                                                <label class="form-label">Your Referral code </label>
+                                                            </div>
+                                                            <div class="form-control-group">
+                                                                {{form.ref_code}}
+                                                              
+                                                            </div>
+                                                            
+                                                            <div class="form-note-group">
+                                                                <span id="err_msg" class="buysell-min form-note-alt">  </span>
+                                                                
+                                                            </div> 
+                                                        </div>
+                                                    </div><!-- .col -->
+                                                </div>
+                                            </div>
+                                            
+                                           
+
+                                            <div class="nk-kycfm-footer">
+                                                <div class="form-group">
+                                                    <div class="custom-control custom-control-xs custom-checkbox">
+                                                        {{form.t_and_c}}
+                                                       
+                                                        <label class="custom-control-label" for="tc-agree">I Have Read The <a href="{% url 'home:t_and_c'%}" target="_blank">Terms Of Condition</a> And <a href="{% url 'home:privacy'%}" target="_blank">Privacy Policy</a></label>
+                                                    </div>
+                                                    <div>
+                                                        {% if form.t_and_c.errors %}
+                                                                {% for error in form.t_and_c.errors %}
+                                                                <div class="nk-kycfm-note">
+                                                                    <em class="icon ni ni-info-fill" data-toggle="tooltip" data-placement="right" title="{{ error|escape }}"></em>
+                                                                    <p style="color: red !important;">{{ error|escape }}</p>
+                                                                </div>
+                                                                {% endfor %}
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                      
+                                                <div class="nk-kycfm-action pt-2">
+                                                    <button type="submit" class="btn btn-lg btn-primary"> Proceed </button>
+                                                </div>
+                                            </div><!-- nk-kycfm-footer -->
+                                        </div><!-- nk-kycfm -->
+                                    </div><!-- .card -->
+
+                                    </form>
+                                </div><!-- nk-block -->
+
+
+                            </div><!-- .kyc-app -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content @e -->
+            <!-- footer @s -->
+            <div class="nk-footer nk-footer-fluid bg-lighter">
+                <div class="container-xl wide-lg">
+                    <div class="nk-footer-wrap">
+                        <div class="nk-footer-copyright"> &copy; <script>document.write(new Date().getFullYear());</script> Pipminds International. All Rights Reserved.
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <!-- footer @e -->
+        </div>
+        <!-- wrap @e -->
+    </div>
+    <!-- app-root @e -->
+    <!-- JavaScript -->
+    
+    <script src="{% static 'auths/assets/js/charts/chart-invest.js' %}"></script> 
+    <script src="{% static 'auths/assets/js/bundle.js' %}"></script>
+    <script src="{% static 'auths/assets/js/auths_scripts.js' %}"></script>
+     
+<script>
+    function checkSponsor() {
+
+        var ref_code = document.getElementById("ref_code").value;
+
+
+        $.ajax({
+            type:"GET", 
+            url: "{% url 'users:check_sponsor' %}",
+            data:{'ref_code':ref_code},
+            dataType: 'json',
+            success: function (data){
+                if (data.status) {
+                    console.log("Sponsor found")
+                    console.log(data.first_name)
+                    document.getElementById('err_msg').innerHTML = '<p style="color:blue; font-weight:600;" >' + data.first_name + '&nbsp;' + data.last_name + '</p> <p style="font-weight:600;"> ' + 'By clicking "Proceed" below, you certify that ' + data.first_name + '&nbsp;' + data.last_name + ' referred me to the Pipminds Invest Platform' + '</p>' ;
+                    
+                } else{
+                    console.log("Sponsor not found")
+                    console.log(data.first_name)
+                    document.getElementById('err_msg').innerHTML = '<p style="color:red; font-weight:600;"> User with referral code does not exist </p>';
+                    
+                }
+            }
+        })
+
+      
+    }
+</script>
+
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/5ebab7a8967ae56c521916ca/default';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+</script>
+
+</body>
+
+</html>

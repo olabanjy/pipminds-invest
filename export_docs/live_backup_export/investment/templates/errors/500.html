@@ -1,0 +1,78 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="author" content="Olushola Albert">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Pipminds Investment Platform">
+        <!-- Fav Icon  -->
+        <!-- <link rel="shortcut icon" href="./images/favicon.png"> -->
+        <!-- Page Title  -->
+        <title>Error 500 | Internal Server Error </title>
+        <!-- StyleSheets  -->
+        <link rel="stylesheet" href="{% static 'assets/css/investment_dashlite.css' %}?ver=2.0.0">
+        <link id="skin-default" rel="stylesheet" href="{% static 'assets/css/theme.css' %}?ver=2.0.0">
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-3YN97TPDLC"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-3YN97TPDLC');
+        </script>
+<script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window,document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+     fbq('init', '2227317817403128'); 
+    fbq('track', 'PageView');
+</script>
+<noscript>
+    <img height="1" width="1" 
+src="https://www.facebook.com/tr?id=2227317817403128&ev=PageView
+&noscript=1"/>
+</noscript>
+
+
+    </head>
+
+<body class="nk-body bg-white npc-general pg-error">
+    <div class="nk-app-root">
+        <!-- main @s -->
+        <div class="nk-main ">
+            <!-- wrap @s -->
+            <div class="nk-wrap nk-wrap-nosidebar">
+                <!-- content @s -->
+                <div class="nk-content ">
+                    <div class="nk-block nk-block-middle wide-md mx-auto">
+                        <div class="nk-block-content nk-error-ld text-center">
+                            <img class="nk-error-gfx" src="{% static 'images/gfx/error-504.svg' %}" alt="">
+                            <div class="wide-xs mx-auto">
+                                <h3 class="nk-error-title">Gateway Timeout Error</h3>
+                                <p class="nk-error-text">We are very sorry for inconvenience. It looks like some how our server did not receive a timely response.</p>
+                                <a href="/" class="btn btn-lg btn-primary mt-2">Back To Home</a>
+                            </div>
+                        </div>
+                    </div><!-- .nk-block -->
+                </div>
+                <!-- wrap @e -->
+            </div>
+            <!-- content @e -->
+        </div>
+        <!-- main @e -->
+    </div>
+    <!-- app-root @e -->
+    <!-- JavaScript -->
+    <script src="{% static 'assets/js/bundle.js' %}?ver=2.0.0"></script>
+    <script src="{% static 'assets/js/investment_scripts.js' %}?ver=2.0.0"></script>
+
+</html>

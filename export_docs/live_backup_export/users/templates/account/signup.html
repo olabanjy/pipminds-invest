@@ -1,0 +1,172 @@
+{% load static %}
+
+{% load i18n %}
+ 
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="author" content="Pipminds">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Pipminds Investment Platform">
+    <!-- Fav Icon  -->
+    <!-- <link rel="shortcut icon" href="{% static 'auths/images/favicon.png' %}"> -->
+    <!-- Page Title  -->
+    <title>Sign Up |  Pipminds Invest </title>
+    <!-- StyleSheets  -->
+    <link rel="stylesheet" href="{% static 'auths/assets/css/auths_dashlite.css' %}">
+    <link id="skin-default" rel="stylesheet" href="{% static 'auths/assets/css/theme.css' %}">
+
+<script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window,document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+         fbq('init', '2227317817403128'); 
+        fbq('track', 'PageView');
+</script>
+<noscript>
+    <img height="1" width="1" 
+src="https://www.facebook.com/tr?id=2227317817403128&ev=PageView
+&noscript=1"/>
+</noscript>
+
+
+
+</head>
+
+<body class="nk-body bg-white npc-general pg-auth">
+    <div class="nk-app-root">
+        <!-- main @s -->
+        <div class="nk-main ">
+            <!-- wrap @s -->
+            <div class="nk-wrap nk-wrap-nosidebar">
+                <!-- content @s -->
+                <div class="nk-content ">
+                    <div class="nk-block nk-block-middle nk-auth-body wide-xs">
+                        <div class="brand-logo pb-4 text-center">
+                            <a href="#" class="logo-link">
+                                <img class="logo-light logo-img logo-img-lg" width="63px" height="auto" src="{% static 'auths/images/Icon.png' %}" srcset="{% static 'auths/images/Icon.png' %} 2x" alt="logo">
+                                <img class="logo-dark logo-img logo-img-lg" width="63px" height="auto" src="{% static 'auths/images/Icon.png' %}" srcset="{% static 'auths/images/Icon.png' %} 2x" alt="logo-dark">
+                              </a>
+                        </div>
+                        <div class="card card-bordered">
+                            <div class="card-inner card-inner-lg">
+                                <div class="nk-block-head ">
+                                    <div class="nk-block-head-content text-center">
+                                        <h4 class="nk-block-title">Create your account </h4>
+                                        <div class="nk-block-des">
+                                            <p>Welcome to Pipminds </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <form action="{% url 'account_signup' %}" method="POST">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label class="form-label" for="email">Email</label>
+                                        <input type="email" class="form-control form-control-lg" id="signup_email" name="email" placeholder="Enter your email address ">
+                                        <div>
+                                            {% if form.email.errors %}
+                                                {% for error in form.email.errors %}
+                                                <div class="nk-kycfm-note">
+                                                    
+                                                    <p style="color: red !important; font-size:90%;">{{ error|escape }}</p>
+                                                </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="form-group">
+                                        <label class="form-label" for="password">Password</label>
+                                        <div class="form-control-wrap">
+                                            <a tabindex="-1" href="#" class="form-icon form-icon-right passcode-switch" data-target="signup_password1">
+                                                <em class="passcode-icon icon-show icon ni ni-eye"></em>
+                                                <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
+                                            </a>
+                                            <input type="password" class="form-control form-control-lg" id="signup_password1" name="password1" placeholder="Enter your password">
+                                            
+                                        </div>
+                                        <div>
+                                            {% if form.password1.errors %}
+                                                {% for error in form.password1.errors %}
+                                                <div class="nk-kycfm-note">
+                                                    <p style="color: red !important; font-size:90%;"> Password must be at least with 1 uppercase and 1 number</p>
+                                                    
+                                                </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                   
+                                    <div class="form-group">
+                                        <div class="nk-kycfm-note">
+                                          
+                                            <p style="text-align: center;" >By clicking "create account", you certify that you are above 18yrs old and agree to the <a  href="{% url 'home:t_and_c' %}" target="_blank" > Terms & Conditions</a> </p>
+                                        </div>
+                                       
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-lg btn-primary btn-block">Create Account</button>
+                                    </div>
+                                </form>
+
+                               
+
+                                <div class="form-note-s2 text-center pt-4"> Already have a Pipminds Account? <a href="{{ login_url }}"><strong>Log In</strong></a>
+                                </div>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="nk-footer nk-auth-footer-full">
+                        <div class="container wide-lg">
+                            <div class="row g-3">
+                                
+                                <div class="col-lg-12"> 
+                                    <div class="nk-block-content text-center text-lg-center">
+                                        <p class="text-soft">&copy; <script>document.write(new Date().getFullYear())</script> Pipminds International. All Rights Reserved.</p>
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- wrap @e -->
+            </div>
+            <!-- content @e -->
+        </div>
+        <!-- main @e -->
+    </div>
+    <!-- app-root @e -->
+    <!-- JavaScript -->
+    <script src="{% static 'auths/assets/js/bundle.js' %}"></script>
+    <script src="{% static 'auths/assets/js/auths_scripts.js' %}"></script>
+
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/5ebab7a8967ae56c521916ca/default';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+</script>
+
+
+</body>
+
+</html>
